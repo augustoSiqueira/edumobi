@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/interna.xhtml">	
+		<ui:define name="titulo">
+			#{msg.usuario_label_titulo}
+		</ui:define>
+		<ui:define name="corpo">
+			<h:form id="edicao">
+				<p:growl id="grow" showDetail="true" />
+				<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
+					<h:column>
+						<h:outputLabel value="#{msg.usuario_label_cpf}: " for="cpf" />
+						<p:inputMask id="cpf" mask="999.999.999-99" placeHolder="" value="#{usuarioBean.usuario.cpf}" required="true" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.usuario_label_nome}: " for="nome" />
+						<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" maxlength="100" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.usuario_label_email}: " for="email" />
+						<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.usuario_label_senha}: " for="senha" />
+						<p:password id="senha" feedback="true" promptLabel="Senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte"
+							value="#{usuarioBean.usuario.senha}" required="true" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.usuario_label_perfil}:" for="perfil" />
+						<p:selectOneMenu id="perfil" required="true" value="#{usuarioBean.usuario.perfil}" converter="converterPerfil">
+							<f:selectItems value="#{usuarioBean.listaPerfis}" var="perfil" itemLabel="#{perfil.nome}" itemValue="#{perfil}" />								
+						</p:selectOneMenu>
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.usuario_label_ativo}: " for="ativo" />
+						<p:selectBooleanCheckbox id="ativo" value="#{usuarioBean.usuario.ativo}" required="true" />
+					</h:column>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<h:column>
+						<p:commandButton value="#{msg.app_label_salvar}" action="#{usuarioBean.salvar}" update=":edicao :listagem" />
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update=":edicao :listagem" />
+					</h:column>
+				</h:panelGrid>
+			</h:form>
+			
+			<h:form id="listagem">
+				<p:dataTable id="tabelaUsuario" value="#{usuarioBean.dataModelUsuario}" var="usuario" rows="5" 
+					paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+					{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" selection="#{usuarioBean.usuario}"
+					lazy="true" >
+					<p:column headerText="#{msg.usuario_label_cpf}" filterBy="#{usuario.cpf}">
+						#{usuario.cpf}
+					</p:column>	
+					<p:column headerText="#{msg.usuario_label_nome}" filterBy="#{usuario.nome}">
+						#{usuario.nome}
+					</p:column>	
+					<p:column headerText="#{msg.usuario_label_ativo}">
+						<h:outputText value="#{msg.app_label_sim}" rendered="#{usuario.ativo}" />
+						<h:outputText value="#{msg.app_label_nao}" rendered="#{!usuario.ativo}" />
+					</p:column>
+					<p:column headerText="#{msg.app_label_acoes}" >
+						<p:commandLink process="@this" update=":edicao" >
+							<p:graphicImage library="imagens" name="editar16.png" />
+							<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
+						</p:commandLink>
+						<p:commandLink process="@this" action="#{usuarioBean.excluir}" update=":edicao :listagem" >
+							<p:graphicImage library="imagens" name="excluir16.png" />
+							<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>	
+			</h:form>	
+		</ui:define>
+	</ui:composition>
+</html>
