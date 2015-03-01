@@ -57,7 +57,7 @@ public class DataModelUsuario extends LazyDataModel<Usuario> {
 			filtro.putAll(filters);
 			this.listaUsuarios = this.usuarioController.pesquisarPorFiltroPaginada(filtro, first, pageSize);
 			if ((this.listaUsuarios != null) && !this.listaUsuarios.isEmpty()) {
-				this.listaUsuarios.forEach(u -> Util.formatarCPF(u.getCpf()));
+				this.listaUsuarios.forEach(u -> u.setCpf(Util.formatarCPF(u.getCpf())));
 			}
 			this.setRowCount(this.usuarioController.pesquisarPorFiltroCount(filtro));
 		} catch (RNException e) {
