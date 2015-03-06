@@ -5,26 +5,37 @@
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title><ui:insert name="titulo">EduMobi</ui:insert></title>
+	<h:outputStylesheet library="css" name="bootstrap.min.css"/> 
+	<h:outputStylesheet library="css" name="login.css"/>
+	<h:outputScript library="js" name="bootstrap.min.js" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	
+</h:head>
+<h:body>
 
-	<ui:composition template="/templates/principal.xhtml">
-		<ui:define name="corpo">
-			<h:form id="login">
+     <div id="form_login">
+               <h:form id="login">
+               <h4 align="center">EduMobi</h4>
+               <hr/>
 				<p:growl id="growl" showDetail="true" />
-				<table>
-					<tr>
-						<td>#{msg.login_label_email}:</td>
-						<td><p:inputText id="login" label="#{msg.login_label_email}" alt="#{msg.login_label_email}" title="#{msg.login_label_email}" required="true" value="#{loginBean.email}" /></td>
-					</tr>
-					<tr>
-						<td>#{msg.login_label_senha}:</td>
-						<td><p:password id="senha" label="#{msg.login_label_senha}" alt="#{msg.login_label_senha}" title="#{msg.login_label_senha}" required="true" value="#{loginBean.senha}" /></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><p:commandButton id="btLogin" type="submit" action="#{loginBean.login}" value="Entrar" update="growl" /></td>
-					</tr>
-				</table>
-			</h:form>
-		</ui:define>
-	</ui:composition>
+                   
+                    <div class="form-group">
+                        <label for="username-email">E-mail</label>
+                        <p:inputText id="login" label="#{msg.login_label_email}" alt="#{msg.login_label_email}" title="#{msg.login_label_email}" required="true" value="#{loginBean.email}" styleClass="form-control" />
+                        
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <p:password id="senha" label="#{msg.login_label_senha}" alt="#{msg.login_label_senha}" title="#{msg.login_label_senha}" required="true" value="#{loginBean.senha}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group text-center" id="btnSubmit">
+                       <p:commandButton id="btLogin" type="submit" action="#{loginBean.login}" value="Entrar" update="growl" styleClass="btn btn-success btn-block"/>
+                        
+                    </div>
+                </h:form>
+        </div>  
+</h:body>
 </html>
