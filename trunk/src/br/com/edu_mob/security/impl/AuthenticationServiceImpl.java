@@ -1,5 +1,6 @@
 package br.com.edu_mob.security.impl;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +20,9 @@ import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.security.AuthenticationService;
 
 @Component("authenticationService")
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = Logger.getLogger(AuthenticationServiceImpl.class.getName());
 

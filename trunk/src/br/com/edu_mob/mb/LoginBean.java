@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.security.AuthenticationService;
-import br.com.edu_mob.util.AliasNavegation;
+import br.com.edu_mob.util.AliasNavigation;
 import br.com.edu_mob.util.MensagemUtil;
 
 @ManagedBean
@@ -36,14 +36,14 @@ public class LoginBean extends GenericBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "", MensagemUtil.getMensagem(ErrorMessage.LOGIN_SENHA_INVALIDOS
 							.getChave()));
 			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-			return AliasNavegation.FALHA_LOGIN;
+			return AliasNavigation.FALHA_LOGIN;
 		}
-		return AliasNavegation.PAGINA_PRINCIPAL;
+		return AliasNavigation.PAGINA_PRINCIPAL;
 	}
 
 	public String logout() {
 		this.authenticationService.logout();
-		return AliasNavegation.LOGIN;
+		return AliasNavigation.LOGIN;
 	}
 
 	public String getEmail() {
@@ -61,7 +61,5 @@ public class LoginBean extends GenericBean implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-
 
 }

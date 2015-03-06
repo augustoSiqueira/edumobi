@@ -8,39 +8,17 @@
 	  xmlns:p="http://primefaces.org/ui">
 	  
 	<ui:composition>
-		<sec:ifAnyGranted roles="ROLE_USUARIO">
-		
+		<sec:authorize ifAnyGranted="ROLE_USUARIO">
 			<h:form id="menu">
-				<table width="100%">
-					<tr>
-						<td>
-							<sec:authorize ifAllGranted="ROLE_USUARIO">
-								<p:commandButton value="#{msg.usuario_label_menu}"  action="/restrito/usuario" />
-							</sec:authorize>
-							<sec:authorize ifAllGranted="ROLE_PERFIL">
-								<p:commandButton value="#{msg.perfil_label_menu}"  action="/restrito/perfil" />
-							</sec:authorize>
-						</td>
-						<td>
-							<sec:ifAnyGranted roles="ROLE_ADMINISTRADOR">
-								<h:commandLink action="/admin/principal" title="Administrativo">
-									<h:graphicImage library="imagens" name="administrativo16.png" /> 
-								</h:commandLink>
-							</sec:ifAnyGranted>
-							<h:commandLink action="/restrito/principal" title="Principal">
-								<h:graphicImage library="imagens" name="principal16.png" />
-							</h:commandLink>
-							<h:outputLink value="javascript:void(0)" onclick="document.location='#{request.contextPath}/j_spring_security_logout'" title="Sair">
-								<h:graphicImage library="imagens" name="logout16.png" />
-							</h:outputLink>
-						</td>
-					</tr>
-				</table>
-			
+				<p:menubar>
+					<p:menuitem value="#{msg.app_label_principal}" action="#{menuBean.pagePrincipal}" />
+					<p:submenu label="#{msg.app_label_cadastros}" icon="ui-icon ui-icon-document">
+					  <p:menuitem value="#{msg.usuario_label_menu}" action="#{menuBean.pageUsuarios}" rendered="#{sec:areAnyGranted('ROLE_USUARIO')}" /> 
+					  <p:menuitem value="#{msg.perfil_label_menu}" action="#{menuBean.pagePerfis}" rendered="#{sec:areAnyGranted('ROLE_PERFIL')}" /> 
+					</p:submenu>
+					<p:menuitem value="#{msg.app_label_sair}" onclick="document.location='#{request.contextPath}/j_spring_security_logout'" icon="ui-icon-close" />
+				</p:menubar>
 			</h:form>
-		
-		</sec:ifAnyGranted>
-	
+		</sec:authorize>
 	</ui:composition>	  
-	  
 </html>
