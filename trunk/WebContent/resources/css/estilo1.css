@@ -22,3 +22,17 @@ footer {
 .navbar{
 	background-color: black;
 }
+
+.ui-widget {  
+    font-size: 12px !important;
+      
+}
+
+.ui-growl {  
+    top: 60px !important;
+    right: 10px !important;
+} 
+
+	
+
+

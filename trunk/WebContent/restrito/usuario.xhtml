@@ -8,76 +8,108 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:composition template="/templates/interna.xhtml">	
-		<ui:define name="titulo">
-			#{msg.usuario_label_titulo}
-		</ui:define>
+				
 		<ui:define name="corpo">
-			<h:form id="edicao">
-				<p:growl id="grow" showDetail="true" />
-				<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
-					<h:column>
-						<h:outputLabel value="#{msg.usuario_label_cpf}: " for="cpf" />
-						<p:inputMask id="cpf" mask="999.999.999-99" placeHolder="" value="#{usuarioBean.usuario.cpf}" required="true" />
-					</h:column>
-					<h:column>
-						<h:outputLabel value="#{msg.usuario_label_nome}: " for="nome" />
-						<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" maxlength="100" />
-					</h:column>
-					<h:column>
-						<h:outputLabel value="#{msg.usuario_label_email}: " for="email" />
-						<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" />
-					</h:column>
-					<h:column>
-						<h:outputLabel value="#{msg.usuario_label_senha}: " for="senha" />
-						<p:password id="senha" feedback="true" promptLabel="Senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte"
-							value="#{usuarioBean.usuario.senha}" required="true" />
-					</h:column>
-					<h:column>
-						<h:outputLabel value="#{msg.usuario_label_perfil}:" for="perfil" />
-						<p:selectOneMenu id="perfil" required="true" value="#{usuarioBean.usuario.perfil}" converter="converterPerfil">
-							<f:selectItems value="#{usuarioBean.listaPerfis}" var="perfil" itemLabel="#{perfil.nome}" itemValue="#{perfil}" />								
-						</p:selectOneMenu>
-					</h:column>
-					<h:column>
-						<h:outputLabel value="#{msg.usuario_label_ativo}: " for="ativo" />
-						<p:selectBooleanCheckbox id="ativo" value="#{usuarioBean.usuario.ativo}" required="true" />
-					</h:column>
-				</h:panelGrid>
-				<h:panelGrid columns="1">
-					<h:column>
-						<p:commandButton value="#{msg.app_label_salvar}" action="#{usuarioBean.salvar}" update=":edicao :listagem" />
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update=":edicao :listagem" />
-					</h:column>
-				</h:panelGrid>
-			</h:form>
+		
 			
-			<h:form id="listagem">
-				<p:dataTable id="tabelaUsuario" value="#{usuarioBean.dataModelUsuario}" var="usuario" rows="5" 
-					paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
-					{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" selection="#{usuarioBean.usuario}"
-					lazy="true" >
-					<p:column headerText="#{msg.usuario_label_cpf}" filterBy="#{usuario.cpf}">
-						#{usuario.cpf}
-					</p:column>	
-					<p:column headerText="#{msg.usuario_label_nome}" filterBy="#{usuario.nome}">
-						#{usuario.nome}
-					</p:column>	
-					<p:column headerText="#{msg.usuario_label_ativo}">
-						<h:outputText value="#{msg.app_label_sim}" rendered="#{usuario.ativo}" />
-						<h:outputText value="#{msg.app_label_nao}" rendered="#{!usuario.ativo}" />
-					</p:column>
-					<p:column headerText="#{msg.app_label_acoes}" >
-						<p:commandLink process="@this" update=":edicao" >
-							<p:graphicImage library="imagens" name="editar16.png" />
-							<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
-						</p:commandLink>
-						<p:commandLink process="@this" action="#{usuarioBean.excluir}" update=":edicao :listagem" >
-							<p:graphicImage library="imagens" name="excluir16.png" />
-							<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
-						</p:commandLink>
-					</p:column>
-				</p:dataTable>	
-			</h:form>	
+				
+				<div class="row">
+				
+				<div class="col-md-4">
+				
+					<div class="panel panel-default">
+					  <div class="panel-heading"><h:outputLabel value="#{msg.usuario_label_titulo}"/></div>
+					  <div class="panel-body">
+					    
+					    <h:form id="edicao">
+					    
+					    <div class="form-group">
+	                       	<h:outputLabel value="#{msg.usuario_label_cpf}: " for="cpf" />
+							<p:inputMask id="cpf" mask="999.999.999-99" placeHolder="" value="#{usuarioBean.usuario.cpf}" required="true" styleClass="form-control"/>    
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.usuario_label_nome}: " for="nome" />
+							<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" maxlength="100" styleClass="form-control"/>
+	                  	</div>
+	                  	
+	                  	<div class="form-group">
+	                  		<h:outputLabel value="#{msg.usuario_label_email}: " for="email" />
+							<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.usuario_label_senha}: " for="senha" />
+							<p:password id="senha" feedback="true" promptLabel="Senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte"
+							value="#{usuarioBean.usuario.senha}" required="true" styleClass="form-control"/>	
+							
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.usuario_label_perfil}:" for="perfil" /><br/>
+							<p:selectOneMenu id="perfil" required="true" value="#{usuarioBean.usuario.perfil}" converter="converterPerfil" styleClass="form-control" style="width:100%" >
+								<f:selectItems value="#{usuarioBean.listaPerfis}" var="perfil" itemLabel="#{perfil.nome}" itemValue="#{perfil}" />								
+							</p:selectOneMenu>								
+	                  	</div>
+	                  	
+	                  	<div class="checkbox">
+					        <label>
+					          <p:selectBooleanCheckbox id="ativo" value="#{usuarioBean.usuario.ativo}" required="true" />
+				       	 	  <h:outputLabel value="#{msg.usuario_label_ativo} " for="ativo" />
+					        </label>
+					    </div>
+					    <p:commandButton value="#{msg.app_label_salvar}" action="#{usuarioBean.salvar}" update=":edicao :listagem" styleClass="btn btn-success pull-right"/>
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update=":edicao :listagem" styleClass="btn btn-default pull-right"/>
+		
+						</h:form>
+                  	 </div>	<!--Fim Painel body  -->			
+					</div><!--Fim Painel  -->
+					
+					
+				</div><!-- Fim Linha Cadastrar  -->	
+				
+				<div class="col-md-8">
+					<div class="panel panel-default">
+					  <div class="panel-heading">Listagem de usuários</div>
+					  <div class="panel-body">
+					  		<h:form id="listagem">
+								<p:dataTable id="tabelaUsuario" value="#{usuarioBean.dataModelUsuario}" var="usuario" rows="5" 
+									paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+									{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" selection="#{usuarioBean.usuario}"
+									lazy="true" >
+									<p:column headerText="#{msg.usuario_label_cpf}" filterBy="#{usuario.cpf}">
+										#{usuario.cpf}
+									</p:column>	
+									<p:column headerText="#{msg.usuario_label_nome}" filterBy="#{usuario.nome}">
+										#{usuario.nome}
+									</p:column>	
+									<p:column headerText="#{msg.usuario_label_ativo}">
+										<h:outputText value="#{msg.app_label_sim}" rendered="#{usuario.ativo}" />
+										<h:outputText value="#{msg.app_label_nao}" rendered="#{!usuario.ativo}" />
+									</p:column>
+									<p:column headerText="#{msg.app_label_acoes}" >
+										<p:commandLink process="@this" update=":edicao" >
+											<p:graphicImage library="imagens" name="editar16.png" />
+											<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
+										</p:commandLink>
+										<p:commandLink process="@this" action="#{usuarioBean.excluir}" update=":edicao :listagem" >
+											<p:graphicImage library="imagens" name="excluir16.png" />
+											<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>	
+							</h:form>
+					  </div>					  
+					</div>
+				
+				</div>	
+				
+			</div>
+				
+				
+			
+			
+			
 		</ui:define>
 	</ui:composition>
 </html>

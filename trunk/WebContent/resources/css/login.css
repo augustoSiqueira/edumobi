@@ -18,3 +18,7 @@ body{
 	
 	margin-top: 10px;
 	}
+	
+.ui-growl {
+	top:70px !important; 
+}

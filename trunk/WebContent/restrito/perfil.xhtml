@@ -8,61 +8,84 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:composition template="/templates/interna.xhtml">	
-		<ui:define name="titulo">
-			#{msg.perfil_label_titulo}
-		</ui:define>
+		
 		<ui:define name="corpo">
-			<h:form id="edicao">
-				<p:growl id="grow" showDetail="true" />
-				<h:panelGrid columns="2">
-					<h:column>
-						<h:outputLabel value="#{msg.perfil_label_nome}: " for="nome" />
-						<p:inputText id="nome" value="#{perfilBean.perfil.nome}" required="true" maxlength="100" />
-					</h:column>
-					<h:column>
-						<h:outputLabel value="#{msg.perfil_label_ativo}: " for="ativo" />
-						<p:selectBooleanCheckbox id="ativo" value="#{perfilBean.perfil.ativo}" required="true" />
-					</h:column>
-				</h:panelGrid>
-				<h:panelGrid columns="1">
-					<h:column>
-						<h:outputLabel value="#{msg.perfil_label_funcionalidades}:" for="funcionalidades" />
-					</h:column>
-					<p:separator />
-					<h:column>
-						<p:pickList id="funcionalidade" value="#{perfilBean.listaFuncionalidade}" var="funcionalidade" 
-							itemLabel="#{funcionalidade.descricao}" itemValue="#{funcionalidade}" converter="primeFacesPickListConverter" />
-					</h:column>
-					<h:column>
-						<p:commandButton value="#{msg.app_label_salvar}" action="#{perfilBean.salvar}" update=":edicao :listagem" />
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{perfilBean.limparCampos}" update=":edicao :listagem" />
-					</h:column>
-				</h:panelGrid>
-			</h:form>
+		
+		<div class="row">
+				
+				<div class="col-md-6">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading"><h:outputLabel value="#{msg.perfil_label_titulo}"/></div>
+					<div class="panel-body">
+					<h:form id="edicao">
+						
+						<h:panelGrid columns="2">
+							<h:column>
+								<h:outputLabel value="#{msg.perfil_label_nome}: " for="nome" />
+								<p:inputText id="nome" value="#{perfilBean.perfil.nome}" required="true" maxlength="100" />
+							</h:column>
+							<h:column>
+								<h:outputLabel value="#{msg.perfil_label_ativo}: " for="ativo" />
+								<p:selectBooleanCheckbox id="ativo" value="#{perfilBean.perfil.ativo}" required="true" />
+							</h:column>
+						</h:panelGrid>
+						<h:panelGrid columns="1">
+							<h:column>
+								<h:outputLabel value="#{msg.perfil_label_funcionalidades}:" for="funcionalidades" />
+							</h:column>
+							<p:separator />
+							<h:column>
+								<p:pickList id="funcionalidade" value="#{perfilBean.listaFuncionalidade}" var="funcionalidade" 
+									itemLabel="#{funcionalidade.descricao}" itemValue="#{funcionalidade}" converter="primeFacesPickListConverter" />
+							</h:column>
+							<h:column>
+								<p:commandButton value="#{msg.app_label_salvar}" action="#{perfilBean.salvar}" update=":edicao :listagem" />
+								<p:commandButton value="#{msg.app_label_limpar}" action="#{perfilBean.limparCampos}" update=":edicao :listagem" />
+							</h:column>
+						</h:panelGrid>
+					</h:form>
+					</div>
+				</div>
+				
+				</div>
+				<div class="col-md-6">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading"><h:outputLabel value="#{msg.perfil_label_titulo}"/></div>
+					<div class="panel-body">
+					
+						<h:form id="listagem">
+							<p:dataTable id="tabelaPerfil" value="#{perfilBean.dataModelPerfil}" var="perfil" rows="5" 
+								paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+								{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" >
+								<p:column headerText="#{msg.perfil_label_nome}" filterBy="#{perfil.nome}">
+									#{perfil.nome}
+								</p:column>	
+								<p:column headerText="#{msg.perfil_label_ativo}">
+									<h:outputText value="#{msg.app_label_sim}" rendered="#{perfil.ativo}" />
+									<h:outputText value="#{msg.app_label_nao}" rendered="#{!perfil.ativo}" />
+								</p:column>
+								<p:column headerText="#{msg.app_label_acoes}" >
+									<p:commandLink process="@this" update=":edicao" >
+										<p:graphicImage library="imagens" name="editar16.png" />
+										<f:setPropertyActionListener value="#{perfil}" target="#{perfilBean.perfil}" />
+									</p:commandLink>
+									<p:commandLink process="@this" action="#{perfilBean.excluir}" update=":edicao :listagem" >
+										<p:graphicImage library="imagens" name="excluir16.png" />
+										<f:setPropertyActionListener value="#{perfil}" target="#{perfilBean.perfil}" />
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>	
+						</h:form>	
+						</div>
+						</div>				
+				</div>
+				
+		</div><!-- Fim da Row  -->
 			
-			<h:form id="listagem">
-				<p:dataTable id="tabelaPerfil" value="#{perfilBean.dataModelPerfil}" var="perfil" rows="5" 
-					paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
-					{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" >
-					<p:column headerText="#{msg.perfil_label_nome}" filterBy="#{perfil.nome}">
-						#{perfil.nome}
-					</p:column>	
-					<p:column headerText="#{msg.perfil_label_ativo}">
-						<h:outputText value="#{msg.app_label_sim}" rendered="#{perfil.ativo}" />
-						<h:outputText value="#{msg.app_label_nao}" rendered="#{!perfil.ativo}" />
-					</p:column>
-					<p:column headerText="#{msg.app_label_acoes}" >
-						<p:commandLink process="@this" update=":edicao" >
-							<p:graphicImage library="imagens" name="editar16.png" />
-							<f:setPropertyActionListener value="#{perfil}" target="#{perfilBean.perfil}" />
-						</p:commandLink>
-						<p:commandLink process="@this" action="#{perfilBean.excluir}" update=":edicao :listagem" >
-							<p:graphicImage library="imagens" name="excluir16.png" />
-							<f:setPropertyActionListener value="#{perfil}" target="#{perfilBean.perfil}" />
-						</p:commandLink>
-					</p:column>
-				</p:dataTable>	
-			</h:form>	
+			
+			
 		</ui:define>
 	</ui:composition>
 </html>
