@@ -1,0 +1,24 @@
+body {
+  padding-top:30px;
+  font-size: 12px;
+}
+
+.starter-template {
+  padding-top: 40px;
+  
+}
+
+footer {
+    position: fixed;
+    height: 30px;
+    padding:5px;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+.navbar{
+	background-color: black;
+}
