@@ -90,7 +90,7 @@ public class GenericBean {
 					msg = new FacesMessage(FacesMessage.SEVERITY_INFO, titulo, MensagemUtil.getMensagem(message, parametros));
 				} else if (message.indexOf("erro_") > -1) {
 					msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, titulo, MensagemUtil.getMensagem(message, parametros));
-				} else {
+				} else if(message.indexOf("alerta_") > -1) {
 					msg = new FacesMessage(FacesMessage.SEVERITY_WARN, titulo, MensagemUtil.getMensagem(message, parametros));
 				}
 				FacesContext.getCurrentInstance().addMessage(titulo, msg);

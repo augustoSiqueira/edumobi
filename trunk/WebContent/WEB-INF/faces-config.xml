@@ -22,7 +22,7 @@ xsi:schemaLocation="
 	</application>
 	
 	<navigation-rule>
-		<from-view-id>index.html</from-view-id>
+		<from-view-id>/index.html</from-view-id>
 		<navigation-case>
 			<from-action>#{menuBean.pagePrincipal}</from-action>
 			<from-outcome>principal</from-outcome>

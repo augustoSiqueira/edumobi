@@ -46,6 +46,7 @@
 					<value>br.com.edu_mob.entity.Usuario</value>
 					<value>br.com.edu_mob.entity.Perfil</value>
 					<value>br.com.edu_mob.entity.Funcionalidade</value>
+					<value>br.com.edu_mob.entity.Categoria</value>
 				</list>
 			</property>
 		</bean>

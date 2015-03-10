@@ -2,7 +2,7 @@ package br.com.edu_mob.message;
 
 public enum Entidades {
 
-	USUARIO("Usuario"), PERFIL("Perfil");
+	USUARIO("Usuario"), PERFIL("Perfil"), CATEGORIA("Categoria");
 
 	private Entidades(String valor) {
 		this.valor = valor;

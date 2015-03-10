@@ -3,10 +3,10 @@ package br.com.edu_mob.mb;
 import java.io.Serializable;
 
 import javax.faces.bean.SessionScoped;
-
+import javax.faces.bean.ManagedBean;
 import br.com.edu_mob.util.AliasNavigation;
 
-@javax.faces.bean.ManagedBean
+@ManagedBean
 @SessionScoped
 public class MenuBean implements Serializable {
 
@@ -22,5 +22,9 @@ public class MenuBean implements Serializable {
 	
 	public String pagePerfis() {
 		return AliasNavigation.PAGINA_PERFIL;
+	}
+	
+	public String pageCategorias() {
+		return AliasNavigation.PAGINA_CATEGORIA;
 	}
 }

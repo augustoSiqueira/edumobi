@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/interna.xhtml">	
+		<ui:define name="titulo">
+			#{msg.categoria_titulo}
+		</ui:define>
+		<ui:define name="corpo">
+			<h:form id="edicao">
+				<p:growl id="grow" showDetail="true" />
+				<h:panelGrid columns="2">
+					<h:column>
+						<h:outputLabel value="#{msg.categoria_label_nome}: " for="nome" />
+						<p:inputText id="nome" value="#{categoriaBean.categoria.nome}" required="true" maxlength="50" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.categoria_label_pai}:" for="categoriaPai" />
+						<p:selectOneMenu id="categoriaPai" value="#{categoriaBean.categoria.pai}" converter="converterCategoria" 
+							style="margin-left:20px">
+							<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
+							<f:selectItems value="#{categoriaBean.listaCategorias}" var="categoria" itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
+						</p:selectOneMenu>
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.categoria_label_qtd_questoes}:" for="qtdQuestoes" />
+						<p:inputText id="qtdQuestoes" title="#{msg.categoria_label_qtd_questoes}" label="#{msg.categoria_label_qtd_questoes}" 
+							value="#{categoriaBean.categoria.qtdQuestoes}"  required="true" maxlength="5" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.categoria_label_ativo}: " for="ativo" />
+						<p:selectBooleanCheckbox id="ativo" value="#{categoriaBean.categoria.ativo}" required="true" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.categoria_label_curso}: " for="curso" />
+						<p:selectBooleanCheckbox id="curso" value="#{categoriaBean.categoria.curso}" required="true" />
+					</h:column>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<h:column>
+						<h:outputLabel value="#{msg.categoria_label_titulo}: " for="titulo" />
+						<p:inputText id="titulo" value="#{categoriaBean.categoria.titulo}" maxlength="100" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="#{msg.categoria_label_descricao}: " for="descricao" />
+						<p:inputTextarea  id="descricao" value="#{categoriaBean.categoria.descricao}" />
+					</h:column>
+				</h:panelGrid>
+				<h:panelGrid>
+					<h:column>
+						<p:commandButton value="#{msg.app_label_salvar}" action="#{categoriaBean.salvar}" update=":edicao :listagem" />
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{categoriaBean.limparCampos}" update=":edicao :listagem" />
+					</h:column>
+				</h:panelGrid>
+			</h:form>
+			
+			<h:form id="listagem">
+				<p:dataTable id="tabelaCategoria" value="#{categoriaBean.dataModelCategoria}" var="categoria" rows="5" 
+					paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+					{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" >
+					<p:column headerText="#{msg.categoria_label_nome}" filterBy="#{categoria.nome}">
+						#{categoria.nome}
+					</p:column>	
+					<p:column headerText="#{msg.categoria_label_pai}" filterBy="#{categoria.pai}">
+						#{categoria.pai.nome}
+					</p:column>	
+					<p:column headerText="#{msg.categoria_label_ativo}">
+						<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.ativo}" />
+						<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.ativo}" />
+					</p:column>
+					<p:column headerText="#{msg.categoria_label_curso}">
+						<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.curso}" />
+						<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.curso}" />
+					</p:column>
+					<p:column headerText="#{msg.app_label_acoes}" >
+						<p:commandLink process="@this" update=":edicao" >
+							<p:graphicImage library="imagens" name="editar16.png" />
+							<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
+						</p:commandLink>
+						<p:commandLink process="@this" action="#{categoriaBean.excluir}" update=":edicao :listagem" >
+							<p:graphicImage library="imagens" name="excluir16.png" />
+							<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>	
+			</h:form>	
+		</ui:define>
+	</ui:composition>
+</html>

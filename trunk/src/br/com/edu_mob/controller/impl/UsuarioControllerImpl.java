@@ -16,6 +16,7 @@ import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.util.EmailUtil;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 import br.com.edu_mob.util.Util;
@@ -99,6 +100,8 @@ public class UsuarioControllerImpl implements UsuarioController {
 			this.verificarExistenciaCPF(usuario);
 			this.verificarExistenciaEmail(usuario);
 			usuario.setCpf(Util.removerCaracteresEspeciais(usuario.getCpf()));
+			usuario.setSenha(Util.gerarSenha(8));
+			EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha Eduobi", "Sua senha é: " + usuario.getSenha());
 			usuario.setSenha(Util.criptografar(usuario.getSenha()));
 			this.usuarioDAO.save(usuario);
 		} catch (DataAccessException e) {
