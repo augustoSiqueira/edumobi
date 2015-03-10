@@ -1,6 +1,7 @@
 body {
   padding-top:30px;
   font-size: 12px;
+  background-color: #EFE9E9;
 }
 
 .starter-template {
@@ -20,8 +21,20 @@ footer {
 }
 
 .navbar{
-	background-color: black;
+	background-color: #0A8CBF;
 }
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+          color: white;
+          background-color: #0A8CBF;
+    }
+
+
 
 .ui-widget {  
     font-size: 12px !important;
@@ -33,6 +46,18 @@ footer {
     right: 10px !important;
 } 
 
+.panel {
+	
+	border: 1px solid #0A8CBF;
+	
+}
+.panel .panel-heading{
+	background-color: #0A8CBF;
+	color:white;
+	padding: 8px 3px 3px 20px;	
+	font-size: 12px;
+	
+}
 	
 
 

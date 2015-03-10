@@ -15,12 +15,12 @@
 <h:body>
 <p:growl autoUpdate="true" life="3000" showDetail="true"/>
  <div id="form_login">
-			<h:form id="login">
-				
-				<center> <img src="../resources/imagens/logo2.png" width="130"/> </center>
-                <hr/>
-                
-                 	<div class="form-group">
+ 
+ <div class="panel panel-default">
+	<div class="panel-heading"><center> <img src="../resources/imagens/logo3.png" width="130"/> </center></div>
+		<div class="panel-body">
+				<h:form id="login">
+			       	<div class="form-group">
                         <label for="username-email">#{msg.login_label_email}</label>
                         <p:inputText id="login" label="#{msg.login_label_email}" alt="#{msg.login_label_email}" title="#{msg.login_label_email}" required="true" value="#{loginBean.email}" styleClass="form-control" />
                     </div>
@@ -33,7 +33,11 @@
 					<p:commandButton id="btLogin" type="submit" action="#{loginBean.login}" value="Entrar" styleClass="btn btn-block btn-default"/>
 						
 					
-			</h:form>
+			</h:form>	  
+					  
+		</div>
+  </div>
+			
 			</div>
 	</h:body>	
 </html>
