@@ -100,7 +100,7 @@ public class UsuarioBean extends GenericBean implements Serializable {
 			this.atualizarGrid();
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(ErrorMessage.ERRO.getChave(), e.getListaMensagens());
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
 		}
 	}
 
@@ -114,7 +114,7 @@ public class UsuarioBean extends GenericBean implements Serializable {
 			this.atualizarGrid();
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(ErrorMessage.ERRO.getChave(), e.getListaMensagens());
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
 		}
 	}
 
