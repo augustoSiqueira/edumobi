@@ -5,16 +5,14 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:composition template="/templates/interna.xhtml">	
 				
 		<ui:define name="corpo">
-		
-			
-				
+
 				<div class="row">
-				
 				<div class="col-md-4">
 				
 					<div class="panel panel-default">
@@ -30,19 +28,12 @@
 						
 						<div class="form-group">
 	                  		<h:outputLabel value="#{msg.usuario_label_nome}: " for="nome" />
-							<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" maxlength="100" styleClass="form-control"/>
+							<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" maxlength="100" validator="removeEmBranco" styleClass="form-control"/>
 	                  	</div>
 	                  	
 	                  	<div class="form-group">
 	                  		<h:outputLabel value="#{msg.usuario_label_email}: " for="email" />
-							<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" styleClass="form-control"/>
-						</div>
-						
-						<div class="form-group">
-	                  		<h:outputLabel value="#{msg.usuario_label_senha}: " for="senha" />
-							<p:password id="senha" feedback="true" promptLabel="Senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte"
-							value="#{usuarioBean.usuario.senha}" required="true" styleClass="form-control"/>	
-							
+							<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" validator="removeEmBranco" styleClass="form-control"/>
 						</div>
 						
 						<div class="form-group">
@@ -58,8 +49,8 @@
 				       	 	  <h:outputLabel value="#{msg.usuario_label_ativo} " for="ativo" />
 					        </label>
 					    </div>
-					    <p:commandButton value="#{msg.app_label_salvar}" action="#{usuarioBean.salvar}" update=":edicao :listagem" styleClass="btn btn-success pull-right"/>
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update=":edicao :listagem" styleClass="btn btn-default pull-right"/>
+					    <p:commandButton value="#{msg.app_label_salvar}" action="#{usuarioBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-success pull-right"/>
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-default pull-right"/>
 		
 						</h:form>
                   	 </div>	<!--Fim Painel body  -->			
@@ -70,7 +61,7 @@
 				
 				<div class="col-md-8">
 					<div class="panel panel-default">
-					  <div class="panel-heading">Listagem de usuários</div>
+					  <div class="panel-heading">#{msg.usuario_lista}</div>
 					  <div class="panel-body">
 					  		<h:form id="listagem">
 								<p:dataTable id="tabelaUsuario" value="#{usuarioBean.dataModelUsuario}" var="usuario" rows="5" 
@@ -88,11 +79,11 @@
 										<h:outputText value="#{msg.app_label_nao}" rendered="#{!usuario.ativo}" />
 									</p:column>
 									<p:column headerText="#{msg.app_label_acoes}" >
-										<p:commandLink process="@this" update=":edicao" >
+										<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_ALTERAR')}" >
 											<p:graphicImage library="imagens" name="editar16.png" />
 											<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
 										</p:commandLink>
-										<p:commandLink process="@this" action="#{usuarioBean.excluir}" update=":edicao :listagem" >
+										<p:commandLink process="@this" action="#{usuarioBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_USUARIO_EXCLUIR')}" >
 											<p:graphicImage library="imagens" name="excluir16.png" />
 											<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
 										</p:commandLink>
@@ -105,10 +96,6 @@
 				</div>	
 				
 			</div>
-				
-				
-			
-			
 			
 		</ui:define>
 	</ui:composition>

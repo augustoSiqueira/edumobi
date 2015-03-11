@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Categoria.class);
 			if((nome != null) && !nome.isEmpty()) {
-				detachedCriteria.add(Restrictions.ilike("nome", nome));
+				detachedCriteria.add(Restrictions.ilike("nome", nome, MatchMode.ANYWHERE));
 			}
 			if(ativo != null) {
 				detachedCriteria.add(Restrictions.eq("ativo", ativo));
@@ -70,7 +71,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Categoria.class);
 			if((nome != null) && !nome.isEmpty()) {
-				detachedCriteria.add(Restrictions.ilike("nome", nome));
+				detachedCriteria.add(Restrictions.ilike("nome", nome, MatchMode.ANYWHERE));
 			}
 			if(ativo != null) {
 				detachedCriteria.add(Restrictions.eq("ativo", ativo));
@@ -97,7 +98,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Categoria.class);
 			if((nome != null) && !nome.isEmpty()) {
-				detachedCriteria.add(Restrictions.ilike("nome", nome));
+				detachedCriteria.add(Restrictions.ilike("nome", nome, MatchMode.ANYWHERE));
 			}
 			if(ativo != null) {
 				detachedCriteria.add(Restrictions.eq("ativo", ativo));
