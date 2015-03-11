@@ -109,7 +109,7 @@ public class CategoriaBean extends GenericBean implements Serializable {
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			for (String msg : e.getListaMensagens()) {
-				context.addMessage(null, new FacesMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), msg));
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), msg));
 			}
 		}
 	}

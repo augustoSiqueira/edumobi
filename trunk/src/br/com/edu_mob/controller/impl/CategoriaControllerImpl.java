@@ -89,12 +89,9 @@ public class CategoriaControllerImpl implements CategoriaController {
 	public void excluir(Categoria categoria) throws RNException {
 		Filter filtro = new Filter();
 		try {
-			if((categoria.getPai() != null) && (categoria.getPai().getId() != null)) {
-				filtro.put("id", categoria.getId().toString());
-				filtro.put("idPai", categoria.getPai().getId().toString());
-				if(this.categoriaDAO.pesquisarDependencia(filtro) > 0) {
-					throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DEPENDENCIA_EXISTENTE.getChave(), Entidades.CATEGORIA.getValor()));
-				}
+			filtro.put("id", categoria.getId().toString());
+			if(this.categoriaDAO.pesquisarDependencia(filtro) > 0) {
+				throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DEPENDENCIA_EXISTENTE.getChave(), Entidades.CATEGORIA.getValor()));
 			}
 			this.categoriaDAO.remove(categoria);
 		} catch (DataAccessException e) {

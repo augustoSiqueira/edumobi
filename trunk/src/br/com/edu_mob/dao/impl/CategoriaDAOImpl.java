@@ -119,17 +119,13 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 		int retorno = 0;
 		String id = filtro.getAsString("id");
 		Boolean ativo = (Boolean) filtro.get("ativo");
-		String idPai = filtro.getAsString("idPai");
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Categoria.class);
 			if(ativo != null) {
 				detachedCriteria.add(Restrictions.eq("ativo", ativo));
 			}
-			if((idPai != null) && !idPai.isEmpty()) {
-				detachedCriteria.add(Restrictions.eq("pai.id", Long.parseLong(idPai)));
-			}
 			if((id != null) && !id.isEmpty()) {
-				detachedCriteria.add(Restrictions.ne("id", Long.parseLong(id)));
+				detachedCriteria.add(Restrictions.eq("pai.id", Long.parseLong(id)));
 			}
 			retorno = this.getDataCount(detachedCriteria);
 		} catch(DataAccessException e) {
