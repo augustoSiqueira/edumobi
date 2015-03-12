@@ -12,11 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.edu_mob.controller.PerfilController;
 import br.com.edu_mob.dao.PerfilDAO;
+import br.com.edu_mob.dao.UsuarioDAO;
 import br.com.edu_mob.entity.Perfil;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
+import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.util.Filter;
+import br.com.edu_mob.util.MensagemUtil;
 
 @Service("perfilController")
 public class PerfilControllerImpl implements PerfilController {
@@ -25,6 +28,9 @@ public class PerfilControllerImpl implements PerfilController {
 
 	@Autowired
 	private PerfilDAO perfilDAO;
+
+	@Autowired
+	private UsuarioDAO usuarioDAO;
 
 	@Override
 	public List<Perfil> listar() throws RNException {
@@ -99,9 +105,17 @@ public class PerfilControllerImpl implements PerfilController {
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public void excluir(Perfil perfil) throws RNException {
+		Filter filtro = new Filter();
 		try {
+			filtro.put("idPerfil", perfil.getId().toString());
+			if(this.usuarioDAO.pesquisarPorFiltroCount(filtro) > 0) {
+				throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DEPENDENCIA_EXISTENTE.getChave(), Entidades.PERFIL.getValor()));
+			}
 			this.perfilDAO.remove(perfil);
 		} catch (DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		} catch (DAOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}

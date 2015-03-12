@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.edu_mob.dao.CategoriaDAO;
 import br.com.edu_mob.entity.Categoria;
-import br.com.edu_mob.entity.Perfil;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.util.Filter;
@@ -39,6 +38,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 		String nome = filtro.getAsString("nome");
 		Boolean ativo = (Boolean) filtro.get("ativo");
 		String idPai = filtro.getAsString("idPai");
+		Boolean curso = (Boolean) filtro.get("curso");
 		List<Categoria> listaCategorias = null;
 
 		try {
@@ -51,6 +51,9 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 			}
 			if((idPai != null) && !idPai.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("pai.id", Long.parseLong(idPai)));
+			}
+			if(curso != null) {
+				detachedCriteria.add(Restrictions.eq("curso", curso));
 			}
 			detachedCriteria.addOrder(Order.asc("nome"));
 			listaCategorias = this.findByCriteria(detachedCriteria);
@@ -68,6 +71,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 		String nome = filtro.getAsString("nome");
 		Boolean ativo = (Boolean) filtro.get("ativo");
 		String idPai = filtro.getAsString("idPai");
+		Boolean curso = (Boolean) filtro.get("curso");
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Categoria.class);
 			if((nome != null) && !nome.isEmpty()) {
@@ -78,6 +82,9 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 			}
 			if((idPai != null) && !idPai.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("pai.id", Long.parseLong(idPai)));
+			}
+			if(curso != null) {
+				detachedCriteria.add(Restrictions.eq("curso", curso));
 			}
 			retorno = this.getDataCount(detachedCriteria);
 		} catch(DataAccessException e) {
@@ -92,6 +99,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 			int primeiroReg, int paginaSize) throws DAOException {
 		String nome = filtro.getAsString("nome");
 		Boolean ativo = (Boolean) filtro.get("ativo");
+		Boolean curso = (Boolean) filtro.get("curso");
 		String idPai = filtro.getAsString("idPai");
 		List<Categoria> listaCategorias = null;
 
@@ -105,6 +113,9 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 			}
 			if((idPai != null) && !idPai.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("pai.id", Long.parseLong(idPai)));
+			}
+			if(curso != null) {
+				detachedCriteria.add(Restrictions.eq("curso", curso));
 			}
 			detachedCriteria.addOrder(Order.asc("nome"));
 			listaCategorias = this.buscarPaginada(detachedCriteria, primeiroReg, paginaSize);
@@ -142,7 +153,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO {
 		boolean existe = false;
 		try {
 			if (((campo != null) && !campo.isEmpty()) && ((valor != null) && !valor.isEmpty())) {
-				DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Perfil.class);
+				DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Categoria.class);
 				detachedCriteria.add(Restrictions.eq(campo, valor).ignoreCase());
 				if (id != null) {
 					detachedCriteria.add(Restrictions.ne("id", id));

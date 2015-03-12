@@ -40,11 +40,14 @@ public class CategoriaBean extends GenericBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		Filter filtroCategoria = new Filter();
+		filtroCategoria.put("ativo", Boolean.TRUE);
+		filtroCategoria.put("curso", Boolean.FALSE);
 		this.categoria = new Categoria();
 		this.categoriaController = (CategoriaController) this.getBean("categoriaController", CategoriaController.class);
 		this.dataModelCategoria = new DataModelCategoria();
 		try {
-			this.listaCategorias = this.categoriaController.pesquisarPorFiltro(new Filter());
+			this.listaCategorias = this.categoriaController.pesquisarPorFiltro(filtroCategoria);
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());

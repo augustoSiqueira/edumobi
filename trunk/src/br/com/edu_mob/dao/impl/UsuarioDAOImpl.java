@@ -41,6 +41,7 @@ public class UsuarioDAOImpl extends GenericDAOImpl implements UsuarioDAO {
 		String email = filtro.getAsString("email");
 		String senha = filtro.getAsString("senha");
 		Boolean ativo = (Boolean) filtro.get("ativo");
+		String idPerfil = (String) filtro.get("idPerfil");
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Usuario.class);
 			if ((cpf != null) && !cpf.isEmpty()) {
@@ -51,6 +52,9 @@ public class UsuarioDAOImpl extends GenericDAOImpl implements UsuarioDAO {
 			}
 			if ((email != null) && !email.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("email", email));
+			}
+			if ((idPerfil != null) && !idPerfil.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("perfil.id", Long.parseLong(idPerfil)));
 			}
 			if ((senha != null) && !senha.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("senha", Util.criptografar(senha)));
@@ -74,6 +78,7 @@ public class UsuarioDAOImpl extends GenericDAOImpl implements UsuarioDAO {
 		String email = filtro.getAsString("email");
 		String senha = filtro.getAsString("senha");
 		Boolean ativo = (Boolean) filtro.get("ativo");
+		String idPerfil = (String) filtro.get("idPerfil");
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Usuario.class);
 			if ((cpf != null) && !cpf.isEmpty()) {
@@ -84,6 +89,9 @@ public class UsuarioDAOImpl extends GenericDAOImpl implements UsuarioDAO {
 			}
 			if ((email != null) && !email.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("email", email));
+			}
+			if ((idPerfil != null) && !idPerfil.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("perfil.id", Long.parseLong(idPerfil)));
 			}
 			if ((senha != null) && !senha.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("senha", Util.criptografar(senha)));
@@ -106,6 +114,8 @@ public class UsuarioDAOImpl extends GenericDAOImpl implements UsuarioDAO {
 		String nome = filtro.getAsString("nome");
 		String email = filtro.getAsString("email");
 		Boolean ativo = (Boolean) filtro.get("ativo");
+		String idPerfil = (String) filtro.get("idPerfil");
+
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Usuario.class);
 			if ((cpf != null) && !cpf.isEmpty()) {
@@ -116,6 +126,9 @@ public class UsuarioDAOImpl extends GenericDAOImpl implements UsuarioDAO {
 			}
 			if ((email != null) && !email.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("email", email));
+			}
+			if ((idPerfil != null) && !idPerfil.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("perfil.id", Long.parseLong(idPerfil)));
 			}
 			if (ativo != null) {
 				detachedCriteria.add(Restrictions.eq("ativo", ativo));

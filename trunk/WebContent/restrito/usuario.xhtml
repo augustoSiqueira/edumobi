@@ -22,22 +22,22 @@
 					    <h:form id="edicao">
 					    
 					    <div class="form-group">
-	                       	<h:outputLabel value="#{msg.usuario_label_cpf}: " for="cpf" />
+	                       	<h:outputLabel value="#{msg.usuario_label_cpf}*: " for="cpf" />
 							<p:inputMask id="cpf" mask="999.999.999-99" placeHolder="" value="#{usuarioBean.usuario.cpf}" required="true" styleClass="form-control"/>    
 						</div>
 						
 						<div class="form-group">
-	                  		<h:outputLabel value="#{msg.usuario_label_nome}: " for="nome" />
+	                  		<h:outputLabel value="#{msg.usuario_label_nome}*: " for="nome" />
 							<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" maxlength="100" validator="removeEmBranco" styleClass="form-control"/>
 	                  	</div>
 	                  	
 	                  	<div class="form-group">
-	                  		<h:outputLabel value="#{msg.usuario_label_email}: " for="email" />
+	                  		<h:outputLabel value="#{msg.usuario_label_email}*: " for="email" />
 							<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" validator="removeEmBranco" styleClass="form-control"/>
 						</div>
 						
 						<div class="form-group">
-	                  		<h:outputLabel value="#{msg.usuario_label_perfil}:" for="perfil" /><br/>
+	                  		<h:outputLabel value="#{msg.usuario_label_perfil}*:" for="perfil" /><br/>
 							<p:selectOneMenu id="perfil" required="true" value="#{usuarioBean.usuario.perfil}" converter="converterPerfil" styleClass="form-control" style="width:100%" >
 								<f:selectItems value="#{usuarioBean.listaPerfis}" var="perfil" itemLabel="#{perfil.nome}" itemValue="#{perfil}" />								
 							</p:selectOneMenu>								
@@ -46,7 +46,7 @@
 	                  	<div class="checkbox">
 					        <label>
 					          <p:selectBooleanCheckbox id="ativo" value="#{usuarioBean.usuario.ativo}" required="true" />
-				       	 	  <h:outputLabel value="#{msg.usuario_label_ativo} " for="ativo" />
+				       	 	  <h:outputLabel value="#{msg.usuario_label_ativo}*" for="ativo" />
 					        </label>
 					    </div>
 					    <p:commandButton value="#{msg.app_label_salvar}" action="#{usuarioBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-success pull-right"/>

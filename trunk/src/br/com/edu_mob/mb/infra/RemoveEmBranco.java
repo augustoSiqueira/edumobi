@@ -16,15 +16,13 @@ public class RemoveEmBranco implements Validator {
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value)
 			throws ValidatorException {
-		if(value.toString().trim().isEmpty()){
+		if(((value != null) && !value.toString().isEmpty()) && (value.toString().trim().isEmpty())){
 			FacesMessage msg =
 					new FacesMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()),
 							MensagemUtil.getMensagem(ErrorMessage.DADOS_INVALIDOS.getChave()));
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(msg);
-
 		}
-
 	}
 
 }

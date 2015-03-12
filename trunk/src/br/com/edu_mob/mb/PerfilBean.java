@@ -7,9 +7,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DualListModel;
 
@@ -147,6 +149,7 @@ public class PerfilBean extends GenericBean implements Serializable {
 	}
 
 	public void excluir() {
+		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			if ((this.perfil != null) && (this.perfil.getId() != null)) {
 				this.perfilController.excluir(this.perfil);
@@ -156,7 +159,9 @@ public class PerfilBean extends GenericBean implements Serializable {
 			this.atualizarGrid();
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(ErrorMessage.ERRO.getChave(), e.getListaMensagens());
+			for (String msg : e.getListaMensagens()) {
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), msg));
+			}
 		}
 	}
 
