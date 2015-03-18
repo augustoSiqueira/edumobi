@@ -159,5 +159,27 @@ public class UsuarioDAOImpl extends GenericDAOImpl implements UsuarioDAO {
 			throw new DAOException(ErrorMessage.DAO.getChave());
 		}
 	}
+	
+	@Override
+	public Usuario pesquisarPorEmail(String email) throws DAOException{
+		List<Usuario> listaUsuarios = null;
+		Usuario usuario = null;
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Usuario.class);
+		try{
+			if (email != null && !email.isEmpty()) {
+				
+				detachedCriteria.add(Restrictions.eq("email", email).ignoreCase());			
+			}
+			listaUsuarios = this.findByCriteria(detachedCriteria);
+			
+			if(listaUsuarios.size()== 1){
+				usuario = listaUsuarios.get(0);
+			}
+			return usuario;		
+		} catch (DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+	}
 
 }

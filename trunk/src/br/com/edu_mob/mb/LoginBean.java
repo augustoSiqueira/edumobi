@@ -1,16 +1,23 @@
 package br.com.edu_mob.mb;
 
 import java.io.Serializable;
+import java.util.logging.Level;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import br.com.edu_mob.controller.UsuarioController;
+import br.com.edu_mob.exception.DAOException;
+import br.com.edu_mob.exception.RNException;
+import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.message.SucessMessage;
 import br.com.edu_mob.security.AuthenticationService;
 import br.com.edu_mob.util.AliasNavigation;
 import br.com.edu_mob.util.MensagemUtil;
+import java.util.logging.Logger;
 
 @ManagedBean
 @ViewScoped
@@ -23,10 +30,15 @@ public class LoginBean extends GenericBean implements Serializable {
 	private String email;
 
 	private String senha;
+	
+	private String emailRecuperar;
+	
+	private UsuarioController usuarioController;
 
 	public LoginBean() {
 		this.authenticationService =
 				(AuthenticationService) this.getBean("authenticationService", AuthenticationService.class);
+		this.usuarioController = (UsuarioController) this.getBean("usuarioController", UsuarioController.class);
 	}
 
 	public String login() {
@@ -46,6 +58,19 @@ public class LoginBean extends GenericBean implements Serializable {
 		return AliasNavigation.LOGIN;
 	}
 
+	public String recuperarSenha(){
+		try {
+			usuarioController.recuperarSenha(emailRecuperar);
+			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+					SucessMessage.SENHA_REC.getValor(),"");
+			emailRecuperar = "";
+		} catch (RNException | DAOException e) {
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+		
+		}
+		
+		return null;
+	}
 	public String getEmail() {
 		return this.email;
 	}
@@ -62,4 +87,21 @@ public class LoginBean extends GenericBean implements Serializable {
 		this.senha = senha;
 	}
 
+	public String getEmailRecuperar() {
+		return emailRecuperar;
+	}
+
+	public void setEmailRecuperar(String emailRecuperar) {
+		this.emailRecuperar = emailRecuperar;
+	}
+
+	public UsuarioController getUsuarioController() {
+		return usuarioController;
+	}
+
+	public void setUsuarioController(UsuarioController usuarioController) {
+		this.usuarioController = usuarioController;
+	}
+
+	
 }

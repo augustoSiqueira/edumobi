@@ -172,5 +172,24 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 		return listaUsuarios;
 	}
+	
+	@Override
+	public void recuperarSenha(String email) throws RNException, DAOException{
+		Usuario usuario = null;
+		if (!Util.validarEmail(email)) {
+			throw new RNException(ErrorMessage.USUARIO_EMAIL_INVALIDO.getChave());
+		}			
+		usuario = this.usuarioDAO.pesquisarPorEmail(email);
+		
+		if(usuario == null){
+			throw new RNException(ErrorMessage.RECUPERAR_SENHA_EMAIL_INVALIDO.getChave());
+		}
+		
+		usuario.setSenha(Util.gerarSenha(8));
+		EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha Eduobi", EmailUtil.mensagemEnvioSenha(usuario));
+		usuario.setSenha(Util.criptografar(usuario.getSenha()));
+		this.usuarioDAO.update(usuario);	
+		
+	}
 
 }

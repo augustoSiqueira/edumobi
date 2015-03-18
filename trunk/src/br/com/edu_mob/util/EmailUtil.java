@@ -14,6 +14,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import br.com.edu_mob.dao.impl.FuncionalidadeDAOImpl;
+import br.com.edu_mob.entity.Usuario;
 
 public class EmailUtil {
 	
@@ -26,7 +27,8 @@ public class EmailUtil {
 	         message.addRecipient(Message.RecipientType.TO,
 	                                  new InternetAddress(para));
 	         message.setSubject(assunto);
-	         message.setText(mensagem);
+	         //message.setText(mensagem);
+	         message.setContent(mensagem,"text/html; charset=utf-8");
 	         Transport.send(message);
 	      }catch (MessagingException mex) {
 	    	  logger.log(Level.SEVERE, mex.getMessage(), mex);
@@ -47,4 +49,18 @@ public class EmailUtil {
 		properties.put("mail.smtp.starttls.enable", "true");
 		return Session.getInstance(properties, authenticator);
 	}	
+	
+	public static String mensagemEnvioSenha(Usuario usuario){
+		String html="";
+	
+		html+="Olá "+usuario.getNome()+", ";
+		html+="<br/>";
+		html+="<p>Seja bem vindo ao EduMobi, aqui você podem estudar, aprender novas tecnologias e aprimorar seus conhecimentos. Tudo isto com total liberdade de horário e ritmo de estudo.</p>";
+		html+="<br/>";
+		html+="Sua senha de acesso: "+usuario.getSenha();
+		html+="<br/>";
+		html+="<h3><img src=\"http://oi57.tinypic.com/714lko.jpg\\>\"</h3>";
+		
+		return MensagemUtil.getMensagem("info_email_html_senha", usuario.getNome(),usuario.getSenha());
+	}
 }

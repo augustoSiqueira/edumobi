@@ -1,6 +1,7 @@
 package br.com.edu_mob.controller;
 
 import br.com.edu_mob.entity.Usuario;
+import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 
 public interface UsuarioController extends GenericController<Usuario> {
@@ -40,5 +41,12 @@ public interface UsuarioController extends GenericController<Usuario> {
 	 */
 
 	void verificarExistenciaCPF(Usuario usuario) throws RNException;
-
+	
+	/**
+	 * Metodo responsavel por reenviar a senha do usuario
+	 * @param email
+	 * @throws RNException
+	 * @throws DAOException 
+	 */
+	void recuperarSenha(String email) throws RNException, DAOException;
 }
