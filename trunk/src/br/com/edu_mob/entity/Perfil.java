@@ -48,6 +48,11 @@ public class Perfil implements Serializable {
 		this.ativo = true;
 	}
 
+	public Perfil(Long id) {
+		super();
+		this.id = id;
+	}
+
 	public Perfil(String nome, boolean ativo) {
 		super();
 		this.nome = nome;
