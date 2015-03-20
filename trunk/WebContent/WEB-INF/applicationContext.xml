@@ -39,6 +39,8 @@
 					<prop key="hibernate.c3p0.max_statement">50</prop>
 					<prop key="hibernate.generate_statistics">true</prop>
 					<prop key="hibernate.hbm2ddl.auto">validate</prop>
+					
+					
 				</props>
 			</property>
 			<property name="annotatedClasses">
@@ -47,6 +49,8 @@
 					<value>br.com.edu_mob.entity.Perfil</value>
 					<value>br.com.edu_mob.entity.Funcionalidade</value>
 					<value>br.com.edu_mob.entity.Categoria</value>
+					<value>br.com.edu_mob.entity.Questao</value>
+					<value>br.com.edu_mob.entity.Alternativa</value>
 					<value>br.com.edu_mob.entity.Aluno</value>
 					<value>br.com.edu_mob.entity.Municipio</value>
 					<value>br.com.edu_mob.entity.UF</value>
