@@ -34,6 +34,7 @@
 								<li><p:commandLink value="#{msg.usuario_label_menu}" action="#{menuBean.pageUsuarios}" rendered="#{sec:areAnyGranted('ROLE_USUARIO')}" /></li>
 								<li><p:commandLink value="#{msg.perfil_label_menu}"	action="#{menuBean.pagePerfis}"	rendered="#{sec:areAnyGranted('ROLE_PERFIL')}" /></li>
 								<li><p:commandLink value="#{msg.categoria_label_menu}"	action="#{menuBean.pageCategorias}"	rendered="#{sec:areAnyGranted('ROLE_CATEGORIA')}" /></li>
+								<li><p:commandLink value="#{msg.questao_label_menu}"	action="#{menuBean.pageQuestao}"	rendered="#{sec:areAnyGranted('ROLE_QUESTAO')}" /></li>
 								<li><p:commandLink value="#{msg.aluno_label_menu}"	action="#{menuBean.pageAlunos}"	rendered="#{sec:areAnyGranted('ROLE_ALUNO')}" /></li>
 							</ul></li>
 							<li><p:commandLink value="#{msg.app_label_sair}" onclick="document.location='#{request.contextPath}/j_spring_security_logout'"	icon="ui-icon-close" /></li>										
