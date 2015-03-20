@@ -17,6 +17,10 @@ public class GenericException extends Exception {
 		this.listaMensagens.add(msg);
 	}
 
+	public GenericException(List<String> listaMsg) {
+		this.listaMensagens.addAll(listaMsg);
+	}
+
 	public List<String> getListaMensagens() {
 		return this.listaMensagens;
 	}
