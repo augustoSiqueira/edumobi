@@ -28,6 +28,11 @@ public class MenuBean implements Serializable {
 	public String pageCategorias() {
 		return AliasNavigation.PAGINA_CATEGORIA;
 	}
+	
+	
+	public String pageQuestao() {
+		return AliasNavigation.PAGINA_QUESTAO;
+	}
 
 	public String pageCadastrarAluno() {
 		return AliasNavigation.PAGINA_CADASTRO_ALUNO;
