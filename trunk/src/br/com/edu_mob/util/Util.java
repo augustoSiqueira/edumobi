@@ -3,6 +3,7 @@ package br.com.edu_mob.util;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.logging.Level;
@@ -167,6 +168,18 @@ public class Util {
 			senha[x] = chart[rdm.nextInt(chartLenght)];
 		}
 		return new String(senha);
+	}
+
+	/**
+	 * Metodo responsavel por gerar matricula dinamicamente do Aluno
+	 *
+	 * @param long id
+	 * @return String matricula
+	 */
+
+	public static String gerarMatricula(long id){
+		DecimalFormat decimalFormat = new DecimalFormat("00000000000");
+		return decimalFormat.format(id);
 	}
 
 }

@@ -14,4 +14,8 @@ public class AliasNavigation {
 
 	public static final String PAGINA_CATEGORIA = "/restrito/categoria.jsf?faces-redirect=true";
 
+	public static final String PAGINA_CADASTRO_ALUNO = "/restrito/cadastrarAluno.jsf?faces-redirect=true";
+
+	public static final String PAGINA_ALUNO = "/restrito/aluno.jsf?faces-redirect=true";
+
 }
