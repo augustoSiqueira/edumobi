@@ -1,10 +1,12 @@
 package br.com.edu_mob.mb;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -58,11 +60,15 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	@ManagedProperty(value = "#{dataModelQuestao}")
 	private DataModelQuestao dataModelQuestao;
 
+	
+
 	private QuestaoController questaoController;
 	private AlternativaController alternativaController;
 	private List<Questao> listaQuestoes = null;
+	private List<Alternativa> listaAlternativa = null;
+	private List<Alternativa> listaAlternativaExcluir = null;
 	
-	private Alternativa alternativaA, alternativaB, alternativaC, alternativaD = null;
+	
 	
 	
 	
@@ -70,22 +76,19 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 
 
 	private Questao questao = null;
+	private Alternativa alternativa = null;
 
 	@PostConstruct
 	public void init() {
 		Filter filtroQuestao = new Filter();
 		this.questao = new Questao();
-		this.alternativaA = new Alternativa();
-		this.alternativaB = new Alternativa();
-		this.alternativaC = new Alternativa();
-		this.alternativaD = new Alternativa();
-		this.alternativaA.setCorreta(false);
-		this.alternativaB.setCorreta(false);
-		this.alternativaC.setCorreta(false);
-		this.alternativaD.setCorreta(false);
+		this.alternativa = new Alternativa();
+		this.listaAlternativa = new ArrayList<Alternativa>();
+		this.listaAlternativaExcluir = new ArrayList<Alternativa>();
 		this.questaoController = (QuestaoController) this.getBean("questaoController", QuestaoController.class);
 		this.alternativaController = (AlternativaController) this.getBean("alternativaController", AlternativaController.class);
 		this.dataModelQuestao = new DataModelQuestao();
+		
 		try {
 			this.listaQuestoes = this.questaoController.pesquisarPorFiltro(filtroQuestao);
 		} catch (RNException e) {
@@ -105,7 +108,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	public void upload(FileUploadEvent event){
 		  
-		/* UploadedFile arq = event.getFile();
+		/*UploadedFile arq = event.getFile();
 		 this.questao.setCaminhoImagem(arq.getFileName());
 		 
 		 ServletContext context = (ServletContext) FacesContext  
@@ -121,27 +124,24 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	        FileOutputStream outputStream; 
 	        
 	        try {  
-	            outputStream = new FileOutputStream(caminho);  
-	            outputStream.write(file);  
+	        	outputStream = new FileOutputStream(caminho);  
+	            outputStream.write(file.);  
 	            outputStream.close();  
 	        } catch (FileNotFoundException e) {  
 	            System.out.println(e.getMessage());  
 	        } catch (IOException e) {  
 	            System.out.println(e.getMessage());  
-	        }  
-		 
-		 */
-		 
-		 
+	        }
+	        */  
 	}
 	
 
 	public void limparCampos() {
 		this.questao = new Questao();
-		this.alternativaA = new Alternativa();
-		this.alternativaB = new Alternativa();
-		this.alternativaC = new Alternativa();
-		this.alternativaD = new Alternativa();
+	}
+	
+	public void limparCamposAlternativa() {
+		this.alternativa = new Alternativa();
 	}
 
 	public void atualizarGrid() {
@@ -153,7 +153,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
 		}
 	}
-
+	
 	public void incluir() {
 		
 		
@@ -163,25 +163,21 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.CADASTRADA_SUCESSO.getValor(), Entidades.QUESTAO.getValor());
 			this.atualizarGrid();
-			int tamanho = listaQuestoes.size() - 1;
-			this.alternativaA.setQuestao(listaQuestoes.get(tamanho));
-			this.alternativaB.setQuestao(listaQuestoes.get(tamanho));
-			this.alternativaC.setQuestao(listaQuestoes.get(tamanho));
-			this.alternativaD.setQuestao(listaQuestoes.get(tamanho));
+			int tamanho = this.listaQuestoes.size() - 1;
 			
-			this.alternativaController.incluir(alternativaA);
-			this.alternativaController.incluir(alternativaB);
-			this.alternativaController.incluir(alternativaC);
-			this.alternativaController.incluir(alternativaD);
+			for (Alternativa alt : listaAlternativa) {
+				alt.setQuestao(this.listaQuestoes.get(tamanho));
+				this.alternativaController.incluir(alt);
+			}
+			
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
 		}
-		
-		
-		
-		
-		
+	}
+	
+	public void add(){
+		this.listaAlternativa.add(this.alternativa);
 	}
 
 	public void atualizar() {
@@ -201,8 +197,18 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	public void excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
+			
 			if ((this.questao != null) && (this.questao.getId() != null)) {
+				this.filtro.put("idQuestao", this.questao.getId().toString());
+				this.listaAlternativaExcluir = this.alternativaController.pesquisarPorFiltro(this.filtro);
+				
+				for (Alternativa altExcluir : this.listaAlternativaExcluir) {
+					
+					this.alternativaController.excluir(altExcluir);
+				}
+				
 				this.questaoController.excluir(this.questao);
+				
 				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 						SucessMessage.EXCLUIDA_SUCESSO.getValor(), Entidades.QUESTAO.getValor());
 			}
@@ -222,6 +228,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	public void setDataModelQuestao(DataModelQuestao dataModelQuestao) {
 		this.dataModelQuestao = dataModelQuestao;
 	}
+	
 
 	public List<Questao> getListaQuestoes() {
 		return this.listaQuestoes;
@@ -241,38 +248,23 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 			this.listaQuestoes.remove(questao);
 		}
 	}
-	
-	public Alternativa getAlternativaA(){
-		return this.alternativaA;
+
+	public List<Alternativa> getListaAlternativa(){
+		return this.listaAlternativa;
 	}
 	
-	public void setAlternativaA(Alternativa alternativaA){
-		this.alternativaA = alternativaA;
+	public void setListaAlternativa(List<Alternativa> listaAlternativa){
+		this.listaAlternativa = listaAlternativa;
 	}
 	
-	public Alternativa getAlternativaB(){
-		return this.alternativaB;
+	public Alternativa getAlternativa(){
+		return this.alternativa;
 	}
 	
-	public void setAlternativaB(Alternativa alternativaB){
-		this.alternativaB = alternativaB;
+	public void setAlternativa(Alternativa alternativa){
+		this.alternativa = alternativa;
 	}
-	
-	public Alternativa getAlternativaC(){
-		return this.alternativaC;
-	}
-	
-	public void setAlternativaC(Alternativa alternativaC){
-		this.alternativaC = alternativaC;
-	}
-	
-	public Alternativa getAlternativaD(){
-		return this.alternativaD;
-	}
-	
-	public void setAlternativaD(Alternativa alternativaD){
-		this.alternativaD = alternativaD;
-	}
+
 	
 	
 }
