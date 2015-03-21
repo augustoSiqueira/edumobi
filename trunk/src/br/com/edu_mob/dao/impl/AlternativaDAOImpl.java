@@ -37,16 +37,22 @@ public class AlternativaDAOImpl extends GenericDAOImpl implements AlternativaDAO
 	@Override
 	public List<Alternativa> pesquisarPorFiltro(Filter filtro) throws DAOException {
 		String resposta = filtro.getAsString("resposta");
+		String idQuestao = (String) filtro.get("idQuestao");
+		
 		List<Alternativa> listaAlternativas = null;
 		
 
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Alternativa.class);
 			if(resposta != null) {
-				detachedCriteria.add(Restrictions.ilike("enunciado", resposta, MatchMode.ANYWHERE));
+				detachedCriteria.add(Restrictions.ilike("resposta", resposta, MatchMode.ANYWHERE));
 			}
 			
-			detachedCriteria.addOrder(Order.asc("enunciado"));
+			if (idQuestao != null && !idQuestao.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("questao.id", Long.parseLong(idQuestao)));
+			}
+			
+			detachedCriteria.addOrder(Order.asc("resposta"));
 			listaAlternativas = this.findByCriteria(detachedCriteria);
 
 		} catch(DataAccessException e) {
@@ -56,15 +62,20 @@ public class AlternativaDAOImpl extends GenericDAOImpl implements AlternativaDAO
 		return listaAlternativas;
 	}
 	
-	@Override
+		@Override
 	public int pesquisarPorFiltroCount(Filter filtro) throws DAOException {
 		int retorno = 0;
 		String resposta = filtro.getAsString("resposta");
+		String idQuestao = (String) filtro.get("idQuestao");
 		
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Alternativa.class);
 			if(resposta != null) {
 				detachedCriteria.add(Restrictions.ilike("resposta", resposta));
+			}
+			
+			if (idQuestao != null && !idQuestao.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("questao.id", Long.parseLong(idQuestao)));
 			}
 			
 			retorno = this.getDataCount(detachedCriteria);
@@ -86,7 +97,7 @@ public class AlternativaDAOImpl extends GenericDAOImpl implements AlternativaDAO
 				detachedCriteria.add(Restrictions.ilike("resposta", resposta));
 			}
 			
-			detachedCriteria.addOrder(Order.asc("enunciado"));
+			detachedCriteria.addOrder(Order.asc("resposta"));
 			listaAlternativa = this.buscarPaginada(detachedCriteria, primeiroReg, paginaSize);
 		} catch(DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);

@@ -45,7 +45,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 				detachedCriteria.add(Restrictions.ilike("enunciado", enunciado, MatchMode.ANYWHERE));
 			}
 			
-			detachedCriteria.addOrder(Order.asc("enunciado"));
+			detachedCriteria.addOrder(Order.asc("id"));
 			listaQuestoes = this.findByCriteria(detachedCriteria);
 
 		} catch(DataAccessException e) {
