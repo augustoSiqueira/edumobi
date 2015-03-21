@@ -27,42 +27,9 @@
 							</div>
 							
 							<div class="form-group">
-					        	<h:outputLabel value="#{msg.questao_label_observacao}: " for="descricao" />
+					        	<h:outputLabel value="#{msg.questao_label_comentario}: " for="descricao" />
 								<p:inputTextarea  id="descricao" value="#{questaoBean.questao.observacao}"  validator="removeEmBranco" styleClass="form-control" />
 							</div>
-							
-							<div class="form-group">
-					            <h:outputLabel value="#{msg.questao_label_alternativas}*:" for="alternativas" />
-								<p:inputText id="alternativaA" value="#{questaoBean.alternativaA.resposta}"  required="true" maxlength="200" styleClass="form-control" />
-						    <br/>
-						    <label>
-						      <p:selectBooleanCheckbox id="corretaA" value="#{questaoBean.alternativaA.correta}"  required="true" />
-				       	 	  <h:outputLabel value="#{msg.questao_check_alternativa_correta}*" for="ativo" />
-					        </label>
-					    	<br/>
-								<p:inputText id="alternativaB" value="#{questaoBean.alternativaB.resposta}"  required="true" maxlength="200" styleClass="form-control" />
-							<br/>	
-							<label>
-						      <p:selectBooleanCheckbox id="corretaB" value="#{questaoBean.alternativaB.correta}"  required="true" />
-				       	 	  <h:outputLabel value="#{msg.questao_check_alternativa_correta}*" for="ativo" />
-					        </label>
-					    	<br/>
-								<p:inputText id="alternativaC" value="#{questaoBean.alternativaC.resposta}"  required="true" maxlength="200" styleClass="form-control" />
-							<br/>
-							<label>
-						      <p:selectBooleanCheckbox id="corretaC" value="#{questaoBean.alternativaC.correta}"  required="true" />
-				       	 	  <h:outputLabel value="#{msg.questao_check_alternativa_correta}*" for="ativo" />
-					        </label>
-					    	<br/>
-								<p:inputText id="alternativaD" value="#{questaoBean.alternativaD.resposta}"  required="true" maxlength="200" styleClass="form-control" />
-							<br/>
-							<label>
-						      <p:selectBooleanCheckbox id="corretaD" value="#{questaoBean.alternativaD.correta}"  required="true" />
-				       	 	  <h:outputLabel value="#{msg.questao_check_alternativa_correta}*" for="ativo" />
-					        </label>
-					    	<br/>
-							</div>
-							
 							
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.questao_label_imagem}: " for="descricao" />
@@ -103,6 +70,53 @@
 								<p:commandLink process="@this" action="#{questaoBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
 									<p:graphicImage library="imagens" name="excluir16.png" />
 									<f:setPropertyActionListener value="#{questao}" target="#{questaoBean.questao}" />
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>	
+					</h:form>	
+					
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					
+					
+					<h:form id="alternativa">
+							<div class="form-group">
+					        	<h:outputLabel value="#{msg.questao_label_alternativas}: " for="resposta" />
+								<p:inputText id="resposta" value="#{questaoBean.alternativa.resposta}" required="true" maxlength="200" validator="removeEmBranco" styleClass="form-control"/>
+							<label>
+					          <p:selectBooleanCheckbox id="correta" value="#{questaoBean.alternativa.correta}"  />
+				       	 	  <h:outputLabel value="#{msg.questao_check_alternativa_correta}*" for="correta" />
+					        </label>
+							</div>
+							
+							
+						<p:commandButton value="#{msg.app_label_salvar}" action="#{questaoBean.add}" update=":listagemalternativas" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{questaoBean.limparCamposAlternativa}" update=":alternativa" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
+					</h:form>
+					
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					
+					<h:form id="listagemalternativas">
+						<p:dataTable id="tabelaAlternativa"  value="#{questaoBean.listaAlternativa}" var="alternativa" rows="5" 
+							 selectionMode="single" lazy="true" >
+							<p:column headerText="Id">
+      						  <h:outputText value="#{alternativa.resposta}" />
+    						</p:column>
+							<p:column headerText="#{msg.app_label_acoes}" >
+								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" >
+									<p:graphicImage library="imagens" name="editar16.png" />
+									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
+								</p:commandLink>
+								<p:commandLink process="@this" action="#{questaoBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
+									<p:graphicImage library="imagens" name="excluir16.png" />
+									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
 								</p:commandLink>
 							</p:column>
 						</p:dataTable>	
