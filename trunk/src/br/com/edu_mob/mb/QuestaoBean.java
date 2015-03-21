@@ -68,13 +68,6 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	private List<Alternativa> listaAlternativa = null;
 	private List<Alternativa> listaAlternativaExcluir = null;
 	
-	
-	
-	
-	
-	
-
-
 	private Questao questao = null;
 	private Alternativa alternativa = null;
 
@@ -178,6 +171,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	public void add(){
 		this.listaAlternativa.add(this.alternativa);
+		alternativa = new Alternativa();
 	}
 
 	public void atualizar() {

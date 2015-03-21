@@ -13,6 +13,7 @@
 			#{msg.questao_titulo}
 		</ui:define>
 		<ui:define name="corpo">
+		
 			<div class="row">
 				<div class="col-md-4">
 				
@@ -36,13 +37,59 @@
 								<p:fileUpload id="upload"  fileUploadListener="#{questaoBean.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true"/>
 							</div>
 		
+						<fieldset style="margin-bottom: 20px;">
+							<legend style="text-align: center;">Alternativas</legend>
 							
+								<label style="margin-bottom: 3px;"> Esta alternativa é a correta ? </label>
+								
+									  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" style="margin-left: 10px;"/> SIM
+									
+									  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" style="margin-left: 10px;"/> NÃO
+									
+										  
+								  <div class="form-group">
+								       <p:inputTextarea  id="resposta" value="#{questaoBean.alternativa.resposta}"  validator="removeEmBranco" styleClass="form-control" />
+						
+								    </div>
+								   
+						
+							<p:commandButton value="Adicionar" action="#{questaoBean.add}" process="@this,resposta" update="tabelaAlternativa, resposta" styleClass="btn btn-default pull-right"  style="margin-bottom:10px;"  />				
+														
+						<p:dataTable id="tabelaAlternativa"  value="#{questaoBean.listaAlternativa}" var="alternativa" >
+							<p:column headerText="Alternativas">
+      						  <h:outputText value="#{alternativa.resposta}" />
+    						</p:column>
+    						
+    						<p:column headerText="#{msg.app_label_acoes}" style="width:60px;">
+								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" >
+									<p:graphicImage library="imagens" name="editar16.png" />
+									<f:setPropertyActionListener value="#{questao}" target="#{questaoBean.questao}" />
+								</p:commandLink>
+								<p:commandLink process="@this" action="#{questaoBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
+									<p:graphicImage library="imagens" name="excluir16.png" />
+									<f:setPropertyActionListener value="#{questao}" target="#{questaoBean.questao}" />
+								</p:commandLink>
+							</p:column>
+							
+						</p:dataTable>
+						
+							
+						</fieldset>	
   
+  						
+						
+						
   
 						   
 						<p:commandButton value="#{msg.app_label_salvar}" action="#{questaoBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
 						<p:commandButton value="#{msg.app_label_limpar}" action="#{questaoBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
 					</h:form>
+					
+					
+					
+							
+					
+					
 				</div>	<!--Fim Painel body  -->			
 			</div><!--Fim Painel  -->
 		</div><!-- Fim Linha Cadastrar  -->	
@@ -75,52 +122,9 @@
 						</p:dataTable>	
 					</h:form>	
 					
-					<br/>
-					<br/>
-					<br/>
-					<br/>
-					<br/>
+				
 					
-					
-					<h:form id="alternativa">
-							<div class="form-group">
-					        	<h:outputLabel value="#{msg.questao_label_alternativas}: " for="resposta" />
-								<p:inputText id="resposta" value="#{questaoBean.alternativa.resposta}" required="true" maxlength="200" validator="removeEmBranco" styleClass="form-control"/>
-							<label>
-					          <p:selectBooleanCheckbox id="correta" value="#{questaoBean.alternativa.correta}"  />
-				       	 	  <h:outputLabel value="#{msg.questao_check_alternativa_correta}*" for="correta" />
-					        </label>
-							</div>
-							
-							
-						<p:commandButton value="#{msg.app_label_salvar}" action="#{questaoBean.add}" update=":listagemalternativas" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{questaoBean.limparCamposAlternativa}" update=":alternativa" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
-					</h:form>
-					
-					<br/>
-					<br/>
-					<br/>
-					<br/>
-					<br/>
-					
-					<h:form id="listagemalternativas">
-						<p:dataTable id="tabelaAlternativa"  value="#{questaoBean.listaAlternativa}" var="alternativa" rows="5" 
-							 selectionMode="single" lazy="true" >
-							<p:column headerText="Id">
-      						  <h:outputText value="#{alternativa.resposta}" />
-    						</p:column>
-							<p:column headerText="#{msg.app_label_acoes}" >
-								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" >
-									<p:graphicImage library="imagens" name="editar16.png" />
-									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
-								</p:commandLink>
-								<p:commandLink process="@this" action="#{questaoBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
-									<p:graphicImage library="imagens" name="excluir16.png" />
-									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
-								</p:commandLink>
-							</p:column>
-						</p:dataTable>	
-					</h:form>	
+						
 			  </div>					  
 			</div>
 				
