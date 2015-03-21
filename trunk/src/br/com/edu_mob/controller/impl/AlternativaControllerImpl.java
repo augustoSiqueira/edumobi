@@ -12,6 +12,7 @@ import br.com.edu_mob.controller.AlternativaController;
 import br.com.edu_mob.dao.AlternativaDAO;
 import br.com.edu_mob.dao.impl.AlternativaDAOImpl;
 import br.com.edu_mob.entity.Alternativa;
+import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
@@ -80,6 +81,8 @@ public class AlternativaControllerImpl implements AlternativaController {
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 	}
+	
+	
 
 	@Override
 	public List<Alternativa> pesquisarPorFiltro(Filter filtro) throws RNException {

@@ -1,5 +1,6 @@
 package br.com.edu_mob.controller.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,13 +10,16 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.edu_mob.controller.QuestaoController;
+import br.com.edu_mob.dao.AlternativaDAO;
 import br.com.edu_mob.dao.QuestaoDAO;
 import br.com.edu_mob.dao.impl.QuestaoDAOImpl;
+import br.com.edu_mob.entity.Alternativa;
 import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.util.Filter;
+
 
 @Service("questaoController")
 public class QuestaoControllerImpl implements QuestaoController{
@@ -24,6 +28,9 @@ public class QuestaoControllerImpl implements QuestaoController{
 	
 	@Autowired
 	private QuestaoDAO questaoDAO;
+	
+	@Autowired
+	private AlternativaDAO alternativaDAO;
 
 	@Override
 	public List<Questao> listar() throws RNException {
@@ -71,11 +78,24 @@ public class QuestaoControllerImpl implements QuestaoController{
 	
 	@Override
 	public void excluir(Questao questao) throws RNException {
+		List<Alternativa> listaAlternativa = new ArrayList<Alternativa>();
 		Filter filtro = new Filter();
 		try {
-			filtro.put("id", questao.getId().toString());
+			filtro.put("idQuestao", questao.getId().toString());
+			
+			if(this.alternativaDAO.pesquisarPorFiltroCount(filtro) > 0) {
+				listaAlternativa = this.alternativaDAO.pesquisarPorFiltro(filtro);
+				
+				for (Alternativa alternativa : listaAlternativa) {
+					this.alternativaDAO.remove(alternativa);
+				}
+			}
+			
 			this.questaoDAO.remove(questao);
 		} catch (DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}catch (DAOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
