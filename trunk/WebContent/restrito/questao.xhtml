@@ -29,7 +29,7 @@
 							
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.questao_label_comentario}: " for="descricao" />
-								<p:inputTextarea  id="descricao" value="#{questaoBean.questao.observacao}"  validator="removeEmBranco" styleClass="form-control" />
+								<p:inputTextarea  id="comentario" value="#{questaoBean.questao.observacao}"  validator="removeEmBranco" styleClass="form-control" />
 							</div>
 							
 							<div class="form-group">
@@ -38,36 +38,44 @@
 							</div>
 		
 						<fieldset style="margin-bottom: 20px;">
-							<legend style="text-align: center;">Alternativas</legend>
+							<legend style="text-align: center;">#{msg.questao_label_alternativas}</legend>
 							
-								<label style="margin-bottom: 3px;"> Esta alternativa é a correta ? </label>
-								
-									  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" style="margin-left: 10px;"/> SIM
+								<label style="margin-bottom: 3px;">#{msg.questao_check_alternativa_correta} </label>
 									
-									  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" style="margin-left: 10px;"/> NÃO
-									
+						
 										  
 								  <div class="form-group">
-								       <p:inputTextarea  id="resposta" value="#{questaoBean.alternativa.resposta}"  validator="removeEmBranco" styleClass="form-control" />
+								  	   <p:selectBooleanCheckbox id="correta" value="#{questaoBean.alternativa.correta}"  />
+								       <p:inputTextarea  id="resposta" value="#{questaoBean.alternativa.resposta}"  styleClass="form-control noprocess" required="true" />
 						
 								    </div>
 								   
 						
-							<p:commandButton value="Adicionar" action="#{questaoBean.add}" process="@this,resposta" update="tabelaAlternativa, resposta" styleClass="btn btn-default pull-right"  style="margin-bottom:10px;"  />				
+							<p:commandButton value="Adicionar" action="#{questaoBean.add}" process="@this,resposta, correta" update="tabelaAlternativa, resposta" styleClass="btn btn-default pull-right"  style="margin-bottom:10px;"  />				
 														
 						<p:dataTable id="tabelaAlternativa"  value="#{questaoBean.listaAlternativa}" var="alternativa" >
 							<p:column headerText="Alternativas">
       						  <h:outputText value="#{alternativa.resposta}" />
     						</p:column>
     						
+    						<p:column>
+    						<h:outputText value="Correta" rendered="#{alternativa.correta == true}" />
+    						<h:outputText value="Errada" rendered="#{alternativa.correta == false}" />
+      						 	
+    						</p:column>
+    										
+    						 
+         
+      
+    						
     						<p:column headerText="#{msg.app_label_acoes}" style="width:60px;">
 								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" >
 									<p:graphicImage library="imagens" name="editar16.png" />
-									<f:setPropertyActionListener value="#{questao}" target="#{questaoBean.questao}" />
+									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
 								</p:commandLink>
-								<p:commandLink process="@this" action="#{questaoBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
+								<p:commandLink process="@this" action="#{questaoBean.remove}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
 									<p:graphicImage library="imagens" name="excluir16.png" />
-									<f:setPropertyActionListener value="#{questao}" target="#{questaoBean.questao}" />
+									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
 								</p:commandLink>
 							</p:column>
 							
@@ -81,8 +89,8 @@
 						
   
 						   
-						<p:commandButton value="#{msg.app_label_salvar}" action="#{questaoBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{questaoBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
+						<p:commandButton value="#{msg.app_label_salvar}" action="#{questaoBean.salvar}"  process="@this, enunciado, comentario"  update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{questaoBean.limparForm}" process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" />
 					</h:form>
 					
 					
@@ -110,7 +118,7 @@
 							
 							
 							<p:column headerText="#{msg.app_label_acoes}" >
-								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" >
+								<p:commandLink process="@this" action="#{questaoBean.carregarListaAlternativa}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" >
 									<p:graphicImage library="imagens" name="editar16.png" />
 									<f:setPropertyActionListener value="#{questao}" target="#{questaoBean.questao}" />
 								</p:commandLink>
