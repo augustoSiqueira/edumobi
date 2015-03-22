@@ -33,7 +33,7 @@
 							</div>
 							
 							<div class="form-group">
-	                  		<h:outputLabel value="#{msg.categoria_label_menu}*:" for="categoria" /><br/>
+	                  		<h:outputLabel value="#{msg.categoria_label_menu}:" for="categoria" /><br/>
 							<p:selectOneMenu id="categoria" converter="converterCategoria" styleClass="form-control" style="width:100%" >
 								<f:selectItems value="#{questaoBean.listaCategoria}" var="categoria" itemLabel="#{categoria.nome}" itemValue="#{categoria}" />								
 							</p:selectOneMenu>								
