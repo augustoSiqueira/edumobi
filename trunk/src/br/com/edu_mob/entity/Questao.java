@@ -1,11 +1,14 @@
 package br.com.edu_mob.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -35,7 +38,9 @@ public class Questao implements Serializable{
 	@Column(length=500, nullable=true)
 	private String caminhoImagem;
 	
-	
+	@ManyToOne
+	@JoinColumn(name = "id_area_conhecimento")
+	private AreaConhecimento areaConhecimento;
 	
 	
 	public Long getId(){
@@ -68,6 +73,14 @@ public class Questao implements Serializable{
 	
 	public void setCaminhoImagem(String caminhoImagem){
 		this.caminhoImagem = caminhoImagem;
+	}
+	
+	public AreaConhecimento getAreaConhecimento(){
+		return this.areaConhecimento;
+	}
+	
+	public void setAreaConhecimento(AreaConhecimento areaConhecimento){
+		this.areaConhecimento = areaConhecimento;
 	}
 	
 
