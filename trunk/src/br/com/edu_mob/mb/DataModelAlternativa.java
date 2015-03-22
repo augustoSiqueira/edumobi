@@ -27,10 +27,8 @@ public class DataModelAlternativa extends LazyDataModel<Alternativa> {
 
 	private static final Logger logger = Logger.getLogger(DataModelAlternativa.class.getName());
 
-	private AlternativaController alternativaController;
-
 	private List<Alternativa> listaAlternativa;
-
+	
 	@Override
 	public Alternativa getRowData(String rowKey) {
 		for (Alternativa alternativa : this.listaAlternativa) {
@@ -48,17 +46,7 @@ public class DataModelAlternativa extends LazyDataModel<Alternativa> {
 
 	@Override
 	public List<Alternativa> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		WebApplicationContext webAppContext = FacesContextUtils.getRequiredWebApplicationContext(facesContext);
-		this.alternativaController = webAppContext.getBean("alternativaController", AlternativaController.class);
-		Filter filtro = new Filter();
-		try {
-			filtro.putAll(filters);
-			this.listaAlternativa = this.alternativaController.pesquisarPorFiltroPaginada(filtro, first, pageSize);
-			this.setRowCount(this.alternativaController.pesquisarPorFiltroCount(filtro));
-		} catch (RNException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		}
 		return this.listaAlternativa;
 	}
+	
 }
