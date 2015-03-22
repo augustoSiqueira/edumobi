@@ -11,6 +11,8 @@ public class AliasNavigation {
 	public static final String PAGINA_USUARIO = "/restrito/usuario.jsf?faces-redirect=true";
 
 	public static final String PAGINA_PERFIL = "/restrito/perfil.jsf?faces-redirect=true";
+	
+	public static final String PAGINA_AREA_CONHECIMENTO = "/restrito/areaConhecimento.jsf?faces-redirect=true";
 
 	public static final String PAGINA_CATEGORIA = "/restrito/categoria.jsf?faces-redirect=true";
 	
