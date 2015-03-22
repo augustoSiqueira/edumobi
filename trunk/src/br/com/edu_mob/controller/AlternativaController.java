@@ -1,9 +1,15 @@
 package br.com.edu_mob.controller;
 
+import java.util.List;
+
 import br.com.edu_mob.entity.Alternativa;
 
 
 
 public interface AlternativaController extends  GenericController<Alternativa> {
 
+	public List<Alternativa> incluirEmMemoria(Alternativa alternativa, List<Alternativa> lista);
+	public Alternativa alterarEmMemoria(Alternativa alternativa);
+	public List<Alternativa> excluirEmMemoria(Alternativa alternativa, List<Alternativa> lista);
+	
 }
