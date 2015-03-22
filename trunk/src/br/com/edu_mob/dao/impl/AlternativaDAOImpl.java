@@ -27,12 +27,26 @@ import br.com.edu_mob.util.Filter;
 public class AlternativaDAOImpl extends GenericDAOImpl implements AlternativaDAO {
 	
 	private static final Logger logger = Logger.getLogger(AlternativaDAOImpl.class.getName());
-
+	
+	
 	@Autowired
 	public AlternativaDAOImpl(SessionFactory factory) {
 		super(factory);
 	}
 	
+	public List<Alternativa> incluirEmMemoria(Alternativa alternativa, List<Alternativa> lista){
+		lista.add(alternativa);
+		return lista;
+	}
+	
+	public Alternativa alterarEmMemoria(Alternativa alternativa){
+		return alternativa;
+	}
+	
+	public List<Alternativa> excluirEmMemoria(Alternativa alternativa, List<Alternativa> lista){
+		lista.remove(alternativa);
+		return lista;
+	}
 	
 	@Override
 	public List<Alternativa> pesquisarPorFiltro(Filter filtro) throws DAOException {
@@ -52,7 +66,7 @@ public class AlternativaDAOImpl extends GenericDAOImpl implements AlternativaDAO
 				detachedCriteria.add(Restrictions.eq("questao.id", Long.parseLong(idQuestao)));
 			}
 			
-			detachedCriteria.addOrder(Order.asc("resposta"));
+			detachedCriteria.addOrder(Order.asc("id"));
 			listaAlternativas = this.findByCriteria(detachedCriteria);
 
 		} catch(DataAccessException e) {

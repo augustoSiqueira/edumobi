@@ -45,7 +45,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 				detachedCriteria.add(Restrictions.ilike("enunciado", enunciado, MatchMode.ANYWHERE));
 			}
 			
-			detachedCriteria.addOrder(Order.asc("id"));
+			detachedCriteria.addOrder(Order.desc("id"));
 			listaQuestoes = this.findByCriteria(detachedCriteria);
 
 		} catch(DataAccessException e) {
@@ -88,7 +88,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 				detachedCriteria.add(Restrictions.ilike("enunciado", enunciado));
 			}
 			
-			detachedCriteria.addOrder(Order.asc("enunciado"));
+			detachedCriteria.addOrder(Order.desc("id"));
 			listaQuestao = this.buscarPaginada(detachedCriteria, primeiroReg, paginaSize);
 		} catch(DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
