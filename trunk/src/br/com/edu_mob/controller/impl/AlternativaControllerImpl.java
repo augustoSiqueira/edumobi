@@ -131,5 +131,33 @@ public class AlternativaControllerImpl implements AlternativaController {
 		}
 		return listaAlternativa;
 	}
+	
+	@Override
+	public void validarAlternativas(List<Alternativa> listaAlternativas) throws RNException{
+		int tamanho = listaAlternativas.size();
+		int qtdAlternativasCorretas = 0;
+		
+		if(tamanho < 2){
+			throw new RNException(ErrorMessage.ALTERNATIVAS_INVALIDAS.getChave());
+		}
+		
+		for (Alternativa alternativa : listaAlternativas) {
+			
+			if(alternativa.getCorreta() == true){
+				qtdAlternativasCorretas++;
+			}
+		}
+		
+		if(qtdAlternativasCorretas > 1){
+			throw new RNException(ErrorMessage.ALTERNATIVA_CORRETA_MAIOR.getChave());
+		}
+		
+		if(qtdAlternativasCorretas == 0){
+			throw new RNException(ErrorMessage.ALTERNATIVA_CORRETA_MENOR.getChave());
+		}
+		
+		
+			
+	}
 
 }
