@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.edu_mob.dao.AlternativaDAO;
 import br.com.edu_mob.entity.Alternativa;
 import br.com.edu_mob.exception.DAOException;
+import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.util.Filter;
 
@@ -76,7 +77,7 @@ public class AlternativaDAOImpl extends GenericDAOImpl implements AlternativaDAO
 		return listaAlternativas;
 	}
 	
-		@Override
+	@Override
 	public int pesquisarPorFiltroCount(Filter filtro) throws DAOException {
 		int retorno = 0;
 		String resposta = filtro.getAsString("resposta");
@@ -139,5 +140,5 @@ public class AlternativaDAOImpl extends GenericDAOImpl implements AlternativaDAO
 			throw new DAOException(ErrorMessage.DAO.getChave());
 		}
 	}
-
+	
 }
