@@ -40,9 +40,11 @@ import org.primefaces.model.UploadedFile;
 import com.sun.media.sound.AlawCodec;
 
 import br.com.edu_mob.controller.AlternativaController;
+import br.com.edu_mob.controller.AreaConhecimentoController;
 import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.controller.QuestaoController;
 import br.com.edu_mob.entity.Alternativa;
+import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.exception.RNException;
@@ -68,6 +70,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	private QuestaoController questaoController;
 	private AlternativaController alternativaController;
 	private CategoriaController categoriaController;
+	private AreaConhecimentoController areaConhecimentoController;
 	
 	
 	
@@ -75,6 +78,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	private List<Alternativa> listaAlternativa = null;
 	private List<Alternativa> listaAlternativaExcluir = null;
 	private List<Categoria> listaCategoria = null;
+	private List<AreaConhecimento> listaAreaConhecimento = null;
 	
 	private Questao questao = null;
 	private Alternativa alternativa = null;
@@ -90,11 +94,13 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		this.questaoController = (QuestaoController) this.getBean("questaoController", QuestaoController.class);
 		this.alternativaController = (AlternativaController) this.getBean("alternativaController", AlternativaController.class);
 		this.categoriaController = (CategoriaController)this.getBean("categoriaController", CategoriaController.class);
+		this.areaConhecimentoController = (AreaConhecimentoController)this.getBean("areaConhecimentoController", AreaConhecimentoController.class);
 		this.dataModelQuestao = new DataModelQuestao();
 		
 		try {
 			this.listaQuestoes = this.questaoController.pesquisarPorFiltro(filtroQuestao);
 			this.listaCategoria = this.categoriaController.pesquisarPorFiltro(filtroQuestao);
+			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtroQuestao);
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -111,6 +117,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	
 	public void upload(FileUploadEvent event){
+		
 		  
 		/*UploadedFile arq = event.getFile();
 		 this.questao.setCaminhoImagem(arq.getFileName());
@@ -328,6 +335,14 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	public void setListaCategoria(List<Categoria> listaCategoria){
 		this.listaCategoria = listaCategoria;
+	}
+	
+	public List<AreaConhecimento> getListaAreaConhecimento(){
+		return this.listaAreaConhecimento;
+	}
+	
+	public void setListaAreaConhecimento(List<AreaConhecimento> listaAreaConhecimento){
+		this.listaAreaConhecimento = listaAreaConhecimento;
 	}
 
 	public Questao getQuestao() {
