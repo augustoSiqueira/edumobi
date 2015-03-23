@@ -25,6 +25,14 @@
 		            			<h:outputLabel value="#{msg.area_conhecimento_label_descricao}*: " for="descricao" />
 								<p:inputText id="descricao" value="#{areaConhecimentoBean.areaConhecimento.descricao}" validator="removeEmBranco" required="true" maxlength="50" styleClass="form-control" />
 							</div>
+							<div class="form-group">
+		            			<h:outputLabel value="Categoria" for="categoria" />
+								<p:selectOneMenu id="categoria" value="#{areaConhecimentoBean.areaConhecimento.categoria}" converter="converterCategoria">
+									<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
+									<f:selectItems value="#{areaConhecimentoBean.listaCategorias}" var="categoria" itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
+								</p:selectOneMenu>	
+		            		</div>
+							
 						<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
 						<p:commandButton value="#{msg.app_label_limpar}" action="#{areaConhecimentoBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
 					</h:form>
@@ -46,10 +54,9 @@
 <!-- 								<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.ativo}" /> -->
 <!-- 								<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.ativo}" /> -->
 <!-- 							</p:column> -->
-<!-- 							<p:column headerText="#{msg.categoria_label_curso}"> -->
-<!-- 								<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.curso}" /> -->
-<!-- 								<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.curso}" /> -->
-<!-- 							</p:column> -->
+							<p:column headerText="#{msg.categoria_label_curso}"> 
+								<h:outputText value="#{areaConhecimento.categoria.nome}"/>
+							</p:column> 
 							<p:column headerText="#{msg.app_label_acoes}" >
 								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_ALTERAR')}" >
 									<p:graphicImage library="imagens" name="editar16.png" />

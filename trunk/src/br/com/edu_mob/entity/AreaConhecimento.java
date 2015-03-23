@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,6 +21,16 @@ public class AreaConhecimento implements Serializable {
 
 	private static final long serialVersionUID = 8200531734337796100L;
 
+	public AreaConhecimento() {
+		super();
+		
+	}
+	
+	public AreaConhecimento(Categoria categoria) {
+		super();
+		this.categoria = categoria;
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="areaconhecimento_seq")
 	private Long id;
@@ -27,9 +39,9 @@ public class AreaConhecimento implements Serializable {
 	@Column(length = 150, nullable = false)
 	private String descricao;
 	
-	//falta colocar aqui a ligação entre areaConhecimento com Categoria
-//		private Categoria pai;
-	
+	@ManyToOne
+	@JoinColumn(name="categoria_id")
+	private Categoria categoria;
 	
 	public Long getId() {
 		return id;
@@ -82,5 +94,15 @@ public class AreaConhecimento implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}	
+	
+	
 }

@@ -13,7 +13,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import br.com.edu_mob.controller.AreaConhecimentoController;
+import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.entity.AreaConhecimento;
+import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
@@ -33,8 +35,12 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	private DataModelAreaConhecimento dataModelAreaConhecimento;
 	
 	private AreaConhecimentoController areaConhecimentoController;
+	
+	private CategoriaController categoriaController;
 
 	private List<AreaConhecimento> listaAreaConhecimento = null;
+
+	private List<Categoria> listaCategorias = null;
 
 	private AreaConhecimento areaConhecimento = new AreaConhecimento();
 
@@ -44,11 +50,18 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 		Filter filtroAreaConhecimento = new Filter();
 		filtroAreaConhecimento.put("ativo", Boolean.TRUE);
 		filtroAreaConhecimento.put("curso", Boolean.FALSE);
-		this.areaConhecimento = new AreaConhecimento();
+		
+		Filter filtroCategoria = new Filter();
+		filtroCategoria.put("curso", true);
+		
+		this.areaConhecimento = new AreaConhecimento(new Categoria());
 		this.areaConhecimentoController = (AreaConhecimentoController) this.getBean("areaConhecimentoController", AreaConhecimentoController.class);
+		this.categoriaController = (CategoriaController) this.getBean("categoriaController", CategoriaController.class);
 		this.dataModelAreaConhecimento = new DataModelAreaConhecimento();
 		try {
 			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtroAreaConhecimento);
+			listaCategorias = this.categoriaController.pesquisarPorFiltro(filtroCategoria);
+			
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -146,4 +159,24 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 			this.listaAreaConhecimento.remove(areaConhecimento);
 		}
 	}
+
+	public CategoriaController getCategoriaController() {
+		return categoriaController;
+	}
+
+	public void setCategoriaController(CategoriaController categoriaController) {
+		this.categoriaController = categoriaController;
+	}
+
+	public List<Categoria> getListaCategorias() {
+		return listaCategorias;
+	}
+
+	public void setListaCategorias(List<Categoria> listaCategorias) {
+		this.listaCategorias = listaCategorias;
+	}
+	
+	
+	
+	
 }
