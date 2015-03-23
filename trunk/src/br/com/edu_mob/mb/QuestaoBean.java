@@ -82,13 +82,18 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	private Questao questao = null;
 	private Alternativa alternativa = null;
+	private Categoria categoria = null;
 	private boolean atualizado;
 
 	@PostConstruct
 	public void init() {
 		Filter filtroQuestao = new Filter();
+		Filter filtroCategoria = new Filter();
+		
+		filtroCategoria.put("curso", true);
 		this.questao = new Questao();
 		this.alternativa = new Alternativa();
+		this.categoria = new Categoria();
 		this.listaAlternativa = new ArrayList<Alternativa>();
 		this.listaAlternativaExcluir = new ArrayList<Alternativa>();
 		this.questaoController = (QuestaoController) this.getBean("questaoController", QuestaoController.class);
@@ -99,8 +104,8 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		
 		try {
 			this.listaQuestoes = this.questaoController.pesquisarPorFiltro(filtroQuestao);
-			this.listaCategoria = this.categoriaController.pesquisarPorFiltro(filtroQuestao);
-			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtroQuestao);
+			
+			this.listaCategoria = this.categoriaController.pesquisarPorFiltro(filtroCategoria);
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -303,6 +308,17 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 			}
 		}
 	}
+	
+	public void carregarAreaConhecimento(){
+		Filter filtroAreaConhecimento = new Filter();
+		filtroAreaConhecimento.put("idCategoria", this.categoria.getId().toString());
+		try{
+		this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtroAreaConhecimento);
+		}  catch (RNException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+		}
+	}
 
 	public DataModelQuestao getDataModelQuestao() {
 		return this.dataModelQuestao;
@@ -363,4 +379,13 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	public void setAlternativa(Alternativa alternativa){
 		this.alternativa = alternativa;
 	}
+	
+	public Categoria getCategoria(){
+		return this.categoria;
+	}
+	
+	public void setCategoria(Categoria categoria){
+		this.categoria = categoria;
+	}
+	
 }
