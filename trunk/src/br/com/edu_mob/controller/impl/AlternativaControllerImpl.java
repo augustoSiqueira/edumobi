@@ -1,5 +1,6 @@
 package br.com.edu_mob.controller.impl;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,8 +19,13 @@ import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.util.Filter;
 
 @Service("alternativaController")
-public class AlternativaControllerImpl implements AlternativaController {
+public class AlternativaControllerImpl implements AlternativaController, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = Logger.getLogger(AlternativaDAOImpl.class.getName());
 	
 	@Autowired
