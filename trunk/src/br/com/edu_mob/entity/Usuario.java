@@ -23,6 +23,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.edu_mob.util.MensagemUtil;
+
 @Entity
 @Table
 @SequenceGenerator(name = "usuario_seq", sequenceName = "usuario_seq")
@@ -35,19 +37,19 @@ public class Usuario implements Serializable, UserDetails {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "usuario_seq")
 	private Long id;
 
-	@NotEmpty
+	
 	@Column(length = 150, nullable = false)
 	private String nome;
 
-	@NotEmpty
+	
 	@Column(length = 11, nullable = false)
 	private String cpf;
 
-	@NotEmpty
+	
 	@Column(length = 100, nullable = false)
 	private String email;
 
-	@NotEmpty
+	
 	@Column(length = 100, nullable = false)
 	private String senha;
 

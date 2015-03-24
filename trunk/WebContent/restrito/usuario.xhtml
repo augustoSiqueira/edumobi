@@ -23,34 +23,35 @@
 					    
 					    <div class="form-group">
 	                       	<h:outputLabel value="#{msg.usuario_label_cpf}*: " for="cpf" />
-							<p:inputMask id="cpf" mask="999.999.999-99" placeHolder="" value="#{usuarioBean.usuario.cpf}" required="true" styleClass="form-control"/>    
+							<p:inputMask id="cpf" mask="999.999.999-99" placeHolder="" value="#{usuarioBean.usuario.cpf}" styleClass="form-control"/>    
 						</div>
 						
 						<div class="form-group">
 	                  		<h:outputLabel value="#{msg.usuario_label_nome}*: " for="nome" />
-							<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" maxlength="100" validator="removeEmBranco" styleClass="form-control"/>
+							<p:inputText id="nome" value="#{usuarioBean.usuario.nome}" maxlength="100"  styleClass="form-control"/>
 	                  	</div>
 	                  	
 	                  	<div class="form-group">
 	                  		<h:outputLabel value="#{msg.usuario_label_email}*: " for="email" />
-							<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" validator="removeEmBranco" styleClass="form-control"/>
+							<p:inputText id="email" value="#{usuarioBean.usuario.email}" styleClass="form-control"/>
 						</div>
 						
 						<div class="form-group">
 	                  		<h:outputLabel value="#{msg.usuario_label_perfil}*:" for="perfil" /><br/>
-							<p:selectOneMenu id="perfil" required="true" value="#{usuarioBean.usuario.perfil}" converter="converterPerfil" styleClass="form-control" style="width:100%" >
+							<p:selectOneMenu id="perfil" required="true" value="#{usuarioBean.usuario.perfil}" converter="converterPerfil" style="width:100%" >
 								<f:selectItems value="#{usuarioBean.listaPerfis}" var="perfil" itemLabel="#{perfil.nome}" itemValue="#{perfil}" />								
 							</p:selectOneMenu>								
 	                  	</div>
 	                  	
-	                  	<div class="checkbox">
+	                  	<div class="form-group">
 					        <label>
+					        	<h:outputLabel value="#{msg.usuario_label_ativo}*" for="ativo" />
 					          <p:selectBooleanCheckbox id="ativo" value="#{usuarioBean.usuario.ativo}" required="true" />
-				       	 	  <h:outputLabel value="#{msg.usuario_label_ativo}*" for="ativo" />
+				       	 	  
 					        </label>
 					    </div>
 					    <p:commandButton value="#{msg.app_label_salvar}" action="#{usuarioBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-success pull-right"/>
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-default pull-right"/>
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update="@form" process="@none" ajax="true" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-default pull-right"/>
 		
 						</h:form>
                   	 </div>	<!--Fim Painel body  -->			
@@ -79,7 +80,7 @@
 										<h:outputText value="#{msg.app_label_nao}" rendered="#{!usuario.ativo}" />
 									</p:column>
 									<p:column headerText="#{msg.app_label_acoes}" >
-										<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_ALTERAR')}" >
+										<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_ALTERAR')}" sty>
 											<p:graphicImage library="imagens" name="editar16.png" />
 											<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
 										</p:commandLink>

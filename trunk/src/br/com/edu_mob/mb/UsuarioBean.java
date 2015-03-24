@@ -66,8 +66,9 @@ public class UsuarioBean extends GenericBean implements Serializable {
 		}
 	}
 
-	public void limparCampos() {
+	public String limparCampos() {
 		this.usuario = new Usuario();
+		return null;
 	}
 
 	public void atualizarGrid() {

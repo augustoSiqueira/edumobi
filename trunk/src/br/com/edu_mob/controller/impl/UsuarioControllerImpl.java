@@ -1,5 +1,6 @@
 package br.com.edu_mob.controller.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,6 +75,11 @@ public class UsuarioControllerImpl implements UsuarioController {
 
 	@Override
 	public void validarCPF(Usuario usuario) throws RNException {
+		
+		if("".equals(usuario.getCpf().trim())){
+			throw new RNException(ErrorMessage.USUARIO_CPF_INVALIDO.getChave());	
+		}			
+		
 		if (!Util.validarCpf(usuario.getCpf())) {
 			throw new RNException(ErrorMessage.USUARIO_CPF_INVALIDO.getChave());
 		}
@@ -95,6 +101,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 	@Override
 	public void incluir(Usuario usuario) throws RNException {
 		try {
+			validarCamposVazios(usuario);
 			this.validarCPF(usuario);
 			this.validarEmail(usuario);
 			this.verificarExistenciaCPF(usuario);
@@ -114,6 +121,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 	@Override
 	public void alterar(Usuario usuario) throws RNException {
 		try {
+			validarCamposVazios(usuario);
 			this.validarCPF(usuario);
 			this.validarEmail(usuario);
 			this.verificarExistenciaCPF(usuario);
@@ -189,6 +197,28 @@ public class UsuarioControllerImpl implements UsuarioController {
 		EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha Eduobi", EmailUtil.mensagemEnvioSenha(usuario));
 		usuario.setSenha(Util.criptografar(usuario.getSenha()));
 		this.usuarioDAO.update(usuario);	
+		
+	}
+	
+	public void validarCamposVazios(Usuario usuario) throws RNException{
+		List<String> erros = new ArrayList<String>();
+		boolean erro = false;
+		if( usuario.getCpf().trim().equals("")){
+			erros.add(ErrorMessage.USUARIO_CPF_VAZIO.getChave());	
+			erro = true;
+		}	
+		if(usuario.getNome().trim().equals("")){
+			erros.add(ErrorMessage.USUARIO_NOME_VAZIO.getChave());	
+			erro = true;
+		}
+		if(usuario.getEmail().trim().equals("")){
+			erros.add(ErrorMessage.USUARIO_EMAIL_VAZIO.getChave());	
+			erro = true;
+		}		
+		if(erro){
+			throw new RNException(erros);	
+		}
+		
 		
 	}
 
