@@ -27,7 +27,7 @@ public class Categoria implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="categoria_seq")
 	private Long id;
 
-	@NotEmpty
+	
 	@Column(length=50, nullable=false)
 	private String nome;
 

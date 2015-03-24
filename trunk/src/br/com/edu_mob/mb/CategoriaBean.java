@@ -69,7 +69,10 @@ public class CategoriaBean extends GenericBean implements Serializable {
 	public void atualizarGrid() {
 		try {
 			this.limparCampos();
-			this.listaCategorias = this.categoriaController.pesquisarPorFiltro(new Filter());
+			Filter filtroCategoria = new Filter();
+			filtroCategoria.put("ativo", Boolean.TRUE);
+			filtroCategoria.put("curso", Boolean.FALSE);
+			this.listaCategorias = this.categoriaController.pesquisarPorFiltro(filtroCategoria);
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());

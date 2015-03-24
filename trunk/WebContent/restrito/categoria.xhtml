@@ -23,20 +23,19 @@
 					    <h:form id="edicao">
 						    <div class="form-group">
 		            			<h:outputLabel value="#{msg.categoria_label_nome}*: " for="nome" />
-								<p:inputText id="nome" value="#{categoriaBean.categoria.nome}" validator="removeEmBranco" required="true" maxlength="50" styleClass="form-control" />
+								<p:inputText id="nome" value="#{categoriaBean.categoria.nome}" maxlength="50" styleClass="form-control" />
 							</div>
 							<div class="form-group">
 					          <h:outputLabel value="#{msg.categoria_label_titulo}: " for="titulo" />
-								<p:inputText id="titulo" value="#{categoriaBean.categoria.titulo}" validator="removeEmBranco" maxlength="100" styleClass="form-control" />
+								<p:inputText id="titulo" value="#{categoriaBean.categoria.titulo}"  maxlength="100" styleClass="form-control" />
 							</div>
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.categoria_label_descricao}: " for="descricao" />
-								<p:inputTextarea  id="descricao" value="#{categoriaBean.categoria.descricao}"  validator="removeEmBranco" styleClass="form-control" />
+								<p:inputTextarea  id="descricao" value="#{categoriaBean.categoria.descricao}"  styleClass="form-control" />
 							</div>
 						    <div class="form-group">
 			            		<h:outputLabel value="#{msg.categoria_label_pai}:" for="categoriaPai" />
-								<p:selectOneMenu id="categoriaPai" value="#{categoriaBean.categoria.pai}" converter="converterCategoria" 
-									style="margin-left:20px">
+								<p:selectOneMenu id="categoriaPai" value="#{categoriaBean.categoria.pai}" converter="converterCategoria">
 									<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
 									<f:selectItems value="#{categoriaBean.listaCategorias}" var="categoria" itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
 								</p:selectOneMenu>
@@ -44,7 +43,7 @@
 							<div class="form-group">
 					            <h:outputLabel value="#{msg.categoria_label_qtd_questoes}*:" for="qtdQuestoes" />
 								<p:inputText id="qtdQuestoes" title="#{msg.categoria_label_qtd_questoes}" label="#{msg.categoria_label_qtd_questoes}" 
-									value="#{categoriaBean.categoria.qtdQuestoes}"  required="true" maxlength="5" styleClass="form-control" />
+									value="#{categoriaBean.categoria.qtdQuestoes}"  maxlength="5" styleClass="form-control" />
 							</div>
 							 <div class="checkbox">
 					            <h:outputLabel value="#{msg.categoria_label_ativo}*: " for="ativo" />
@@ -55,7 +54,7 @@
 								<p:selectBooleanCheckbox id="curso" value="#{categoriaBean.categoria.curso}" required="true" />
 							</div>
 						<p:commandButton value="#{msg.app_label_salvar}" action="#{categoriaBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR')}" styleClass="btn btn-success pull-right" />
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{categoriaBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR')}" styleClass="btn btn-success pull-right" />
+						<p:commandButton value="#{msg.app_label_limpar}" process="@none" action="#{categoriaBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR')}" styleClass="btn btn-success pull-right" />
 					</h:form>
 				</div>	<!--Fim Painel body  -->			
 			</div><!--Fim Painel  -->
@@ -84,11 +83,11 @@
 							</p:column>
 							<p:column headerText="#{msg.app_label_acoes}" >
 								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_ALTERAR')}" >
-									<p:graphicImage library="imagens" name="editar16.png" />
+									<p:graphicImage library="imagens" name="editar16.png" title="Editar" />
 									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
 								</p:commandLink>
 								<p:commandLink process="@this" action="#{categoriaBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_EXCLUIR')}"  >
-									<p:graphicImage library="imagens" name="excluir16.png" />
+									<p:graphicImage library="imagens" name="excluir16.png" title="Excluir" />
 									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
 								</p:commandLink>
 							</p:column>

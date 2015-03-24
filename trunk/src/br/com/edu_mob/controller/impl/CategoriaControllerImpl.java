@@ -1,5 +1,6 @@
 package br.com.edu_mob.controller.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +13,7 @@ import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.dao.CategoriaDAO;
 import br.com.edu_mob.dao.impl.CategoriaDAOImpl;
 import br.com.edu_mob.entity.Categoria;
+import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
@@ -66,6 +68,7 @@ public class CategoriaControllerImpl implements CategoriaController {
 	@Override
 	public void incluir(Categoria categoria) throws RNException {
 		try {
+			validarCamposVazios(categoria);
 			this.validarNome(categoria);
 			this.categoriaDAO.save(categoria);
 		} catch (DataAccessException e) {
@@ -77,6 +80,7 @@ public class CategoriaControllerImpl implements CategoriaController {
 	@Override
 	public void alterar(Categoria categoria) throws RNException {
 		try {
+			validarCamposVazios(categoria);
 			this.validarNome(categoria);
 			this.categoriaDAO.update(categoria);
 		} catch (DataAccessException e) {
@@ -138,6 +142,38 @@ public class CategoriaControllerImpl implements CategoriaController {
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 		return listaCategorias;
+	}
+	
+	public void validarCamposVazios(Categoria categoria) throws RNException{
+		List<String> erros = new ArrayList<String>();
+		boolean erro = false;
+		
+		if( categoria.getNome().trim().equals("")){
+			erros.add(ErrorMessage.CAMPO_NOME_VAZIO.getChave());	
+			erro = true;
+		}
+		
+		if(categoria.isCurso()){
+			if( categoria.getTitulo().trim().equals("")){
+				erros.add(ErrorMessage.CAMPO_TITULO_VAZIO.getChave());	
+				erro = true;
+			}
+			if( categoria.getDescricao().trim().equals("")){
+				erros.add(ErrorMessage.CAMPO_DESCRICAO_VAZIO.getChave());	
+				erro = true;
+			}
+			
+			if( categoria.getQtdQuestoes() == null){
+				erros.add(ErrorMessage.CAMPO_QNT_QUESTAO_VAZIO.getChave());	
+				erro = true;
+			}
+		}		
+		
+		if(erro){
+			throw new RNException(erros);	
+		}
+		
+		
 	}
 
 }

@@ -15,7 +15,7 @@
 <h:body>
 	<p:growl autoUpdate="true" life="3000" showDetail="true" showSummary="false"/>
 	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+    <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
       <p:graphicImage url="../resources/imagens/status.gif"/>
     </p:dialog>
 
