@@ -20,12 +20,14 @@ public class ConverterMunicipio implements Converter {
 
 	private MunicipioController municipioController;
 
+	private final static String SELECIONE = "Selecione";
+
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		this.municipioController = (MunicipioController) GenericBean.getBean(context, "municipioController");
 		Municipio municipio = null;
 		try {
-			if ((value != null) && !value.isEmpty()) {
+			if (((value != null) && !value.isEmpty()) && (!value.equals(SELECIONE))) {
 				municipio = this.municipioController.pesquisarPorId(Long.parseLong(value));
 			}
 		} catch (NumberFormatException e) {

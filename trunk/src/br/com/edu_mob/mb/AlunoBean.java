@@ -89,6 +89,9 @@ public class AlunoBean extends GenericBean implements Serializable {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
 			}
+		} else {
+			this.uf = new UF();
+			this.aluno.setMunicipio(null);
 		}
 	}
 

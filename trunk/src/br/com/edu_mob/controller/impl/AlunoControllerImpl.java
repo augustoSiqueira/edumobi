@@ -62,11 +62,13 @@ public class AlunoControllerImpl implements AlunoController, Serializable {
 	}
 
 	public void validarDataNascimento(Aluno aluno) throws RNException {
-		Calendar dataNascimento = Calendar.getInstance();
-		Calendar dataAtual = Calendar.getInstance();
-		dataNascimento.setTime(aluno.getDataNascimento());
-		if(dataNascimento.after(dataAtual)) {
-			throw new RNException(ErrorMessage.ALUNO_DATA_NASCIMENTO_MAIOR_DATA_ATUAL.getChave());
+		if(aluno.getDataNascimento() != null) {
+			Calendar dataNascimento = Calendar.getInstance();
+			Calendar dataAtual = Calendar.getInstance();
+			dataNascimento.setTime(aluno.getDataNascimento());
+			if(dataNascimento.after(dataAtual)) {
+				throw new RNException(ErrorMessage.ALUNO_DATA_NASCIMENTO_MAIOR_DATA_ATUAL.getChave());
+			}
 		}
 	}
 

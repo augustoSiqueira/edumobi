@@ -20,12 +20,14 @@ public class ConverterUF implements Converter {
 
 	private UFController ufController;
 
+	private final static String SELECIONE = "Selecione";
+
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		this.ufController = (UFController) GenericBean.getBean(context, "uFController");
 		UF uf = null;
 		try {
-			if ((value != null) && !value.isEmpty()) {
+			if (((value != null) && !value.isEmpty()) && (!value.equals(SELECIONE))) {
 				uf = this.ufController.pesquisarPorId(Long.parseLong(value));
 			}
 		} catch (NumberFormatException e) {
