@@ -7,7 +7,8 @@ public enum ErrorMessage {
 					"erro_perfil_nome_existente"), PERFIL_FUNCIONALIDADE_OBRIGATORIA("erro_perfil_funcionalidade_obrigatoria"), USUARIO_EMAIL_EXISTENTE(
 							"erro_usuario_email_existente"), USUARIO_CPF_EXISTENTE("erro_usuario_cpf_existente"), USUARIO_CPF_INVALIDO(
 									"erro_usuario_cpf_invalido"), USUARIO_EMAIL_INVALIDO("erro_usuario_email_invalido"), CATEGORIA_NOME_EXISTENTE("erro_categoria_nome_existente"),
-									DEPENDENCIA_EXISTENTE("erro_dependencia_entidade"), DADOS_INVALIDOS("erro_dados_invalidos"),RECUPERAR_SENHA_EMAIL_INVALIDO("erro_email_n_corresponde"), ALUNO_DATA_NASCIMENTO_MAIOR_DATA_ATUAL("erro_aluno_data_nascimento_invalida"),ALTERNATIVAS_INVALIDAS("erro_alternativa_invalida"),ALTERNATIVA_CORRETA_MAIOR("erro_alternativa_correta_maior"),ALTERNATIVA_CORRETA_MENOR("erro_alternativa_correta_menor");
+									DEPENDENCIA_EXISTENTE("erro_dependencia_entidade"), DADOS_INVALIDOS("erro_dados_invalidos"),RECUPERAR_SENHA_EMAIL_INVALIDO("erro_email_n_corresponde"), ALUNO_DATA_NASCIMENTO_MAIOR_DATA_ATUAL("erro_aluno_data_nascimento_invalida"),ALTERNATIVAS_INVALIDAS("erro_alternativa_invalida"),ALTERNATIVA_CORRETA_MAIOR("erro_alternativa_correta_maior"),ALTERNATIVA_CORRETA_MENOR("erro_alternativa_correta_menor"),
+									ARQUIVO_NAO_ENCONTRADO("erro_arquivo_nao_encontrado"), ARQUIVO_TIPO_NAO_SUPORTADO("erro_arquivo_tipo_nao_suportado"), ARQUIVO_TAMANHO_LIMITE("erro_arquivo_tamanho_limite");
 
 	private ErrorMessage(String chave) {
 		this.chave = chave;
