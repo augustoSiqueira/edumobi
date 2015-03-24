@@ -30,7 +30,7 @@ public class Perfil implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "perfil_seq")
 	private Long id;
 
-	@NotEmpty
+	
 	@Column(length = 100, nullable = false)
 	private String nome;
 

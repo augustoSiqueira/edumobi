@@ -22,7 +22,7 @@
 					<h:form id="edicao">
 						<div class="form-group">
 		            		<h:outputLabel value="#{msg.perfil_label_nome}*: " for="nome" />
-							<p:inputText id="nome" value="#{perfilBean.perfil.nome}" required="true" validator="removeEmBranco" maxlength="100" styleClass="form-control" />
+							<p:inputText id="nome" value="#{perfilBean.perfil.nome}" maxlength="100" styleClass="form-control" />
 						</div>
 						<div class="checkbox">
 		            		<h:outputLabel value="#{msg.perfil_label_ativo}*: " for="ativo" />
@@ -32,7 +32,9 @@
 		            			<h:outputLabel value="#{msg.perfil_label_funcionalidades}*:" for="funcionalidades" />
 								<p:pickList id="funcionalidade" value="#{perfilBean.listaFuncionalidade}" var="funcionalidade" 
 									itemLabel="#{funcionalidade.descricao}" itemValue="#{funcionalidade}" converter="primeFacesPickListConverter" />
-								<p:commandButton value="#{msg.app_label_salvar}" action="#{perfilBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_PERFIL_INCLUIR')}" styleClass="btn btn-success pull-right" />
+						</div>
+						<div class="form-group">
+		            			<p:commandButton value="#{msg.app_label_salvar}" action="#{perfilBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_PERFIL_INCLUIR')}" styleClass="btn btn-success pull-right" />
 								<p:commandButton value="#{msg.app_label_limpar}" action="#{perfilBean.limparCampos}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_PERFIL_INCLUIR')}" styleClass="btn btn-success pull-right" />
 						</div>
 					</h:form>

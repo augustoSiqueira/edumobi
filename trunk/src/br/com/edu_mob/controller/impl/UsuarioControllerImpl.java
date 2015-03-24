@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -108,7 +109,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 			this.verificarExistenciaEmail(usuario);
 			usuario.setCpf(Util.removerCaracteresEspeciais(usuario.getCpf()));
 			usuario.setSenha(Util.gerarSenha(8));
-			EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha Eduobi", "Sua senha é: " + usuario.getSenha());
+			EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha Eduobi", "Sua senha ï¿½: " + usuario.getSenha());
 			usuario.setSenha(Util.criptografar(usuario.getSenha()));
 			this.usuarioDAO.save(usuario);
 		} catch (DataAccessException e) {
@@ -138,6 +139,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 	@Override
 	public void excluir(Usuario usuario) throws RNException {
 		try {
+			removerUsuarioLogado(usuario);
 			this.usuarioDAO.remove(usuario);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -145,6 +147,12 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 	}
 
+	private void removerUsuarioLogado(Usuario usuario) throws RNException{
+		Usuario logado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(usuario.getId() == logado.getId()){
+			throw new RNException(ErrorMessage.USUARIO_LOGADO_EXCLUIR.getChave());
+		}
+	}
 	@Override
 	public List<Usuario> pesquisarPorFiltro(Filter filtro) throws RNException {
 		List<Usuario> listaUsuarios = null;

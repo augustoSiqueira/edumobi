@@ -116,6 +116,7 @@ public class UsuarioBean extends GenericBean implements Serializable {
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			usuario = new Usuario();
 		}
 	}
 

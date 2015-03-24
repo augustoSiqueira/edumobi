@@ -59,6 +59,9 @@ public class PerfilControllerImpl implements PerfilController {
 	@Override
 	public void validarNome(Perfil perfil) throws RNException {
 		try {
+			if("".equals(perfil.getNome().trim())){
+				throw new RNException(ErrorMessage.USUARIO_NOME_VAZIO.getChave());				
+			}
 			if (this.perfilDAO.verificarExistencia("nome", perfil.getNome(), perfil.getId())) {
 				throw new RNException(ErrorMessage.PERFIL_NOME_EXISTENTE.getChave());
 			}

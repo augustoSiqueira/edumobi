@@ -16,6 +16,7 @@ public enum ErrorMessage {
 	USUARIO_CPF_VAZIO("erro_usuario_cpf_vazio"),
 	USUARIO_NOME_VAZIO("erro_usuario_nome_vazio"),
 	USUARIO_EMAIL_VAZIO("erro_usuario_email_vazio"),
+	USUARIO_LOGADO_EXCLUIR("erro_usuario_nao_pode_excluir"),
 	CATEGORIA_NOME_EXISTENTE("erro_categoria_nome_existente"),
 	DEPENDENCIA_EXISTENTE("erro_dependencia_entidade"), 
 	DADOS_INVALIDOS("erro_dados_invalidos"),

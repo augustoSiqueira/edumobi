@@ -79,13 +79,16 @@
 										<h:outputText value="#{msg.app_label_sim}" rendered="#{usuario.ativo}" />
 										<h:outputText value="#{msg.app_label_nao}" rendered="#{!usuario.ativo}" />
 									</p:column>
+									<p:column headerText="#{msg.usuario_label_perfil}">
+										#{usuario.perfil.nome}
+									</p:column>	
 									<p:column headerText="#{msg.app_label_acoes}" >
-										<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_ALTERAR')}" sty>
-											<p:graphicImage library="imagens" name="editar16.png" />
+										<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_ALTERAR')}">
+											<p:graphicImage library="imagens" name="editar16.png" title="Editar"/>
 											<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
 										</p:commandLink>
 										<p:commandLink process="@this" action="#{usuarioBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_USUARIO_EXCLUIR')}" >
-											<p:graphicImage library="imagens" name="excluir16.png" />
+											<p:graphicImage library="imagens" name="excluir16.png" title="Excluir"/>
 											<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
 										</p:commandLink>
 									</p:column>
