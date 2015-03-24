@@ -131,6 +131,10 @@
 								#{questao.observacao}
 							</p:column>	
 							
+							<p:column headerText="#{msg_questao_label_obervacao}" filterBy="#{questao.areaConhecimento.categoria.nome}">
+								#{questao.areaConhecimento.categoria.nome}
+							</p:column>	
+							
 							
 							<p:column headerText="#{msg.app_label_acoes}" >
 								<p:commandLink process="@this" action="#{questaoBean.carregarListaAlternativa}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" >
