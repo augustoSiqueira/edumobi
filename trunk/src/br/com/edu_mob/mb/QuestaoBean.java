@@ -47,10 +47,12 @@ import br.com.edu_mob.entity.Alternativa;
 import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Questao;
+import br.com.edu_mob.exception.GenericException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.message.SucessMessage;
+import br.com.edu_mob.util.FileUtil;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 
@@ -149,6 +151,17 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	            System.out.println(e.getMessage());  
 	        }
 	        */  
+		ExternalContext exe = FacesContext.getCurrentInstance().getExternalContext();
+		String caminho = exe.getRealPath("/");
+		HttpServletResponse arq = (HttpServletResponse) exe.getResponse();
+		
+		try {
+			FileUtil.baixarArquivo(arq ,event.getFile().getFileName() ,event.getFile().getFileName(),caminho);
+		} catch (GenericException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+		}
+		
 	}
 	
 	public void limparForm(){
