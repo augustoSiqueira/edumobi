@@ -35,7 +35,7 @@ public class AlunoControllerImpl implements AlunoController, Serializable {
 	@Autowired
 	private UsuarioController usuarioController;
 
-	private static final long ID_PERFIL_ALUNO = 1L;
+	private static final long ID_PERFIL_ALUNO = 2L;
 
 	@Override
 	public List<Aluno> listar() throws RNException {
@@ -67,6 +67,29 @@ public class AlunoControllerImpl implements AlunoController, Serializable {
 		dataNascimento.setTime(aluno.getDataNascimento());
 		if(dataNascimento.after(dataAtual)) {
 			throw new RNException(ErrorMessage.ALUNO_DATA_NASCIMENTO_MAIOR_DATA_ATUAL.getChave());
+		}
+	}
+
+	@Override
+	public void incluirPreviamente(Aluno aluno) throws RNException {
+		try {
+			this.usuarioController.validarCPF(aluno);
+			this.usuarioController.validarEmail(aluno);
+			this.usuarioController.verificarExistenciaCPF(aluno);
+			this.usuarioController.verificarExistenciaEmail(aluno);
+			aluno.setCpf(Util.removerCaracteresEspeciais(aluno.getCpf()));
+			aluno.setMatricula(Util.gerarMatricula(this.alunoDAO.retornarUltimoID()));
+			aluno.setSenha(Util.gerarSenha(8));
+			EmailUtil.enviarEmail("systemedumobi@gmail.com", aluno.getEmail(), "Senha Eduobi", "Sua senha é: " + aluno.getSenha());
+			aluno.setSenha(Util.criptografar(aluno.getSenha()));
+			aluno.setPerfil(new Perfil(ID_PERFIL_ALUNO));
+			this.alunoDAO.save(aluno);
+		} catch (DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}  catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 	}
 

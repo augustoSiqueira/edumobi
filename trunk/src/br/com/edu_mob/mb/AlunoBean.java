@@ -101,10 +101,8 @@ public class AlunoBean extends GenericBean implements Serializable {
 	}
 
 	public String cadastrarPreviamente() {
-		if ((this.aluno != null) && (this.aluno.getId() != null)) {
-			this.atualizar();
-		} else {
-			this.incluir();
+		if ((this.aluno != null) && (this.aluno.getId() == null)) {
+			this.incluirPreviamente();
 		}
 		return AliasNavigation.LOGIN;
 	}
@@ -118,6 +116,18 @@ public class AlunoBean extends GenericBean implements Serializable {
 		try {
 			this.limparCampos();
 			this.listaAlunos = this.alunoController.pesquisarPorFiltro(new Filter());
+		} catch (RNException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+		}
+	}
+
+	public void incluirPreviamente() {
+		try {
+			this.alunoController.incluirPreviamente(this.aluno);
+			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.ALUNO.getValor());
+			this.atualizarGrid();
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
