@@ -27,8 +27,11 @@ public enum ErrorMessage {
 	ALTERNATIVA_CORRETA_MENOR("erro_alternativa_correta_menor"),
 	ARQUIVO_NAO_ENCONTRADO("erro_arquivo_nao_encontrado"), 
 	ARQUIVO_TIPO_NAO_SUPORTADO("erro_arquivo_tipo_nao_suportado"), 
-	ARQUIVO_TAMANHO_LIMITE("erro_arquivo_tamanho_limite");
-	
+	ARQUIVO_TAMANHO_LIMITE("erro_arquivo_tamanho_limite"),
+	CAMPO_NOME_VAZIO("erro_campo_nome_vazio"),
+	CAMPO_TITULO_VAZIO("erro_campo_titulo_vazio"),
+	CAMPO_DESCRICAO_VAZIO("erro_campo_descricao_vazio"),
+	CAMPO_QNT_QUESTAO_VAZIO("erro_campo_qnt_questao_vazio");
 
 	private ErrorMessage(String chave) {
 		this.chave = chave;
