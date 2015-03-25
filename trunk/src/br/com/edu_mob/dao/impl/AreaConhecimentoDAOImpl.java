@@ -1,5 +1,6 @@
 package br.com.edu_mob.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,8 +24,9 @@ import br.com.edu_mob.util.MensagemUtil;
 
 @Repository("areaConhecimentoDAO")
 @Transactional(propagation = Propagation.REQUIRED)
-public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhecimentoDAO {
+public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhecimentoDAO, Serializable {
 
+	private static final long serialVersionUID = -539985070564944663L;
 	private static final Logger logger = Logger.getLogger(AreaConhecimentoDAOImpl.class.getName());
 	
 	@Autowired
