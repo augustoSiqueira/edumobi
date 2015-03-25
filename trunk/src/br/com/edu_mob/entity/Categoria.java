@@ -15,7 +15,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
 @Entity
 @Table
 @SequenceGenerator(name="categoria_seq", sequenceName="categoria_seq")
