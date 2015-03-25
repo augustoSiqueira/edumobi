@@ -106,9 +106,8 @@ public class AlunoBean extends GenericBean implements Serializable {
 	public String cadastrarPreviamente() {
 		if ((this.aluno != null) && (this.aluno.getId() == null)) {
 			this.incluirPreviamente();
-			return AliasNavigation.LOGIN;
 		}
-		return null;
+		return AliasNavigation.PAGINA_CADASTRO_ALUNO;
 	}
 
 	public void limparCampos() {
