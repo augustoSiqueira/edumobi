@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table
-@SequenceGenerator(name="areaconhecimento_seq", sequenceName="areaconhecimento_seq")
+@SequenceGenerator(name="area_conhecimento_seq", sequenceName="area_conhecimento_seq")
 public class AreaConhecimento implements Serializable {
 
 	private static final long serialVersionUID = 8200531734337796100L;
@@ -32,7 +32,7 @@ public class AreaConhecimento implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="areaconhecimento_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="area_conhecimento_seq")
 	private Long id;
 	
 	@NotEmpty
