@@ -1,6 +1,7 @@
 package br.com.edu_mob.mb;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.message.SucessMessage;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
+import br.com.edu_mob.util.UtilSession;
 
 @ManagedBean
 @ViewScoped
@@ -44,6 +46,7 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 
 	private AreaConhecimento areaConhecimento = new AreaConhecimento();
 
+	private Categoria categoria;
 	
 	@PostConstruct
 	public void init() {
@@ -54,30 +57,46 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 		Filter filtroCategoria = new Filter();
 		filtroCategoria.put("curso", true);
 		
-		this.areaConhecimento = new AreaConhecimento(new Categoria());
+		this.categoria = (Categoria) UtilSession.getHttpSessionObject("categoriaSelecionada");
+		UtilSession.getHttpSession().removeAttribute("categoriaSelecionada");
+		
+		this.areaConhecimento = new AreaConhecimento();
 		this.areaConhecimentoController = (AreaConhecimentoController) this.getBean("areaConhecimentoController", AreaConhecimentoController.class);
 		this.categoriaController = (CategoriaController) this.getBean("categoriaController", CategoriaController.class);
 		this.dataModelAreaConhecimento = new DataModelAreaConhecimento();
+		
+		//this.listaAreaConhecimento = new ArrayList<AreaConhecimento>();
+		
 		try {
-			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtroAreaConhecimento);
-			listaCategorias = this.categoriaController.pesquisarPorFiltro(filtroCategoria);
-			
+			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(new Filter());
 		} catch (RNException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
-	public void salvar() {
-		if ((this.areaConhecimento != null) && (this.areaConhecimento.getId() != null)) {
-			this.atualizar();
-		} else {
-			this.incluir();
+	public void adicionarAreaConhecimento() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		boolean existe = false;
+		for (AreaConhecimento areaConhecimento : this.listaAreaConhecimento) {
+			if(areaConhecimento.getDescricao().trim().equals(this.areaConhecimento.getDescricao().trim())){
+				existe = true;
+			}
+		}
+		
+		if(!existe){
+			this.areaConhecimento.setCategoria(categoria);
+			this.listaAreaConhecimento.add(this.areaConhecimento);
+			this.areaConhecimento= new AreaConhecimento();
+		}else{
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), "Descrição já existente"));
 		}
 	}
 	
 	public void limparCampos() {
-		this.areaConhecimento = new AreaConhecimento();
+		if(this.areaConhecimento != null){
+			this.areaConhecimento = new AreaConhecimento();
+		}
 	}
 	
 	public void atualizarGrid() {
@@ -90,27 +109,34 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 		}
 	}
 	
-	public void incluir() {
+	public void incluirLista() {
 		try {
-			this.areaConhecimentoController.incluir(this.areaConhecimento);
+			List<AreaConhecimento> lista = new ArrayList<AreaConhecimento>();
+			
+			
+			if (this.areaConhecimento.getDescricao() != null
+					&& !this.areaConhecimento.getDescricao().isEmpty()) {
+				if (this.listaAreaConhecimento != null
+						&& this.listaAreaConhecimento.size() > 1) {
+					for (AreaConhecimento areaConhecimento : listaAreaConhecimento) {
+						areaConhecimento.setCategoria(this.categoria);
+						lista.add(areaConhecimento);
+						this.listaAreaConhecimento = lista;
+					}
+				} else {
+					areaConhecimento.setCategoria(this.categoria);
+					lista.add(areaConhecimento);
+					this.listaAreaConhecimento = lista;
+				}
+			}
+			
+			this.areaConhecimentoController.incluirLista(this.listaAreaConhecimento);
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
 			this.atualizarGrid();
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
-		}
-	}
-	
-	public void atualizar() {
-		try {
-			this.areaConhecimentoController.alterar(this.areaConhecimento);
-			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-					SucessMessage.ATUALIZADO_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
-			this.atualizarGrid();
-		} catch (RNException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(ErrorMessage.ERRO.getChave(), e.getListaMensagens());
 		}
 	}
 	
@@ -121,8 +147,12 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 				this.areaConhecimentoController.excluir(this.areaConhecimento);
 				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 						SucessMessage.EXCLUIDO_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+			}else{
+				this.listaAreaConhecimento.remove(areaConhecimento);
+				this.limparCampos();
+				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+						SucessMessage.EXCLUIDO_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
 			}
-			this.atualizarGrid();
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			for (String msg : e.getListaMensagens()) {
@@ -155,9 +185,9 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	
 	public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
 		this.areaConhecimento = areaConhecimento;
-		if((this.listaAreaConhecimento != null) && !this.listaAreaConhecimento.isEmpty()) {
-			this.listaAreaConhecimento.remove(areaConhecimento);
-		}
+//		if((this.listaAreaConhecimento != null) && !this.listaAreaConhecimento.isEmpty()) {
+//			this.listaAreaConhecimento.remove(areaConhecimento);
+//		}
 	}
 
 	public CategoriaController getCategoriaController() {
@@ -175,8 +205,12 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	public void setListaCategorias(List<Categoria> listaCategorias) {
 		this.listaCategorias = listaCategorias;
 	}
-	
-	
-	
-	
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 }

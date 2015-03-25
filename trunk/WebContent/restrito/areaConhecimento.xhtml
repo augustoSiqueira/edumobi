@@ -21,19 +21,27 @@
 					  <div class="panel-body">
 					    
 					    <h:form id="edicao">
-						    <div class="form-group">
+					    
+					    <p:panelGrid columns="2">
+						    <p:column>
 		            			<h:outputLabel value="#{msg.area_conhecimento_label_descricao}*: " for="descricao" />
 								<p:inputText id="descricao" value="#{areaConhecimentoBean.areaConhecimento.descricao}" validator="removeEmBranco" required="true" maxlength="50" styleClass="form-control" />
-							</div>
-							<div class="form-group">
-		            			<h:outputLabel value="Categoria" for="categoria" />
-								<p:selectOneMenu id="categoria" value="#{areaConhecimentoBean.areaConhecimento.categoria}" converter="converterCategoria">
-									<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
-									<f:selectItems value="#{areaConhecimentoBean.listaCategorias}" var="categoria" itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
-								</p:selectOneMenu>	
-		            		</div>
+							</p:column>
 							
-						<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
+							<p:column>
+								<p:commandLink process="@form"
+									action="#{areaConhecimentoBean.adicionarAreaConhecimento}"
+									update=":edicao :listagem">
+									<p:graphicImage library="imagens" name="adicionar16.png" />
+								</p:commandLink>
+							</p:column>
+						</p:panelGrid>
+<!-- 						<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.incluirLista}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" /> -->
+<!-- 						<p:commandButton value="#{msg.app_label_limpar}" action="#{areaConhecimentoBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" /> -->
+					</h:form>
+					
+					<h:form id="botao">
+					<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.incluirLista}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
 						<p:commandButton value="#{msg.app_label_limpar}" action="#{areaConhecimentoBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
 					</h:form>
 				</div>	<!--Fim Painel body  -->			
@@ -44,9 +52,9 @@
 				<div class="panel-heading">#{msg.area_conhecimento_lista}</div>
 					<div class="panel-body">
 					<h:form id="listagem">
-						<p:dataTable id="tabelaAreaConhecimento" value="#{areaConhecimentoBean.dataModelAreaConhecimento}" var="areaConhecimento" rows="5" 
+						<p:dataTable id="tabelaAreaConhecimento" value="#{areaConhecimentoBean.listaAreaConhecimento}" var="areaConhecimento" rows="5" 
 							paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
-							{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" >
+							{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" lazy="true" >
 							<p:column headerText="#{msg.area_conhecimento_label_nome}" filterBy="#{areaConhecimento.descricao}">
 								#{areaConhecimento.descricao}
 							</p:column>	
@@ -62,7 +70,7 @@
 									<p:graphicImage library="imagens" name="editar16.png" />
 									<f:setPropertyActionListener value="#{areaConhecimento}" target="#{areaConhecimentoBean.areaConhecimento}" />
 								</p:commandLink>
-								<p:commandLink process="@this" action="#{areaConhecimentoBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_EXCLUIR')}"  >
+								<p:commandLink process="@this" action="#{areaConhecimentoBean.excluir}" update=":edicao :listagem">
 									<p:graphicImage library="imagens" name="excluir16.png" />
 									<f:setPropertyActionListener value="#{areaConhecimento}" target="#{areaConhecimentoBean.areaConhecimento}" />
 								</p:commandLink>
