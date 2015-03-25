@@ -46,11 +46,12 @@
 								<f:selectItems value="#{questaoBean.listaAreaConhecimento}" var="areaConhecimento" itemLabel="#{areaConhecimento.descricao}" itemValue="#{areaConhecimento}" />
 							</p:selectOneMenu>								
 	                  		</div>
-	                  	
+	                  	<!--  
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.questao_label_imagem}: " for="descricao" />
 								<p:fileUpload id="upload" label="Upload..."  fileUploadListener="#{questaoBean.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true"/>
 							</div>
+							-->
 		
 						<fieldset style="margin-bottom: 20px;">
 							<legend style="text-align: center;">#{msg.questao_label_alternativas}</legend>
@@ -68,7 +69,7 @@
 						
 							<p:commandButton value="Adicionar" action="#{questaoBean.add}" process="@this,resposta, correta" update="tabelaAlternativa, resposta" styleClass="btn btn-default pull-right"  style="margin-bottom:10px;"  />				
 														
-						<p:dataTable id="tabelaAlternativa"  value="#{questaoBean.listaAlternativa}" var="alternativa" >
+						<p:dataTable id="tabelaAlternativa"  value="#{questaoBean.listaAlternativa}" var="alternativa" emptyMessage="Não existe alternativas!!" >
 							<p:column headerText="Alternativas">
       						  <h:outputText value="#{alternativa.resposta}" />
     						</p:column>
@@ -123,7 +124,8 @@
 					<h:form id="listagem">
 						<p:dataTable id="tabelaQuestao" value="#{questaoBean.dataModelQuestao}" var="questao" rows="5" 
 							paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
-							{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" >
+							{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" emptyMessage="Não existe questões!!" >
+								
 							<p:column headerText="#{msg_questao_label_enunciado}" filterBy="#{questao.enunciado}">
 								#{questao.enunciado}
 							</p:column>	
