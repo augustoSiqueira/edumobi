@@ -53,6 +53,24 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 		}
 		return areaConhecimento;
 	}
+	
+	@Override
+	public void incluirLista(List<AreaConhecimento> listaAreasConhecimento) throws RNException {
+		try {
+			if(listaAreasConhecimento != null && !listaAreasConhecimento.isEmpty()) {
+				for (AreaConhecimento areaConhecimento : listaAreasConhecimento) {
+					if(areaConhecimento.getId() != null) {
+						this.alterar(areaConhecimento);
+					} else {
+						this.incluir(areaConhecimento);
+					}
+				}
+			}
+		} catch (DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
