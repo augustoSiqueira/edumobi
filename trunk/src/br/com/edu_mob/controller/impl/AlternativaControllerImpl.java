@@ -161,8 +161,24 @@ public class AlternativaControllerImpl implements AlternativaController, Seriali
 		if(qtdAlternativasCorretas == 0){
 			throw new RNException(ErrorMessage.ALTERNATIVA_CORRETA_MENOR.getChave());
 		}
+			
+	}
+	
+	
+	@Override
+	public void validarAlternativasMemoria(Alternativa alternativa, List<Alternativa> listaAlternativas) throws RNException{
+		int qtdAlternativasCorretas = 0;
 		
+		for (Alternativa alt : listaAlternativas) {
+			
+			if(alt.getCorreta() == true){
+				qtdAlternativasCorretas++;
+			}
+		}
 		
+		if(qtdAlternativasCorretas == 1 && alternativa.getCorreta() == true){
+			throw new RNException(ErrorMessage.ALTERNATIVA_CORRETA_MAIOR.getChave());
+		}
 			
 	}
 
