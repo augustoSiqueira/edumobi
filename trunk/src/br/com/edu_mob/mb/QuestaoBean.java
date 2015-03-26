@@ -233,7 +233,13 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		}
 		
 		if(this.atualizado == false){
+			try{
+			this.alternativaController.validarAlternativasMemoria(this.alternativa,this.listaAlternativa);
 			this.listaAlternativa = this.alternativaController.incluirEmMemoria(this.alternativa, this.listaAlternativa);
+			}catch (RNException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			}
 		}
 		
 		this.limparCamposAlternativa();
