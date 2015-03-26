@@ -85,7 +85,7 @@
       
     						
     						<p:column headerText="#{msg.app_label_acoes}" style="width:60px;">
-								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" >
+								<p:commandLink process="@this"  rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" >
 									<p:graphicImage library="imagens" name="editar16.png" />
 									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
 								</p:commandLink>
