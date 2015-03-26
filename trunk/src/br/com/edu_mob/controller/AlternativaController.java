@@ -13,5 +13,6 @@ public interface AlternativaController extends  GenericController<Alternativa> {
 	public Alternativa alterarEmMemoria(Alternativa alternativa);
 	public List<Alternativa> excluirEmMemoria(Alternativa alternativa, List<Alternativa> lista);
 	public void validarAlternativas(List<Alternativa> listaAlternativas) throws RNException;
+	public void validarAlternativasMemoria(Alternativa alternativa, List<Alternativa> listaAlternativas) throws RNException;
 	
 }
