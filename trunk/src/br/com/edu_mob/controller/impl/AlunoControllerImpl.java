@@ -61,6 +61,18 @@ public class AlunoControllerImpl implements AlunoController, Serializable {
 		return aluno;
 	}
 
+	@Override
+	public Aluno validarAcessoServico(String email, String senha) throws RNException {
+		Aluno aluno = null;
+		try {
+			aluno = this.alunoDAO.pesquisarLoginAluno(email, senha);
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+		return aluno;
+	}
+
 	public void validarDataNascimento(Aluno aluno) throws RNException {
 		if(aluno.getDataNascimento() != null) {
 			Calendar dataNascimento = Calendar.getInstance();

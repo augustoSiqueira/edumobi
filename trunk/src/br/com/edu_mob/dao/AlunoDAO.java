@@ -13,4 +13,15 @@ public interface AlunoDAO extends GenericDAO, PesquisaDAO<Aluno> {
 
 	long retornarUltimoID() throws DAOException;
 
+	/**
+	 * Metodo responsavel por validar login do usuario para servico
+	 *
+	 * @param String email
+	 * @param String senha
+	 * @return Aluno aluno
+	 * @throws DAOException
+	 */
+
+	Aluno pesquisarLoginAluno(String email, String senha) throws DAOException;
+
 }

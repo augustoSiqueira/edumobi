@@ -160,4 +160,25 @@ public class AlunoDAOImpl extends GenericDAOImpl implements AlunoDAO {
 		}
 	}
 
+	@Override
+	public Aluno pesquisarLoginAluno(String email, String senha) throws DAOException {
+		List<Aluno> listaAlunos = null;
+		Aluno aluno = null;
+		try{
+			if(((email != null) && !email.isEmpty()) && ((senha != null) && !senha.isEmpty())) {
+				DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Aluno.class);
+				detachedCriteria.add(Restrictions.eq("email", email));
+				detachedCriteria.add(Restrictions.eq("senha", Util.criptografar(senha)));
+				detachedCriteria.add(Restrictions.eq("ativo", Boolean.TRUE));
+				listaAlunos = this.findByCriteria(detachedCriteria);
+				if((listaAlunos != null) && !listaAlunos.isEmpty()) {
+					aluno = listaAlunos.get(0);
+				}
+			}
+			return aluno;
+		} catch (DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+	}
 }
