@@ -15,6 +15,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table
 @SequenceGenerator(name="categoria_seq", sequenceName="categoria_seq")
@@ -26,13 +29,14 @@ public class Categoria implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="categoria_seq")
 	private Long id;
 
-	
+	@NotEmpty
 	@Column(length=50, nullable=false)
 	private String nome;
 
 	@Column(nullable=false)
 	private boolean ativo;
 
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="id_categoria_pai")
 	private Categoria pai;
@@ -46,9 +50,10 @@ public class Categoria implements Serializable {
 	private String descricao;
 
 	private boolean curso;
-	
+
 	@OneToMany(mappedBy="categoria")
 	private List<AreaConhecimento> areasDeConhecimentos;
+
 	public Categoria() {
 		super();
 		this.ativo = true;
