@@ -18,12 +18,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.edu_mob.util.MensagemUtil;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
@@ -37,25 +37,26 @@ public class Usuario implements Serializable, UserDetails {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "usuario_seq")
 	private Long id;
 
-	
+
 	@Column(length = 150, nullable = false)
 	private String nome;
 
-	
+
 	@Column(length = 11, nullable = false)
 	private String cpf;
 
-	
+
 	@Column(length = 100, nullable = false)
 	private String email;
 
-	
 	@Column(length = 100, nullable = false)
 	private String senha;
 
+	@JsonIgnore
 	@Column(nullable = false)
 	private boolean ativo;
 
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "id_perfil")
 	private Perfil perfil;
@@ -121,6 +122,7 @@ public class Usuario implements Serializable, UserDetails {
 		this.perfil = perfil;
 	}
 
+	@JsonIgnore
 	@Override
 	@Transient
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -131,36 +133,42 @@ public class Usuario implements Serializable, UserDetails {
 		return listaGrantedAuthority;
 	}
 
+	@JsonIgnore
 	@Override
 	@Transient
 	public String getPassword() {
 		return this.senha;
 	}
 
+	@JsonIgnore
 	@Override
 	@Transient
 	public String getUsername() {
 		return this.email;
 	}
 
+	@JsonIgnore
 	@Override
 	@Transient
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	@Transient
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	@Transient
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	@Transient
 	public boolean isEnabled() {

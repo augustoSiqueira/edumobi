@@ -14,75 +14,74 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table
 @SequenceGenerator(name="questao_seq", sequenceName="questao_seq")
 public class Questao implements Serializable{
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="questao_seq")
 	private Long id;
 
-	
 	@NotEmpty
 	@Column(length=1000, nullable=false)
 	private String enunciado;
-	
+
 	@NotEmpty
 	private String observacao;
-	
 
-	
 	@Column(length=500, nullable=true)
 	private String caminhoImagem;
-	
+
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_area_conhecimento")
 	private AreaConhecimento areaConhecimento;
-	
-	
+
 	public Long getId(){
 		return this.id;
 	}
-	
+
 	public void setId(Long id){
 		this.id = id;
 	}
-	
+
 	public String getEnunciado(){
 		return this.enunciado;
 	}
-	
+
 	public void setEnunciado(String enunciado){
 		this.enunciado = enunciado;
 	}
-	
+
 	public String getObservacao(){
 		return this.observacao;
 	}
-	
+
 	public void setObservacao(String observacao){
 		this.observacao = observacao;
 	}
-	
+
 	public String getCaminhoImagem(){
 		return this.caminhoImagem;
 	}
-	
+
 	public void setCaminhoImagem(String caminhoImagem){
 		this.caminhoImagem = caminhoImagem;
 	}
-	
+
 	public AreaConhecimento getAreaConhecimento(){
 		return this.areaConhecimento;
 	}
-	
+
 	public void setAreaConhecimento(AreaConhecimento areaConhecimento){
 		this.areaConhecimento = areaConhecimento;
 	}
-	
+
 
 
 	@Override
