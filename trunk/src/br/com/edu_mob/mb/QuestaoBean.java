@@ -19,22 +19,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-
-
-
+import javax.faces.event.ValueChangeEvent;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.jpa.criteria.predicate.IsEmptyPredicate;
 import org.primefaces.event.FileUploadEvent;
-
-
-
-
-
-
-
-
 import org.primefaces.model.UploadedFile;
 
 import com.sun.media.sound.AlawCodec;
@@ -47,6 +37,7 @@ import br.com.edu_mob.entity.Alternativa;
 import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Questao;
+import br.com.edu_mob.entity.UF;
 import br.com.edu_mob.exception.GenericException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
@@ -84,7 +75,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	private Questao questao = null;
 	private Alternativa alternativa = null;
-	private Categoria categoria = null;
+	private Categoria categoria;
 	private boolean atualizado;
 
 	@PostConstruct
@@ -328,15 +319,23 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		}
 	}
 	
-	public void carregarAreaConhecimento(){
-		Filter filtroAreaConhecimento = new Filter();
-		filtroAreaConhecimento.put("idCategoria", this.categoria.getId().toString());
-		try{
-		this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtroAreaConhecimento);
-		}  catch (RNException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+	public void carregarAreaConhecimento(ValueChangeEvent event){
+		Filter filtro = new Filter();
+		Categoria categoria = (Categoria) event.getNewValue();
+		if((categoria != null) && (categoria.getId() != null)) {
+			filtro.put("idCategoria", categoria.getId().toString());
+			try {
+				this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtro);
+			} catch (RNException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			}
+		} else {
+			this.categoria = new Categoria();
+			this.questao.setAreaConhecimento(null);
 		}
+		
+		
 	}
 
 	public DataModelQuestao getDataModelQuestao() {
