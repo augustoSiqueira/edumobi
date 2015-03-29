@@ -90,6 +90,10 @@
 									<p:graphicImage library="imagens" name="excluir16.png" title="Excluir" />
 									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
 								</p:commandLink>
+								<p:commandLink process="@this" action="#{categoriaBean.adicionarAreaConhecimento}" rendered="#{categoria.curso}" >
+									<p:graphicImage library="imagens" name="adicionar16.png" />
+									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
+								</p:commandLink>
 							</p:column>
 						</p:dataTable>	
 					</h:form>	

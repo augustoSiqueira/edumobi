@@ -1,5 +1,6 @@
 package br.com.edu_mob.controller.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -13,7 +14,6 @@ import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.dao.CategoriaDAO;
 import br.com.edu_mob.dao.impl.CategoriaDAOImpl;
 import br.com.edu_mob.entity.Categoria;
-import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
@@ -22,7 +22,9 @@ import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 
 @Service("categoriaController")
-public class CategoriaControllerImpl implements CategoriaController {
+public class CategoriaControllerImpl implements CategoriaController, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = Logger.getLogger(CategoriaDAOImpl.class.getName());
 

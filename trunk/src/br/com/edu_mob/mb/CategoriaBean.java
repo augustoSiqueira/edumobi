@@ -1,5 +1,6 @@
 package br.com.edu_mob.mb;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -13,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import br.com.edu_mob.controller.CategoriaController;
+import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
@@ -20,6 +22,7 @@ import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.message.SucessMessage;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
+import br.com.edu_mob.util.UtilSession;
 
 @ManagedBean
 @ViewScoped
@@ -37,7 +40,7 @@ public class CategoriaBean extends GenericBean implements Serializable {
 	private List<Categoria> listaCategorias = null;
 
 	private Categoria categoria = new Categoria();
-
+	
 	@PostConstruct
 	public void init() {
 		Filter filtroCategoria = new Filter();
@@ -119,6 +122,15 @@ public class CategoriaBean extends GenericBean implements Serializable {
 			}
 		}
 	}
+	
+	public void adicionarAreaConhecimento(){
+		UtilSession.getHttpSession().setAttribute("categoriaSelecionada", this.categoria);
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("areaConhecimento.jsf");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public DataModelCategoria getDataModelCategoria() {
 		return this.dataModelCategoria;
@@ -145,6 +157,5 @@ public class CategoriaBean extends GenericBean implements Serializable {
 		if((this.listaCategorias != null) && !this.listaCategorias.isEmpty()) {
 			this.listaCategorias.remove(categoria);
 		}
-	}
-
+	}	
 }
