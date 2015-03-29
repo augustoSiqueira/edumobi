@@ -127,6 +127,8 @@ public class AlunoBean extends GenericBean implements Serializable {
 
 	public void incluirPreviamente() {
 		try {
+			aluno.setNome(aluno.getNome().trim());
+			aluno.setEmail(aluno.getEmail().trim());
 			this.alunoController.incluirPreviamente(this.aluno);
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.ALUNO.getValor());

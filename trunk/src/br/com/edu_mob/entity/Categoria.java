@@ -122,6 +122,14 @@ public class Categoria implements Serializable {
 	public void setCurso(boolean curso) {
 		this.curso = curso;
 	}
+	
+	public List<AreaConhecimento> getAreasDeConhecimentos() {
+		return areasDeConhecimentos;
+	}
+
+	public void setAreasDeConhecimentos(List<AreaConhecimento> areasDeConhecimentos) {
+		this.areasDeConhecimentos = areasDeConhecimentos;
+	}
 
 	@Override
 	public int hashCode() {
@@ -152,5 +160,4 @@ public class Categoria implements Serializable {
 		}
 		return true;
 	}
-
 }

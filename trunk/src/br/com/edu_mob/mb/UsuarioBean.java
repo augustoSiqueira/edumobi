@@ -70,6 +70,17 @@ public class UsuarioBean extends GenericBean implements Serializable {
 		this.usuario = new Usuario();
 		return null;
 	}
+	
+	public String limparCamposCancelar() {
+		this.usuario = new Usuario();
+		usuario.setCpf("");
+		usuario.setEmail("");
+		usuario.setNome("");
+		usuario.setPerfil(null);
+		usuario.setSenha("");
+		usuario.setId(null);
+		return null;
+	}
 
 	public void atualizarGrid() {
 		try {

@@ -68,6 +68,16 @@ public class CategoriaBean extends GenericBean implements Serializable {
 	public void limparCampos() {
 		this.categoria = new Categoria();
 	}
+	
+	public void limparCamposCancelar() {
+		this.categoria = new Categoria();
+		categoria.setDescricao(null);
+		categoria.setId(null);
+		categoria.setNome(null);
+		categoria.setPai(null);
+		categoria.setQtdQuestoes(null);
+		categoria.setTitulo(null);
+	}
 
 	public void atualizarGrid() {
 		try {

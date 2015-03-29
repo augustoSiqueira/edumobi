@@ -109,7 +109,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 			this.verificarExistenciaEmail(usuario);
 			usuario.setCpf(Util.removerCaracteresEspeciais(usuario.getCpf()));
 			usuario.setSenha(Util.gerarSenha(8));
-			EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha Eduobi", "Sua senha �: " + usuario.getSenha());
+			EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha Eduobi", EmailUtil.mensagemEnvioSenha(usuario));
 			usuario.setSenha(Util.criptografar(usuario.getSenha()));
 			this.usuarioDAO.save(usuario);
 		} catch (DataAccessException e) {

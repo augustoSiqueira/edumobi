@@ -54,7 +54,8 @@
 								<p:selectBooleanCheckbox id="curso" value="#{categoriaBean.categoria.curso}" required="true" />
 							</div>
 						<p:commandButton value="#{msg.app_label_salvar}" action="#{categoriaBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR')}" styleClass="btn btn-success pull-right" />
-						<p:commandButton value="#{msg.app_label_limpar}" process="@none" action="#{categoriaBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR')}" styleClass="btn btn-success pull-right" />
+						<p:commandButton value="#{msg.app_label_limpar}" process="@none" action="#{categoriaBean.limparCampos}" update=":edicao" rendered="#{categoriaBean.categoria.id == null and sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR') }" styleClass="btn btn-success pull-right" />
+						<p:commandButton value="Cancelar" ajax="true" update="@form" actionListener="#{categoriaBean.limparCamposCancelar}" rendered="#{categoriaBean.categoria.id != null and sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR') }" styleClass="btn btn-success pull-right" />
 					</h:form>
 				</div>	<!--Fim Painel body  -->			
 			</div><!--Fim Painel  -->

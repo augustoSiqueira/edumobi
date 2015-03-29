@@ -13,7 +13,7 @@
 	<h:outputScript library="js" name="bootstrap.min.js" />
 </h:head>
 <h:body>
-	<p:growl id="mensagem" autoUpdate="true" life="3000" showDetail="true" />
+	<p:growl id="mensagem" autoUpdate="true" life="3000"  showDetail="true" showSummary="false" />
 	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
     <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
       <p:graphicImage url="../resources/imagens/status.gif"/>
@@ -33,24 +33,30 @@
 					       	<div class="form-group">
 		                        <label for="cpf">#{msg.aluno_label_cpf}*:</label>
 		                        <p:inputMask id="cpf" mask="999.999.999-99" label="#{msg.aluno_label_cpf}" alt="#{msg.aluno_label_cpf}" title="#{msg.aluno_label_cpf}" required="true" 
-		                        	value="#{alunoBean.aluno.cpf}" styleClass="form-control" />
+		                        	value="#{alunoBean.aluno.cpf}" styleClass="form-control" requiredMessage="#{msg.erro_campo_cpf_vazio}" />
 		                    </div>
 		                    <div class="form-group">
 		                        <label for="nome">#{msg.aluno_label_nome}*:</label>
 		                        <p:inputText id="aluno" label="#{msg.aluno_label_nome}" alt="#{msg.aluno_label_nome}" title="#{msg.aluno_label_nome}" required="true" 
-		                        	value="#{alunoBean.aluno.nome}" styleClass="form-control" />
+		                        	value="#{alunoBean.aluno.nome}" styleClass="form-control" requiredMessage="#{msg.erro_campo_nome_vazio}" validator="removeEmBranco" validatorMessage="#{msg.erro_campo_nome_vazio}" />
 		                    </div>
 		                    <div class="form-group">
 		                        <label for="email">#{msg.aluno_label_email}*:</label>
 		                        <p:inputText id="senha" label="#{msg.aluno_label_email}" alt="#{msg.aluno_label_email}" title="#{msg.aluno_label_email}" required="true" 
-		                        	value="#{alunoBean.aluno.email}" styleClass="form-control"/>
+		                        	value="#{alunoBean.aluno.email}" styleClass="form-control" requiredMessage="#{msg.erro_campo_email_vazio}" validator="removeEmBranco" validatorMessage="#{msg.erro_campo_email_vazio}"/>
 		                    </div>
+		                    
 							<p:commandButton id="btCadastrar" type="submit" action="#{alunoBean.cadastrarPreviamente}" value="#{msg.app_label_cadastrar}" 
-								styleClass="btn btn-block btn-default" update=":mensagem"  />
-							<p:link id="btnVoltar" value="#{msg.app_label_voltar}" outcome="login.jsf" />
-					</h:form>	  	  
+								styleClass="btn btn-default pull-right" update=":mensagem :cadastrarAluno"  />
+							
+							
+					</h:form>	
+					 	  
 				</div>
 
+							<div class="form-group">
+							<p:link id="btnVoltar" value="#{msg.app_label_voltar}" outcome="login.jsf" styleClass="btn btn-danger" />
+							</div>  	
 			</div>
 		</div>
 	</div>

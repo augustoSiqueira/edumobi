@@ -51,8 +51,8 @@
 					        </label>
 					    </div>
 					    <p:commandButton value="#{msg.app_label_salvar}" action="#{usuarioBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-success pull-right"/>
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update="@form" process="@none" ajax="true" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-default pull-right"/>
-		
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update="@form" process="@none" ajax="true" rendered="#{usuarioBean.usuario.id == null and sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-default pull-right"/>
+						<p:commandButton value="Cancelar" actionListener="#{usuarioBean.limparCamposCancelar}" ajax="true" update="@form" rendered="#{usuarioBean.usuario.id != null and sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-default pull-right"/>
 						</h:form>
                   	 </div>	<!--Fim Painel body  -->			
 					</div><!--Fim Painel  -->
@@ -65,7 +65,7 @@
 					  <div class="panel-heading">#{msg.usuario_lista}</div>
 					  <div class="panel-body">
 					  		<h:form id="listagem">
-								<p:dataTable id="tabelaUsuario" value="#{usuarioBean.dataModelUsuario}" var="usuario" rows="5" 
+								<p:dataTable id="tabelaUsuario" value="#{usuarioBean.dataModelUsuario}" var="usuario" rows="10" 
 									paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 									{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" selection="#{usuarioBean.usuario}"
 									lazy="true" >

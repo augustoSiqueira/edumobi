@@ -11,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.edu_mob.controller.CategoriaController;
+import br.com.edu_mob.dao.AreaConhecimentoDAO;
 import br.com.edu_mob.dao.CategoriaDAO;
 import br.com.edu_mob.dao.impl.CategoriaDAOImpl;
 import br.com.edu_mob.entity.Categoria;
@@ -30,6 +31,9 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 
 	@Autowired
 	private CategoriaDAO categoriaDAO;
+	
+	@Autowired
+	private AreaConhecimentoDAO  areaConhecimentoDAO;
 
 	@Override
 	public List<Categoria> listar() throws RNException {
@@ -94,9 +98,15 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 	@Override
 	public void excluir(Categoria categoria) throws RNException {
 		Filter filtro = new Filter();
+		Filter filtroAreaConhecimento = new Filter();
 		try {
 			filtro.put("id", categoria.getId().toString());
 			if(this.categoriaDAO.pesquisarDependencia(filtro) > 0) {
+				throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DEPENDENCIA_EXISTENTE.getChave(), Entidades.CATEGORIA.getValor()));
+			}
+			filtroAreaConhecimento.put("idCategoria", categoria.getId().toString());
+			categoria.setAreasDeConhecimentos(areaConhecimentoDAO.pesquisarPorFiltro(filtroAreaConhecimento));
+			if(categoria.getAreasDeConhecimentos().size() > 0) {
 				throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DEPENDENCIA_EXISTENTE.getChave(), Entidades.CATEGORIA.getValor()));
 			}
 			this.categoriaDAO.remove(categoria);
