@@ -48,48 +48,80 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 
 	private Categoria categoria;
 	
+	Filter filtroAreaConhecimento = new Filter();
+	
+	private boolean atualizou = false;
+	
+	private AreaConhecimento areaConhecimentoSelecionado = new AreaConhecimento();
+	
+	private List<AreaConhecimento> lista = new ArrayList<AreaConhecimento>();
+	
 	@PostConstruct
 	public void init() {
-		Filter filtroAreaConhecimento = new Filter();
-		filtroAreaConhecimento.put("ativo", Boolean.TRUE);
-		filtroAreaConhecimento.put("curso", Boolean.FALSE);
-		
-		Filter filtroCategoria = new Filter();
-		filtroCategoria.put("curso", true);
 		
 		this.categoria = (Categoria) UtilSession.getHttpSessionObject("categoriaSelecionada");
 		UtilSession.getHttpSession().removeAttribute("categoriaSelecionada");
+		
+		this.filtroAreaConhecimento.put("idCategoria", this.categoria.getId().toString());
 		
 		this.areaConhecimento = new AreaConhecimento();
 		this.areaConhecimentoController = (AreaConhecimentoController) this.getBean("areaConhecimentoController", AreaConhecimentoController.class);
 		this.categoriaController = (CategoriaController) this.getBean("categoriaController", CategoriaController.class);
 		this.dataModelAreaConhecimento = new DataModelAreaConhecimento();
-		
-		//this.listaAreaConhecimento = new ArrayList<AreaConhecimento>();
+		this.areaConhecimentoSelecionado = new AreaConhecimento();
 		
 		try {
-			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(new Filter());
+			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(this.filtroAreaConhecimento);
 		} catch (RNException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
 		}
 	}
 	
 	public void adicionarAreaConhecimento() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		boolean existe = false;
-		for (AreaConhecimento areaConhecimento : this.listaAreaConhecimento) {
-			if(areaConhecimento.getDescricao().trim().equals(this.areaConhecimento.getDescricao().trim())){
-				existe = true;
+					
+		for (int i = 0; i < this.listaAreaConhecimento.size(); i++) {
+			if(areaConhecimento.getDescricao().trim().equals(this.listaAreaConhecimento.get(i).getDescricao().trim())){
+				if(!existe){
+					if(areaConhecimento.getId() == this.listaAreaConhecimento.get(i).getId()){
+						this.listaAreaConhecimento.set(i, areaConhecimento);
+						atualizou = true;
+						this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+								SucessMessage.ATUALIZADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+						limparCampos();
+					}else{
+						existe = true;
+					}	
+				}
 			}
 		}
 		
-		if(!existe){
-			this.areaConhecimento.setCategoria(categoria);
-			this.listaAreaConhecimento.add(this.areaConhecimento);
-			this.areaConhecimento= new AreaConhecimento();
-		}else{
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), "Descrição já existente"));
+		if(existe){
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave()),
+					ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave(), Entidades.AREA_CONHECIMENTO.getValor());
+		}
+		
+		if(!atualizou && !existe){
+			if(this.areaConhecimentoSelecionado.getDescricao() != null){
+				
+				if(this.areaConhecimentoSelecionado.getId() == null && areaConhecimento.getId() == null
+						&& this.areaConhecimentoSelecionado.getDescricao().equals(areaConhecimento.getDescricao())){
+					this.areaConhecimento.setCategoria(categoria);
+					this.listaAreaConhecimento.add(this.areaConhecimento);
+					this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+							SucessMessage.ATUALIZADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+					limparCampos();
+				}				
+			}else{
+				this.areaConhecimento.setCategoria(categoria);
+				this.listaAreaConhecimento.add(this.areaConhecimento);
+				this.areaConhecimento= new AreaConhecimento();
+				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+						SucessMessage.CADASTRADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+				limparCampos();
+			}
 		}
 	}
 	
@@ -102,7 +134,7 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	public void atualizarGrid() {
 		try {
 			this.limparCampos();
-			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(new Filter());
+			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(this.filtroAreaConhecimento);
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -147,11 +179,12 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 				this.areaConhecimentoController.excluir(this.areaConhecimento);
 				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 						SucessMessage.EXCLUIDO_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+				limparCampos();
 			}else{
-				this.listaAreaConhecimento.remove(areaConhecimento);
-				this.limparCampos();
+				this.listaAreaConhecimento.remove(this.areaConhecimento);
 				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 						SucessMessage.EXCLUIDO_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+				limparCampos();
 			}
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -185,9 +218,11 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	
 	public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
 		this.areaConhecimento = areaConhecimento;
-//		if((this.listaAreaConhecimento != null) && !this.listaAreaConhecimento.isEmpty()) {
-//			this.listaAreaConhecimento.remove(areaConhecimento);
-//		}
+		if((this.listaAreaConhecimento != null) && !this.listaAreaConhecimento.isEmpty()) {
+			this.listaAreaConhecimento.remove(areaConhecimento);
+		}
+		
+		this.areaConhecimentoSelecionado = areaConhecimento;
 	}
 
 	public CategoriaController getCategoriaController() {
@@ -212,5 +247,38 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public Filter getFiltroAreaConhecimento() {
+		return filtroAreaConhecimento;
+	}
+
+	public void setFiltroAreaConhecimento(Filter filtroAreaConhecimento) {
+		this.filtroAreaConhecimento = filtroAreaConhecimento;
+	}
+
+	public boolean isAtualizou() {
+		return atualizou;
+	}
+
+	public void setAtualizou(boolean atualizou) {
+		this.atualizou = atualizou;
+	}
+
+	public AreaConhecimento getAreaConhecimentoSelecionado() {
+		return areaConhecimentoSelecionado;
+	}
+
+	public void setAreaConhecimentoSelecionado(
+			AreaConhecimento areaConhecimentoSelecionado) {
+		this.areaConhecimentoSelecionado = areaConhecimentoSelecionado;
+	}
+
+	public List<AreaConhecimento> getLista() {
+		return lista;
+	}
+
+	public void setLista(List<AreaConhecimento> lista) {
+		this.lista = lista;
 	}
 }

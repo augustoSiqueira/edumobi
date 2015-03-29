@@ -123,4 +123,23 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 		}
 	}
 
+	@Override
+	public List<AreaConhecimento> incluirEmMemoria(
+			AreaConhecimento areaConhecimento, List<AreaConhecimento> lista) {
+		lista.add(areaConhecimento);
+		return lista;
+	}
+
+	@Override
+	public AreaConhecimento alterarEmMemoria(AreaConhecimento areaConhecimento) {
+		return areaConhecimento;
+	}
+
+	@Override
+	public List<AreaConhecimento> excluirEmMemoria(
+			AreaConhecimento areaConhecimento, List<AreaConhecimento> lista) {
+		lista.remove(areaConhecimento);
+		return lista;
+	}
+
 }

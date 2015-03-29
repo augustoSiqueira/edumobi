@@ -42,7 +42,7 @@
 					
 					<h:form id="botao">
 					<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.incluirLista}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{areaConhecimentoBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{areaConhecimentoBean.limparCampos}" update="@form" process="@none" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
 					</h:form>
 				</div>	<!--Fim Painel body  -->			
 			</div><!--Fim Painel  -->

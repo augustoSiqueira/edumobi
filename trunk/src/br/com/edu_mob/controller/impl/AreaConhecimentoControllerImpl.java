@@ -147,4 +147,27 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 		return listaAreaConhecimento;
 	}
 
+	@Override
+	public List<AreaConhecimento> incluirEmMemoria(
+			AreaConhecimento areaConhecimento, List<AreaConhecimento> lista) {
+		return this.areaConhecimentoDAO.incluirEmMemoria(areaConhecimento, lista);
+	}
+
+	@Override
+	public AreaConhecimento alterarEmMemoria(AreaConhecimento areaConhecimento) {
+		return this.areaConhecimentoDAO.alterarEmMemoria(areaConhecimento);
+	}
+
+	@Override
+	public List<AreaConhecimento> excluirEmMemoria(
+			AreaConhecimento areaConhecimento, List<AreaConhecimento> lista) {
+		return this.areaConhecimentoDAO.excluirEmMemoria(areaConhecimento, lista);
+	}
+
+	@Override
+	public void validarListaMemoria(AreaConhecimento areaConhecimento,
+			List<AreaConhecimento> lista) throws RNException {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -18,6 +18,7 @@ public enum ErrorMessage {
 	USUARIO_EMAIL_VAZIO("erro_usuario_email_vazio"),
 	USUARIO_LOGADO_EXCLUIR("erro_usuario_nao_pode_excluir"),
 	CATEGORIA_NOME_EXISTENTE("erro_categoria_nome_existente"),
+	AREA_CONHECIMENTO_DESC_EXISTENTE("erro_area_conhecimento_desc_existente"),
 	DEPENDENCIA_EXISTENTE("erro_dependencia_entidade"), 
 	DADOS_INVALIDOS("erro_dados_invalidos"),
 	RECUPERAR_SENHA_EMAIL_INVALIDO("erro_email_n_corresponde"), 
