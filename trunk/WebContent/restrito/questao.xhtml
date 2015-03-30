@@ -21,7 +21,7 @@
 					  <div class="panel-heading"><h:outputLabel value="#{msg.questao_titulo}"/></div>
 					  <div class="panel-body">
 					    
-					    <h:form id="edicao">
+					    <h:form id="edicao" enctype="multipart/form-data">
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.questao_label_enunciado}: " for="enunciado" />
 								<p:inputTextarea  id="enunciado" value="#{questaoBean.questao.enunciado}"  validator="removeEmBranco" styleClass="form-control" />
@@ -34,9 +34,12 @@
 							
 							<div class="form-group">
 	                  		<h:outputLabel value="#{msg.categoria_label_menu}:" for="categoria" /><br/>
-							<p:selectOneMenu id="categoria"  value="#{questaoBean.categoria}"  converter="converterCategoria"  styleClass="" style="width:100%;" >
-								<f:selectItems value="#{questaoBean.listaCategoria}" var="categoria" itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
-								<p:ajax process="@this areaConhecimento" event="change" listener="#{questaoBean.carregarAreaConhecimento}" update="areaConhecimento"></p:ajax>								
+							<p:selectOneMenu id="categoria" value="#{questaoBean.categoria}" valueChangeListener="#{questaoBean.carregarAreaConhecimento}"
+								converter="converterCategoria">
+								<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
+								<f:selectItems value="#{questaoBean.listaCategoria}" var="categoria" itemLabel="#{categoria.nome}" 
+									itemValue="#{categoria}" />
+								<f:ajax event="change" render="edicao:areaConhecimento" />	
 							</p:selectOneMenu>								
 	                  		</div>
 	                  		
@@ -46,12 +49,12 @@
 								<f:selectItems value="#{questaoBean.listaAreaConhecimento}" var="areaConhecimento" itemLabel="#{areaConhecimento.descricao}" itemValue="#{areaConhecimento}" />
 							</p:selectOneMenu>								
 	                  		</div>
-	                  	<!--  
+	                  
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.questao_label_imagem}: " for="descricao" />
-								<p:fileUpload id="upload" label="Upload..."  fileUploadListener="#{questaoBean.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true"/>
+								<p:fileUpload id="upload" label="Upload..."  fileUploadListener="#{questaoBean.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" />
 							</div>
-							-->
+							
 		
 						<fieldset style="margin-bottom: 20px;">
 							<legend style="text-align: center;">#{msg.questao_label_alternativas}</legend>
