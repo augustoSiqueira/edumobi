@@ -115,44 +115,25 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	
 	public void upload(FileUploadEvent event){
+		byte[] foto = event.getFile().getContents();
+		String nomeDoArquivo = event.getFile().getFileName();
+		String arquivo = "C:\\Workspace-luna\\edumobi\\WebContent\\imagemQuestoes\\" + nomeDoArquivo;
+		this.questao.setCaminhoImagem(nomeDoArquivo);
+		criaArquivo(foto,arquivo);
 		
-		  
-		/*UploadedFile arq = event.getFile();
-		 this.questao.setCaminhoImagem(arq.getFileName());
-		 
-		 ServletContext context = (ServletContext) FacesContext  
-	                .getCurrentInstance().getExternalContext().getContext(); 
-		 File file = new File(  
-	                context.getRealPath("/restrito/"+ new SimpleDateFormat("dd-MM-yyyy").format(new Date())));
-		 
-		 if (!file.exists()) {  
-	            file.mkdirs();  
-	        }  
-	  
-	        String caminho = file + "\\" + arq.getFileName(); 
-	        FileOutputStream outputStream; 
-	        
-	        try {  
-	        	outputStream = new FileOutputStream(caminho);  
-	            outputStream.write(file.);  
-	            outputStream.close();  
-	        } catch (FileNotFoundException e) {  
-	            System.out.println(e.getMessage());  
-	        } catch (IOException e) {  
-	            System.out.println(e.getMessage());  
-	        }
-	        */  
-		ExternalContext exe = FacesContext.getCurrentInstance().getExternalContext();
-		String caminho = exe.getRealPath("/");
-		HttpServletResponse arq = (HttpServletResponse) exe.getResponse();
-		
+	}
+	
+	public void criaArquivo(byte[] bytes, String arquivo) {
+		FileOutputStream fos;
 		try {
-			FileUtil.baixarArquivo(arq ,event.getFile().getFileName() ,event.getFile().getFileName(),caminho);
-		} catch (GenericException e) {
+		fos = new FileOutputStream(arquivo);
+		fos.write(bytes);
+		fos.close();
+		} catch (FileNotFoundException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
 	}
 	
 	public void limparForm(){
