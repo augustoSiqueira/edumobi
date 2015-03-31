@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -51,8 +53,9 @@ public class Categoria implements Serializable {
 
 	private boolean curso;
 
-	@OneToMany(mappedBy="categoria")
-	private List<AreaConhecimento> areasDeConhecimentos;
+	@JsonBackReference
+	@OneToMany(mappedBy="categoria", fetch=FetchType.EAGER)
+	private List<AreaConhecimento> listaAreasConhecimento;
 
 	public Categoria() {
 		super();
@@ -122,13 +125,14 @@ public class Categoria implements Serializable {
 	public void setCurso(boolean curso) {
 		this.curso = curso;
 	}
-	
-	public List<AreaConhecimento> getAreasDeConhecimentos() {
-		return areasDeConhecimentos;
+
+	public List<AreaConhecimento> getListaAreasConhecimento() {
+		return this.listaAreasConhecimento;
 	}
 
-	public void setAreasDeConhecimentos(List<AreaConhecimento> areasDeConhecimentos) {
-		this.areasDeConhecimentos = areasDeConhecimentos;
+	public void setListaAreasConhecimento(
+			List<AreaConhecimento> listaAreasConhecimento) {
+		this.listaAreasConhecimento = listaAreasConhecimento;
 	}
 
 	@Override
