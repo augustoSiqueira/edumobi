@@ -2,6 +2,7 @@ package br.com.edu_mob.controller.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +32,7 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 
 	@Autowired
 	private CategoriaDAO categoriaDAO;
-	
+
 	@Autowired
 	private AreaConhecimentoDAO  areaConhecimentoDAO;
 
@@ -74,8 +75,9 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 	@Override
 	public void incluir(Categoria categoria) throws RNException {
 		try {
-			validarCamposVazios(categoria);
+			this.validarCamposVazios(categoria);
 			this.validarNome(categoria);
+			categoria.setDataAtualizacao(new Date());
 			this.categoriaDAO.save(categoria);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -86,8 +88,9 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 	@Override
 	public void alterar(Categoria categoria) throws RNException {
 		try {
-			validarCamposVazios(categoria);
+			this.validarCamposVazios(categoria);
 			this.validarNome(categoria);
+			categoria.setDataAtualizacao(new Date());
 			this.categoriaDAO.update(categoria);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -105,8 +108,8 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 				throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DEPENDENCIA_EXISTENTE.getChave(), Entidades.CATEGORIA.getValor()));
 			}
 			filtroAreaConhecimento.put("idCategoria", categoria.getId().toString());
-			categoria.setAreasDeConhecimentos(areaConhecimentoDAO.pesquisarPorFiltro(filtroAreaConhecimento));
-			if(categoria.getAreasDeConhecimentos().size() > 0) {
+			categoria.setListaAreasConhecimento(this.areaConhecimentoDAO.pesquisarPorFiltro(filtroAreaConhecimento));
+			if(categoria.getListaAreasConhecimento().size() > 0) {
 				throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DEPENDENCIA_EXISTENTE.getChave(), Entidades.CATEGORIA.getValor()));
 			}
 			this.categoriaDAO.remove(categoria);
@@ -155,37 +158,37 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 		}
 		return listaCategorias;
 	}
-	
+
 	public void validarCamposVazios(Categoria categoria) throws RNException{
 		List<String> erros = new ArrayList<String>();
 		boolean erro = false;
-		
+
 		if( categoria.getNome().trim().equals("")){
-			erros.add(ErrorMessage.CAMPO_NOME_VAZIO.getChave());	
+			erros.add(ErrorMessage.CAMPO_NOME_VAZIO.getChave());
 			erro = true;
 		}
-		
+
 		if(categoria.isCurso()){
 			if( categoria.getTitulo().trim().equals("")){
-				erros.add(ErrorMessage.CAMPO_TITULO_VAZIO.getChave());	
+				erros.add(ErrorMessage.CAMPO_TITULO_VAZIO.getChave());
 				erro = true;
 			}
 			if( categoria.getDescricao().trim().equals("")){
-				erros.add(ErrorMessage.CAMPO_DESCRICAO_VAZIO.getChave());	
+				erros.add(ErrorMessage.CAMPO_DESCRICAO_VAZIO.getChave());
 				erro = true;
 			}
-			
+
 			if( categoria.getQtdQuestoes() == null){
-				erros.add(ErrorMessage.CAMPO_QNT_QUESTAO_VAZIO.getChave());	
+				erros.add(ErrorMessage.CAMPO_QNT_QUESTAO_VAZIO.getChave());
 				erro = true;
 			}
-		}		
-		
-		if(erro){
-			throw new RNException(erros);	
 		}
-		
-		
+
+		if(erro){
+			throw new RNException(erros);
+		}
+
+
 	}
 
 }

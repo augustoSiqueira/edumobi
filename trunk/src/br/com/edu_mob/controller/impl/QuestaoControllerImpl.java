@@ -1,6 +1,7 @@
 package br.com.edu_mob.controller.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +26,10 @@ import br.com.edu_mob.util.Filter;
 public class QuestaoControllerImpl implements QuestaoController{
 
 	private static final Logger logger = Logger.getLogger(QuestaoDAOImpl.class.getName());
-	
+
 	@Autowired
 	private QuestaoDAO questaoDAO;
-	
+
 	@Autowired
 	private AlternativaDAO alternativaDAO;
 
@@ -43,7 +44,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 		}
 		return listaQuestoes;
 	}
-	
+
 	@Override
 	public Questao pesquisarPorId(Long id) throws RNException {
 		Questao questao = null;
@@ -55,42 +56,44 @@ public class QuestaoControllerImpl implements QuestaoController{
 		}
 		return questao;
 	}
-	
+
 	@Override
 	public void incluir(Questao questao) throws RNException {
 		try {
+			questao.setDataAtualizacao(new Date());
 			this.questaoDAO.save(questao);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 	}
-	
+
 	@Override
 	public void alterar(Questao questao) throws RNException {
 		try {
+			questao.setDataAtualizacao(new Date());
 			this.questaoDAO.update(questao);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 	}
-	
+
 	@Override
 	public void excluir(Questao questao) throws RNException {
 		List<Alternativa> listaAlternativa = new ArrayList<Alternativa>();
 		Filter filtro = new Filter();
 		try {
 			filtro.put("idQuestao", questao.getId().toString());
-			
+
 			if(this.alternativaDAO.pesquisarPorFiltroCount(filtro) > 0) {
 				listaAlternativa = this.alternativaDAO.pesquisarPorFiltro(filtro);
-				
+
 				for (Alternativa alternativa : listaAlternativa) {
 					this.alternativaDAO.remove(alternativa);
 				}
 			}
-			
+
 			this.questaoDAO.remove(questao);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -112,7 +115,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 		}
 		return listaQuestoes;
 	}
-	
+
 	@Override
 	public int pesquisarPorFiltroCount(Filter filtro) throws RNException {
 		int retorno = 0;
@@ -127,7 +130,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 
 	@Override
 	public List<Questao> pesquisarPorFiltroPaginada(Filter filtro,
-		int primeiroReg, int paginaSize) throws RNException {
+			int primeiroReg, int paginaSize) throws RNException {
 		List<Questao> listaQuestoes = null;
 		try {
 			listaQuestoes = this.questaoDAO.pesquisarPorFiltroPaginada(filtro, primeiroReg, paginaSize);
@@ -137,6 +140,6 @@ public class QuestaoControllerImpl implements QuestaoController{
 		}
 		return listaQuestoes;
 	}
-	
+
 
 }

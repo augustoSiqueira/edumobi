@@ -1,5 +1,6 @@
 package br.com.edu_mob.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,27 +25,31 @@ import br.com.edu_mob.util.Filter;
 @Repository("QuestaoDAO")
 @Transactional(propagation=Propagation.REQUIRED)
 public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
-	
+
 	private static final Logger logger = Logger.getLogger(QuestaoDAOImpl.class.getName());
 
 	@Autowired
 	public QuestaoDAOImpl(SessionFactory factory) {
 		super(factory);
 	}
-	
-	
+
+
 	@Override
 	public List<Questao> pesquisarPorFiltro(Filter filtro) throws DAOException {
 		String enunciado = filtro.getAsString("enunciado");
+		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		List<Questao> listaQuestoes = null;
-		
 
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Questao.class);
 			if(enunciado != null) {
 				detachedCriteria.add(Restrictions.ilike("enunciado", enunciado, MatchMode.ANYWHERE));
 			}
-			
+
+			if(dataAtualizacao != null) {
+				detachedCriteria.add(Restrictions.ge("dataAtualizacao", dataAtualizacao));
+			}
+
 			detachedCriteria.addOrder(Order.desc("id"));
 			listaQuestoes = this.findByCriteria(detachedCriteria);
 
@@ -54,18 +59,24 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 		}
 		return listaQuestoes;
 	}
-	
+
 	@Override
 	public int pesquisarPorFiltroCount(Filter filtro) throws DAOException {
 		int retorno = 0;
 		String enunciado = filtro.getAsString("enunciado");
-		
+		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
+
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Questao.class);
+
 			if(enunciado != null) {
 				detachedCriteria.add(Restrictions.ilike("enunciado", enunciado));
 			}
-			
+
+			if(dataAtualizacao != null) {
+				detachedCriteria.add(Restrictions.ge("dataAtualizacao", dataAtualizacao));
+			}
+
 			retorno = this.getDataCount(detachedCriteria);
 		} catch(DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -73,13 +84,14 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 		}
 		return retorno;
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public List<Questao> pesquisarPorFiltroPaginada(Filter filtro, int primeiroReg, int paginaSize) throws DAOException {
 		String enunciado = filtro.getAsString("enunciado");
+		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		List<Questao> listaQuestao = null;
 
 		try {
@@ -87,7 +99,11 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 			if(enunciado != null) {
 				detachedCriteria.add(Restrictions.ilike("enunciado", enunciado));
 			}
-			
+
+			if(dataAtualizacao != null) {
+				detachedCriteria.add(Restrictions.ge("dataAtualizacao", dataAtualizacao));
+			}
+
 			detachedCriteria.addOrder(Order.desc("id"));
 			listaQuestao = this.buscarPaginada(detachedCriteria, primeiroReg, paginaSize);
 		} catch(DataAccessException e) {

@@ -4,6 +4,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.logging.Level;
@@ -17,6 +20,51 @@ public class Util {
 
 	private static final Logger logger = Logger.getLogger(GenericDAOImpl.class.getName());
 
+	public static final String FORMATO_DATA_HORA_PT_BR = "dd/MM/yyyy HH:mm:ss";
+
+	/**
+	 * Metodo responsavel por converter Data
+	 * @param Date valor
+	 * @param String formato
+	 * @return Date data
+	 */
+
+	public static Date parseDate(String valor, String formato) {
+		if (valor == null) {
+			return null;
+		}
+		SimpleDateFormat format = new SimpleDateFormat(formato);
+		Date data = null;
+		try {
+			data = format.parse(valor);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	/**
+	 * Metodo responsavel por converter Data para String
+	 * @param date
+	 * @param format
+	 * @return
+	 */
+
+	public static String converteData(Date date, String format) {
+		String result = null;
+		if ((date != null) && (format != null) && !format.isEmpty()) {
+			SimpleDateFormat out = new SimpleDateFormat(format);
+			result = out.format(date);
+		}
+		return result;
+	}
+
+	/**
+	 * Metodo responsavel por verificar atributo nulo
+	 * @param String valor
+	 * @return boolean nulo ou nao
+	 */
+
 	public static boolean isEmptyOrNull(String s) {
 		boolean emptyOrNull = false;
 		if ((s == null) || s.isEmpty()) {
@@ -24,6 +72,12 @@ public class Util {
 		}
 		return emptyOrNull;
 	}
+
+	/**
+	 * Metodo responsavel por criptograr Strings
+	 * @param String senha
+	 * @return String valor criptografado
+	 */
 
 	public static String criptografar(String senha) {
 		MessageDigest md = null;

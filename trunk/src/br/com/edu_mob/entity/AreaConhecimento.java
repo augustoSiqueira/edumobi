@@ -1,6 +1,7 @@
 package br.com.edu_mob.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -36,9 +39,12 @@ public class AreaConhecimento implements Serializable {
 	@JoinColumn(name="id_categoria")
 	private Categoria categoria;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_atualizacao")
+	private Date dataAtualizacao;
+
 	public AreaConhecimento() {
 		super();
-
 	}
 
 	public AreaConhecimento(Categoria categoria) {
@@ -60,6 +66,14 @@ public class AreaConhecimento implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public Date getDataAtualizacao() {
+		return this.dataAtualizacao;
+	}
+
+	public void setDataAtualizacao(Date dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
 	}
 
 	@Override

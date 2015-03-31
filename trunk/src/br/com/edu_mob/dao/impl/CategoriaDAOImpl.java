@@ -1,6 +1,7 @@
 package br.com.edu_mob.dao.impl;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,8 +42,8 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO, Se
 		Boolean ativo = (Boolean) filtro.get("ativo");
 		String idPai = filtro.getAsString("idPai");
 		Boolean curso = (Boolean) filtro.get("curso");
+		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		List<Categoria> listaCategorias = null;
-
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Categoria.class);
 			if((nome != null) && !nome.isEmpty()) {
@@ -57,9 +58,11 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO, Se
 			if(curso != null) {
 				detachedCriteria.add(Restrictions.eq("curso", curso));
 			}
+			if(dataAtualizacao != null) {
+				detachedCriteria.add(Restrictions.ge("dataAtualizacao", dataAtualizacao));
+			}
 			detachedCriteria.addOrder(Order.asc("nome"));
 			listaCategorias = this.findByCriteria(detachedCriteria);
-
 		} catch(DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new DAOException(ErrorMessage.DAO.getChave());
@@ -74,6 +77,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO, Se
 		Boolean ativo = (Boolean) filtro.get("ativo");
 		String idPai = filtro.getAsString("idPai");
 		Boolean curso = (Boolean) filtro.get("curso");
+		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Categoria.class);
 			if((nome != null) && !nome.isEmpty()) {
@@ -87,6 +91,9 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO, Se
 			}
 			if(curso != null) {
 				detachedCriteria.add(Restrictions.eq("curso", curso));
+			}
+			if(dataAtualizacao != null) {
+				detachedCriteria.add(Restrictions.ge("dataAtualizacao", dataAtualizacao));
 			}
 			retorno = this.getDataCount(detachedCriteria);
 		} catch(DataAccessException e) {
@@ -103,8 +110,8 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO, Se
 		Boolean ativo = (Boolean) filtro.get("ativo");
 		Boolean curso = (Boolean) filtro.get("curso");
 		String idPai = filtro.getAsString("idPai");
+		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		List<Categoria> listaCategorias = null;
-
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Categoria.class);
 			if((nome != null) && !nome.isEmpty()) {
@@ -118,6 +125,9 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO, Se
 			}
 			if(curso != null) {
 				detachedCriteria.add(Restrictions.eq("curso", curso));
+			}
+			if(dataAtualizacao != null) {
+				detachedCriteria.add(Restrictions.ge("dataAtualizacao", dataAtualizacao));
 			}
 			detachedCriteria.addOrder(Order.asc("nome"));
 			listaCategorias = this.buscarPaginada(detachedCriteria, primeiroReg, paginaSize);

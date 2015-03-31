@@ -1,6 +1,7 @@
 package br.com.edu_mob.controller.impl;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,10 +27,10 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 	private static final long serialVersionUID = -8150844223995268988L;
 
 	private static final Logger logger = Logger.getLogger(AreaConhecimentoControllerImpl.class.getName());
-	
+
 	@Autowired
 	private AreaConhecimentoDAO areaConhecimentoDAO;
-	
+
 	@Override
 	public List<AreaConhecimento> listar() throws RNException {
 		List<AreaConhecimento> listaAreaConhecimento = null;
@@ -53,11 +54,11 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 		}
 		return areaConhecimento;
 	}
-	
+
 	@Override
 	public void incluirLista(List<AreaConhecimento> listaAreasConhecimento) throws RNException {
 		try {
-			if(listaAreasConhecimento != null && !listaAreasConhecimento.isEmpty()) {
+			if((listaAreasConhecimento != null) && !listaAreasConhecimento.isEmpty()) {
 				for (AreaConhecimento areaConhecimento : listaAreasConhecimento) {
 					if(areaConhecimento.getId() != null) {
 						this.alterar(areaConhecimento);
@@ -76,7 +77,8 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 	@Override
 	public void incluir(AreaConhecimento areaConhecimento) throws RNException {
 		try {
-			if(areaConhecimento.getDescricao() != null || !areaConhecimento.getDescricao().isEmpty()){
+			if((areaConhecimento.getDescricao() != null) || !areaConhecimento.getDescricao().isEmpty()){
+				areaConhecimento.setDataAtualizacao(new Date());
 				this.areaConhecimentoDAO.save(areaConhecimento);
 			}
 		} catch (DataAccessException e) {
@@ -89,7 +91,8 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 	@Override
 	public void alterar(AreaConhecimento areaConhecimento) throws RNException {
 		try {
-			if(areaConhecimento.getDescricao() != null || !areaConhecimento.getDescricao().isEmpty()){
+			if((areaConhecimento.getDescricao() != null) || !areaConhecimento.getDescricao().isEmpty()){
+				areaConhecimento.setDataAtualizacao(new Date());
 				this.areaConhecimentoDAO.update(areaConhecimento);
 			}
 		} catch (DataAccessException e) {
@@ -168,6 +171,6 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 	public void validarListaMemoria(AreaConhecimento areaConhecimento,
 			List<AreaConhecimento> lista) throws RNException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

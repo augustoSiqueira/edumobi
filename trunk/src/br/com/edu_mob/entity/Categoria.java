@@ -1,11 +1,11 @@
 package br.com.edu_mob.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -53,8 +55,12 @@ public class Categoria implements Serializable {
 
 	private boolean curso;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_atualizacao")
+	private Date dataAtualizacao;
+
 	@JsonBackReference
-	@OneToMany(mappedBy="categoria", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="categoria")
 	private List<AreaConhecimento> listaAreasConhecimento;
 
 	public Categoria() {
@@ -133,6 +139,15 @@ public class Categoria implements Serializable {
 	public void setListaAreasConhecimento(
 			List<AreaConhecimento> listaAreasConhecimento) {
 		this.listaAreasConhecimento = listaAreasConhecimento;
+	}
+
+
+	public Date getDataAtualizacao() {
+		return this.dataAtualizacao;
+	}
+
+	public void setDataAtualizacao(Date dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
 	}
 
 	@Override

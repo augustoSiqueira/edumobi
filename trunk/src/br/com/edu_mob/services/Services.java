@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edu_mob.controller.AlunoController;
@@ -19,6 +20,7 @@ import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.util.Filter;
+import br.com.edu_mob.util.Util;
 
 @RestController
 @RequestMapping(value="/services")
@@ -38,6 +40,8 @@ public class Services  {
 	@Autowired
 	private QuestaoController questaoController;
 
+	private final static String DATA_PADRAO = "01/01/2015 00:00:00";
+
 	@RequestMapping(value = "/validarLogin.do", method = RequestMethod.GET)
 	public Aluno validarLogin(String email, String senha) {
 		Aluno aluno = null;
@@ -50,10 +54,12 @@ public class Services  {
 	}
 
 	@RequestMapping(value="/categorias.do", method = RequestMethod.GET)
-	public List<Categoria> pesquisarCategorias() {
+	public List<Categoria> pesquisarCategorias(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data) {
 		List<Categoria> listaCategorias = null;
+		Filter filtro = new Filter();
 		try {
-			listaCategorias = this.categoriaController.pesquisarPorFiltro(new Filter());
+			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
+			listaCategorias = this.categoriaController.pesquisarPorFiltro(filtro);
 		} catch(RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -61,10 +67,12 @@ public class Services  {
 	}
 
 	@RequestMapping(value="/areasConhecimento.do", method = RequestMethod.GET)
-	public List<AreaConhecimento> pesquisarAreasConhecimento() {
+	public List<AreaConhecimento> pesquisarAreasConhecimento(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data) {
 		List<AreaConhecimento> listaAreasConhecimento = null;
+		Filter filtro = new Filter();
 		try {
-			listaAreasConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(new Filter());
+			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
+			listaAreasConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtro);
 		} catch(RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -72,10 +80,12 @@ public class Services  {
 	}
 
 	@RequestMapping(value="/questoes.do", method = RequestMethod.GET)
-	public List<Questao> pesquisarQuestoes() {
+	public List<Questao> pesquisarQuestoes(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data) {
 		List<Questao> listaQuestoes = null;
+		Filter filtro = new Filter();
 		try {
-			listaQuestoes = this.questaoController.pesquisarPorFiltro(new Filter());
+			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
+			listaQuestoes = this.questaoController.pesquisarPorFiltro(filtro);
 		} catch(RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
