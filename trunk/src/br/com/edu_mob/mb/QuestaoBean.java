@@ -1,13 +1,16 @@
 package br.com.edu_mob.mb;
 
+
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,17 +20,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.jpa.criteria.predicate.IsEmptyPredicate;
 import org.primefaces.event.FileUploadEvent;
+
+
+
 import org.primefaces.model.UploadedFile;
 
-import com.sun.media.sound.AlawCodec;
+
 
 import br.com.edu_mob.controller.AlternativaController;
 import br.com.edu_mob.controller.AreaConhecimentoController;
@@ -37,13 +39,10 @@ import br.com.edu_mob.entity.Alternativa;
 import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Questao;
-import br.com.edu_mob.entity.UF;
-import br.com.edu_mob.exception.GenericException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.message.SucessMessage;
-import br.com.edu_mob.util.FileUtil;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 
@@ -115,26 +114,10 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	
 	public void upload(FileUploadEvent event){
-		byte[] foto = event.getFile().getContents();
-		String nomeDoArquivo = event.getFile().getFileName();
-		String arquivo = "C:\\Workspace-luna\\edumobi\\WebContent\\imagemQuestoes\\" + nomeDoArquivo;
-		this.questao.setCaminhoImagem(nomeDoArquivo);
-		criaArquivo(foto,arquivo);
-		
+		String caminhoImagem = this.questaoController.salvarImagem(event);
+		this.questao.setCaminhoImagem(caminhoImagem);
 	}
 	
-	public void criaArquivo(byte[] bytes, String arquivo) {
-		FileOutputStream fos;
-		try {
-		fos = new FileOutputStream(arquivo);
-		fos.write(bytes);
-		fos.close();
-		} catch (FileNotFoundException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
 	
 	public void limparForm(){
 		this.limparCampos();
