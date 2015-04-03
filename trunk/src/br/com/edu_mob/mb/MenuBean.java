@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.util.AliasNavigation;
 
 @ManagedBean
@@ -13,8 +16,18 @@ public class MenuBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private final static long ID_ALUNO = 2L;
+
 	public String pagePrincipal() {
 		return AliasNavigation.PAGINA_PRINCIPAL;
+	}
+
+	public String pageDadosPessoais() {
+		Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(usuario.getPerfil().getId().equals(ID_ALUNO)) {
+			return AliasNavigation.PAGINA_DADOS_PESSOAIS_ALUNO;
+		}
+		return AliasNavigation.PAGINA_DADOS_PESSOAIS_USUARIO;
 	}
 
 	public String pageUsuarios() {
@@ -28,11 +41,11 @@ public class MenuBean implements Serializable {
 	public String pageCategorias() {
 		return AliasNavigation.PAGINA_CATEGORIA;
 	}
-	
+
 	public String pageAreaConhecimentos() {
 		return AliasNavigation.PAGINA_AREA_CONHECIMENTO;
 	}
-	
+
 	public String pageQuestao() {
 		return AliasNavigation.PAGINA_QUESTAO;
 	}
