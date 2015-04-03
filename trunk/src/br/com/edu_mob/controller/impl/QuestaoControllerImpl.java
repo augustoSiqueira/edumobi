@@ -19,6 +19,7 @@ import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.services.QuestaoDTO;
 import br.com.edu_mob.util.Filter;
 
 
@@ -114,6 +115,18 @@ public class QuestaoControllerImpl implements QuestaoController{
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 		return listaQuestoes;
+	}
+
+	@Override
+	public List<QuestaoDTO> pesquisarPorFiltroDTO(Filter filtro) throws RNException {
+		List<QuestaoDTO> listaQuestoesDTO = null;
+		try {
+			listaQuestoesDTO = this.questaoDAO.pesquisarPorFiltroDTO(filtro);
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+		return listaQuestoesDTO;
 	}
 
 	@Override

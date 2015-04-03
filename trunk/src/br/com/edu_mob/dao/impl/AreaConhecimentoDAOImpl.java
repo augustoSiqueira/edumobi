@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +24,7 @@ import br.com.edu_mob.dao.AreaConhecimentoDAO;
 import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.services.AreaConhecimentoDTO;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 
@@ -115,6 +120,29 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 		}
 
 		return listaAreaConhecimento;
+	}
+
+	@Override
+	public List<AreaConhecimentoDTO> pesquisarPorFiltroDTO(Filter filtro) throws DAOException {
+		List<AreaConhecimentoDTO> listaAreaConhecimentoDTO = null;
+		StringBuilder sb = new StringBuilder();
+		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
+		try {
+			sb.append("select new br.com.edu_mob.services.AreaConhecimentoDTO(aa.id, aa.descricao, aa.categoria.id, aa.dataAtualizacao) ");
+			sb.append(" from AreaConhecimento aa where aa.dataAtualizacao >= :dataAtualizacao ");
+			listaAreaConhecimentoDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<AreaConhecimentoDTO>>() {
+				@Override
+				public List<AreaConhecimentoDTO> doInHibernate(Session session) throws HibernateException {
+					Query query = session.createQuery(sb.toString());
+					query.setParameter("dataAtualizacao", dataAtualizacao);
+					return query.list();
+				}
+			});
+		} catch(DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+		return listaAreaConhecimentoDTO;
 	}
 
 	@Override

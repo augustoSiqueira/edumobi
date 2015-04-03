@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -12,6 +15,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +24,7 @@ import br.com.edu_mob.dao.QuestaoDAO;
 import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.services.QuestaoDTO;
 import br.com.edu_mob.util.Filter;
 
 @Repository("QuestaoDAO")
@@ -85,9 +90,6 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 		return retorno;
 	}
 
-
-
-
 	@Override
 	public List<Questao> pesquisarPorFiltroPaginada(Filter filtro, int primeiroReg, int paginaSize) throws DAOException {
 		String enunciado = filtro.getAsString("enunciado");
@@ -113,6 +115,28 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 		return listaQuestao;
 	}
 
+	@Override
+	public List<QuestaoDTO> pesquisarPorFiltroDTO(Filter filtro) throws DAOException {
+		List<QuestaoDTO> listaQuestoesDTO = null;
+		StringBuilder sb = new StringBuilder();
+		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
+		try {
+			sb.append("select new br.com.edu_mob.services.QuestaoDTO(q.id, q.enunciado, q.observacao, q.caminhoImagem, q.areaConhecimento.id, ");
+			sb.append(" q.dataAtualizacao) from Questao q where q.dataAtualizacao >= :dataAtualizacao ");
+			listaQuestoesDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<QuestaoDTO>>() {
+				@Override
+				public List<QuestaoDTO> doInHibernate(Session session) throws HibernateException {
+					Query query = session.createQuery(sb.toString());
+					query.setParameter("dataAtualizacao", dataAtualizacao);
+					return query.list();
+				}
+			});
+		} catch(DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+		return listaQuestoesDTO;
+	}
 
 	@Override
 	public boolean verificarExistencia(String campo, String valor, Long id)	throws DAOException {

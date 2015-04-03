@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -13,6 +16,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,7 @@ import br.com.edu_mob.dao.CategoriaDAO;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.services.CategoriaDTO;
 import br.com.edu_mob.util.Filter;
 
 @Repository("categoriaDAO")
@@ -157,6 +162,29 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO, Se
 			throw new DAOException(ErrorMessage.DAO.getChave());
 		}
 		return retorno;
+	}
+
+	@Override
+	public List<CategoriaDTO> pesquisarPorFiltroDTO(Filter filtro) throws DAOException {
+		List<CategoriaDTO> listaCategoriaDTO = null;
+		StringBuilder sb = new StringBuilder();
+		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
+		try {
+			sb.append("select new br.com.edu_mob.services.CategoriaDTO(c.id, c.nome, c.ativo, c.pai.id, c.qtdQuestoes, c.titulo, c.descricao, ");
+			sb.append(" c.curso, c.dataAtualizacao) from Categoria c where c.ativo = true and c.dataAtualizacao >= :dataAtualizacao ");
+			listaCategoriaDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<CategoriaDTO>>() {
+				@Override
+				public List<CategoriaDTO> doInHibernate(Session session) throws HibernateException {
+					Query query = session.createQuery(sb.toString());
+					query.setParameter("dataAtualizacao", dataAtualizacao);
+					return query.list();
+				}
+			});
+		} catch(DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+		return listaCategoriaDTO;
 	}
 
 	@Override

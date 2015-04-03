@@ -15,9 +15,6 @@ import br.com.edu_mob.controller.AreaConhecimentoController;
 import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.controller.QuestaoController;
 import br.com.edu_mob.entity.Aluno;
-import br.com.edu_mob.entity.AreaConhecimento;
-import br.com.edu_mob.entity.Categoria;
-import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.Util;
@@ -54,42 +51,42 @@ public class Services  {
 	}
 
 	@RequestMapping(value="/categorias.do", method = RequestMethod.GET)
-	public List<Categoria> pesquisarCategorias(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data) {
-		List<Categoria> listaCategorias = null;
+	public List<CategoriaDTO> pesquisarCategorias(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data) {
+		List<CategoriaDTO> listaCategoriasDTO = null;
 		Filter filtro = new Filter();
 		try {
 			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
-			listaCategorias = this.categoriaController.pesquisarPorFiltro(filtro);
+			listaCategoriasDTO = this.categoriaController.pesquisarPorFiltroDTO(filtro);
 		} catch(RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		return listaCategorias;
+		return listaCategoriasDTO;
 	}
 
 	@RequestMapping(value="/areasConhecimento.do", method = RequestMethod.GET)
-	public List<AreaConhecimento> pesquisarAreasConhecimento(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data) {
-		List<AreaConhecimento> listaAreasConhecimento = null;
+	public List<AreaConhecimentoDTO> pesquisarAreasConhecimento(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data) {
+		List<AreaConhecimentoDTO> listaAreasConhecimentoDTO = null;
 		Filter filtro = new Filter();
 		try {
 			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
-			listaAreasConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtro);
+			listaAreasConhecimentoDTO = this.areaConhecimentoController.pesquisarPorFiltroDTO(filtro);
 		} catch(RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		return listaAreasConhecimento;
+		return listaAreasConhecimentoDTO;
 	}
 
 	@RequestMapping(value="/questoes.do", method = RequestMethod.GET)
-	public List<Questao> pesquisarQuestoes(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data) {
-		List<Questao> listaQuestoes = null;
+	public List<QuestaoDTO> pesquisarQuestoes(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data) {
+		List<QuestaoDTO> listaQuestoesDTO = null;
 		Filter filtro = new Filter();
 		try {
 			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
-			listaQuestoes = this.questaoController.pesquisarPorFiltro(filtro);
+			listaQuestoesDTO = this.questaoController.pesquisarPorFiltroDTO(filtro);
 		} catch(RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		return listaQuestoes;
+		return listaQuestoesDTO;
 	}
 
 }

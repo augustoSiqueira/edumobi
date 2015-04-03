@@ -20,6 +20,7 @@ import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.services.CategoriaDTO;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 
@@ -132,6 +133,18 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 		return listaCategorias;
+	}
+
+	@Override
+	public List<CategoriaDTO> pesquisarPorFiltroDTO(Filter filtro) throws RNException {
+		List<CategoriaDTO> listaCategoriasDTO = null;
+		try {
+			listaCategoriasDTO = this.categoriaDAO.pesquisarPorFiltroDTO(filtro);
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+		return listaCategoriasDTO;
 	}
 
 	@Override

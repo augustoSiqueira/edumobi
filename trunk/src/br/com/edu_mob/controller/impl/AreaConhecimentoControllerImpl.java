@@ -18,6 +18,7 @@ import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.services.AreaConhecimentoDTO;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 
@@ -123,6 +124,18 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 			throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DAO.getChave()));
 		}
 		return listaAreaConhecimento;
+	}
+
+	@Override
+	public List<AreaConhecimentoDTO> pesquisarPorFiltroDTO(Filter filtro) throws RNException {
+		List<AreaConhecimentoDTO> listaAreaConhecimentoDTO = null;
+		try {
+			listaAreaConhecimentoDTO = this.areaConhecimentoDAO.pesquisarPorFiltroDTO(filtro);
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DAO.getChave()));
+		}
+		return listaAreaConhecimentoDTO;
 	}
 
 	@Override
