@@ -12,42 +12,48 @@
 		<ui:define name="titulo">
 			#{msg.area_conhecimento_titulo}
 		</ui:define>
+		
 		<ui:define name="corpo">
+		
+			<p:link id="principal" value="#{msg.app_label_principal}" outcome="principal.jsf?faces-redirect=true" />
+			>
+			<p:link id="categoria" value="#{msg.area_conhecimento_label_categoria}" outcome="categoria.jsf?faces-redirect=true" />
+			>
+			
+		
 			<div class="row">
-				<div class="col-md-4">
-				
+<!-- 				<div class="col-md-4"> -->
+				<div>
 					<div class="panel panel-default">
 					  <div class="panel-heading"><h:outputLabel value="#{msg.area_conhecimento_titulo}"/></div>
 					  <div class="panel-body">
 					    
 					    <h:form id="edicao">
 					    
-					    <p:panelGrid columns="2">
-						    <p:column>
+					    <h:outputLabel value="#{msg.area_conhecimento_label_categoria}: #{areaConhecimentoBean.categoria.nome}" for="categoria" />
+<!-- 					    <h:outputLabel value="#{areaConhecimento.categoria.nome}"/> -->
+					    
+					    
+					    <h:panelGrid columns="3">
 		            			<h:outputLabel value="#{msg.area_conhecimento_label_descricao}*: " for="descricao" />
 								<p:inputText id="descricao" value="#{areaConhecimentoBean.areaConhecimento.descricao}" validator="removeEmBranco" required="true" maxlength="50" styleClass="form-control" />
-							</p:column>
-							
-							<p:column>
-								<p:commandLink process="@form"
+						
+								<p:commandButton process="@form" value="#{msg.area_conhecimento_label_add}"
 									action="#{areaConhecimentoBean.adicionarAreaConhecimento}"
 									update=":edicao :listagem">
-									<p:graphicImage library="imagens" name="adicionar16.png" />
-								</p:commandLink>
-							</p:column>
-						</p:panelGrid>
-<!-- 						<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.incluirLista}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" /> -->
-<!-- 						<p:commandButton value="#{msg.app_label_limpar}" action="#{areaConhecimentoBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" /> -->
+<!-- 									<p:graphicImage library="imagens" name="adicionar16.png" /> -->
+								</p:commandButton>
+							
+						</h:panelGrid>
 					</h:form>
 					
-					<h:form id="botao">
-					<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.incluirLista}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
-						<p:commandButton value="#{msg.app_label_limpar}" action="#{areaConhecimentoBean.limparCampos}" update="@form" process="@none" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" />
-					</h:form>
 				</div>	<!--Fim Painel body  -->			
 			</div><!--Fim Painel  -->
 		</div><!-- Fim Linha Cadastrar  -->	
-		<div class="col-md-8">
+		
+		
+<!-- 		<div class="col-md-8"> -->
+		<div>
 			<div class="panel panel-default">
 				<div class="panel-heading">#{msg.area_conhecimento_lista}</div>
 					<div class="panel-body">
@@ -77,6 +83,13 @@
 							</p:column>
 						</p:dataTable>	
 					</h:form>	
+					
+					<br/>
+					
+					<h:form id="botao">
+						<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.incluirLista}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-left" />
+<!-- 						<p:commandButton value="#{msg.app_label_limpar}" action="#{areaConhecimentoBean.limparCampos}" update="@form" process="@none" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" /> -->
+					</h:form>
 			  </div>					  
 			</div>
 				

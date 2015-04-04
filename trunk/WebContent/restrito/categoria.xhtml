@@ -91,10 +91,14 @@
 									<p:graphicImage library="imagens" name="excluir16.png" title="Excluir" />
 									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
 								</p:commandLink>
-								<p:commandLink process="@this" action="#{categoriaBean.adicionarAreaConhecimento}" rendered="#{categoria.curso}" >
-									<p:graphicImage library="imagens" name="adicionar16.png" />
-									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
-								</p:commandLink>
+							</p:column>
+							
+							<p:column headerText="#{msg.area_conhecimento_label_categoria}">
+								<center>
+									<p:commandButton process="@this" action="#{categoriaBean.adicionarAreaConhecimento}" rendered="#{categoria.curso}" value="#{msg.area_conhecimento_label_adicionar}">
+										<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
+									</p:commandButton>
+								</center>
 							</p:column>
 						</p:dataTable>	
 					</h:form>	
