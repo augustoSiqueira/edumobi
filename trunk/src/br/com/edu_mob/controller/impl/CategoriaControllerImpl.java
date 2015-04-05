@@ -33,7 +33,7 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 
 	@Autowired
 	private CategoriaDAO categoriaDAO;
-
+	
 	@Autowired
 	private AreaConhecimentoDAO  areaConhecimentoDAO;
 
@@ -171,16 +171,16 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 		}
 		return listaCategorias;
 	}
-
+	
 	public void validarCamposVazios(Categoria categoria) throws RNException{
 		List<String> erros = new ArrayList<String>();
 		boolean erro = false;
-
+		
 		if( categoria.getNome().trim().equals("")){
 			erros.add(ErrorMessage.CAMPO_NOME_VAZIO.getChave());
 			erro = true;
 		}
-
+		
 		if(categoria.isCurso()){
 			if( categoria.getTitulo().trim().equals("")){
 				erros.add(ErrorMessage.CAMPO_TITULO_VAZIO.getChave());
@@ -190,18 +190,18 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 				erros.add(ErrorMessage.CAMPO_DESCRICAO_VAZIO.getChave());
 				erro = true;
 			}
-
+			
 			if( categoria.getQtdQuestoes() == null){
 				erros.add(ErrorMessage.CAMPO_QNT_QUESTAO_VAZIO.getChave());
 				erro = true;
 			}
-		}
-
+		}		
+		
 		if(erro){
-			throw new RNException(erros);
+			throw new RNException(erros);	
 		}
-
-
+		
+		
 	}
 
 }

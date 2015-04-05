@@ -28,10 +28,10 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 	private static final long serialVersionUID = -8150844223995268988L;
 
 	private static final Logger logger = Logger.getLogger(AreaConhecimentoControllerImpl.class.getName());
-
+	
 	@Autowired
 	private AreaConhecimentoDAO areaConhecimentoDAO;
-
+	
 	@Override
 	public List<AreaConhecimento> listar() throws RNException {
 		List<AreaConhecimento> listaAreaConhecimento = null;
@@ -55,7 +55,7 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 		}
 		return areaConhecimento;
 	}
-
+	
 	@Override
 	public void incluirLista(List<AreaConhecimento> listaAreasConhecimento) throws RNException {
 		try {
@@ -184,6 +184,6 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 	public void validarListaMemoria(AreaConhecimento areaConhecimento,
 			List<AreaConhecimento> lista) throws RNException {
 		// TODO Auto-generated method stub
-
+		
 	}
 }

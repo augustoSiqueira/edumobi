@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -56,5 +57,11 @@ public class MenuBean implements Serializable {
 
 	public String pageAlunos() {
 		return AliasNavigation.PAGINA_ALUNO;
+	}
+	
+	public String pageCurso() {
+		 long id = Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));  
+		 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cursoId",id); 
+		 return AliasNavigation.PAGINA_CURSO;
 	}
 }

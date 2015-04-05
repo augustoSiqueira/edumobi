@@ -34,7 +34,7 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 
 	private static final long serialVersionUID = -539985070564944663L;
 	private static final Logger logger = Logger.getLogger(AreaConhecimentoDAOImpl.class.getName());
-
+	
 	@Autowired
 	public AreaConhecimentoDAOImpl(SessionFactory factory) {
 		super(factory);
@@ -42,18 +42,18 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 
 	@Override
 	public List<AreaConhecimento> pesquisarPorFiltro(Filter filtro)	throws DAOException {
-
+		
 		List<AreaConhecimento> listaAreaConhecimento = null;
 		String descricao = filtro.getAsString("descricao");
 		String categoria = filtro.getAsString("idCategoria");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(AreaConhecimento.class);
-
+			
 			if ((descricao != null) && !descricao.isEmpty()) {
 				detachedCriteria.add(Restrictions.ilike("descricao", descricao, MatchMode.ANYWHERE));
 			}
-
+			
 			if((categoria != null) && !categoria.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("categoria.id", Long.parseLong(categoria)));
 			}
@@ -73,12 +73,12 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 	@Override
 	public int pesquisarPorFiltroCount(Filter filtro) throws DAOException {
 		int retorno = -1;
-
+		
 		String descricao = filtro.getAsString("descricao");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(AreaConhecimento.class);
-
+			
 			if ((descricao != null) && !descricao.isEmpty()) {
 				detachedCriteria.add(Restrictions.ilike("descricao", descricao, MatchMode.ANYWHERE));
 			}
@@ -98,7 +98,7 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 	@Override
 	public List<AreaConhecimento> pesquisarPorFiltroPaginada(Filter filtro,
 			int primeiroReg, int paginaSize) throws DAOException {
-
+		
 		List<AreaConhecimento> listaAreaConhecimento = null;
 		String descricao = filtro.getAsString("descricao");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
@@ -113,12 +113,12 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 			}
 
 			listaAreaConhecimento = this.buscarPaginada(detachedCriteria, primeiroReg, paginaSize);
-
+			
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new DAOException(MensagemUtil.getMensagem(ErrorMessage.DAO.getChave()));
 		}
-
+		
 		return listaAreaConhecimento;
 	}
 

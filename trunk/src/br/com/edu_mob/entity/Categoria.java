@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -62,6 +63,9 @@ public class Categoria implements Serializable {
 	@JsonBackReference
 	@OneToMany(mappedBy="categoria")
 	private List<AreaConhecimento> listaAreasConhecimento;
+	
+	@OneToMany(mappedBy="pai", fetch=FetchType.EAGER)
+	private List<Categoria> subCategorias;
 
 	public Categoria() {
 		super();
@@ -140,7 +144,16 @@ public class Categoria implements Serializable {
 			List<AreaConhecimento> listaAreasConhecimento) {
 		this.listaAreasConhecimento = listaAreasConhecimento;
 	}
+	
+	
 
+	public List<Categoria> getSubCategorias() {
+		return subCategorias;
+	}
+
+	public void setSubCategorias(List<Categoria> subCategorias) {
+		this.subCategorias = subCategorias;
+	}
 
 	public Date getDataAtualizacao() {
 		return this.dataAtualizacao;
@@ -149,7 +162,7 @@ public class Categoria implements Serializable {
 	public void setDataAtualizacao(Date dataAtualizacao) {
 		this.dataAtualizacao = dataAtualizacao;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

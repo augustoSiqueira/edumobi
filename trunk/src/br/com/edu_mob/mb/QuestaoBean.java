@@ -102,13 +102,13 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	public void upload(FileUploadEvent event){
 		
-		try{
-		String caminhoImagem = this.questaoController.salvarImagem(event);
-		this.questao.setCaminhoImagem(caminhoImagem);
+		/*try{
+			String caminhoImagem = this.questaoController.salvarImagem(event);
+			this.questao.setCaminhoImagem(caminhoImagem);
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
-		}
+		}*/
 	}
 	
 	

@@ -30,20 +30,21 @@ import br.com.edu_mob.util.Filter;
 @Repository("QuestaoDAO")
 @Transactional(propagation=Propagation.REQUIRED)
 public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
-
+	
 	private static final Logger logger = Logger.getLogger(QuestaoDAOImpl.class.getName());
 
 	@Autowired
 	public QuestaoDAOImpl(SessionFactory factory) {
 		super(factory);
 	}
-
-
+	
+	
 	@Override
 	public List<Questao> pesquisarPorFiltro(Filter filtro) throws DAOException {
 		String enunciado = filtro.getAsString("enunciado");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		List<Questao> listaQuestoes = null;
+		
 
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Questao.class);
@@ -64,7 +65,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 		}
 		return listaQuestoes;
 	}
-
+	
 	@Override
 	public int pesquisarPorFiltroCount(Filter filtro) throws DAOException {
 		int retorno = 0;

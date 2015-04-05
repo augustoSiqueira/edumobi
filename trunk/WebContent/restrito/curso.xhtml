@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	  xmlns:util="http://java.sun.com/jsf/composite/components/util"
+	  xmlns:p="http://primefaces.org/ui">
+	  
+	<ui:composition template="/templates/principal.xhtml">
+		
+		<ui:define name="corpo">
+			<div class="panel panel-default">
+				<div class="panel-heading"><h:outputLabel value="#{cursoBean.categoria.nome}"/></div>
+					<div class="panel-body">
+						<p>
+					  		<p:outputLabel value="#{cursoBean.categoria.titulo}"/>
+					  		<p:commandButton value="Simulado" styleClass="pull-right"/>
+					  		<p:commandButton value="Estudo" styleClass="pull-right"/>
+					  	</p>
+					  	<p>
+					  		<p:outputLabel value="Total de questão: "/>
+					  		<p:outputLabel value="Respondidas: " styleClass="marginLeft"/>
+					  		<p:outputLabel value="Perc. de Acertos: " styleClass="marginLeft"/>
+					  	
+					  	</p>
+					  	
+					</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</html>

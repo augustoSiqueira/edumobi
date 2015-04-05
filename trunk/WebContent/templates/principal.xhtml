@@ -1,40 +1,69 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"	
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:p="http://primefaces.org/ui">
-	  
-	  
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
 <h:head>
- 	<h:outputStylesheet library="css" name="bootstrap.min.css"/> 
-	<h:outputStylesheet library="css" name="estilo1.css"/>
-	<h:outputScript library="js" name="bootstrap.min.js" />		
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="estilo1.css" />
+	<h:outputScript library="js" name="bootstrap.min.js" />
+	<title><ui:insert name="titulo">Edu Mob</ui:insert></title>
 </h:head>
 
 
 <h:body>
 
-	<p:growl autoUpdate="true" life="3000" showDetail="true"/>
+	<p:growl autoUpdate="true" life="3000" showDetail="true" />
 
 	<ui:insert name="barra_menu">
-			<ui:include src="/restrito/menu_sistema.xhtml" />
-		</ui:insert>
-	
+		<ui:include src="/restrito/menu_sistema.xhtml" />
+	</ui:insert>
+
 	<div class="container">
-	
-	<div class="starter-template">
-		<ui:insert name="titulo">Edu Mob</ui:insert>
-		<ui:insert name="corpo" />
-	</div>	
-		
+
+		<div class="starter-template">
+			<div class="row">
+				<div class="col-md-4">
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h:outputLabel value="Cursos" />
+						</div>
+						<div class="panel-body">
+							<h:form>
+								<p:tree value="#{menuCategoriaBean.root}" var="categoria"
+									styleClass="menuTree">
+									<p:treeNode>
+										<p:commandLink value="#{categoria.nome}" ajax="false" action="#{menuBean.pageCurso}" styleClass="menuLink"	rendered="#{categoria.curso == true}" >
+											<f:param name="id" value="#{categoria.id}"/>  
+										</p:commandLink>
+										<h:outputText value="#{categoria.nome}"
+											styleClass="menuSimples" rendered="#{categoria.curso == false}" />
+
+									</p:treeNode>
+								</p:tree>
+							</h:form>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<ui:insert name="corpo" />
+
+				</div>
+			</div>
+
+
+		</div>
+
 	</div>
-	
-	<footer>	
-        <ui:insert name="rodape">
-			<ui:include src="/publico/rodape.xhtml" />
-		</ui:insert>
-	</footer>
+
+	<footer> <ui:insert name="rodape">
+		<ui:include src="/publico/rodape.xhtml" />
+	</ui:insert> </footer>
 </h:body>
 </html>

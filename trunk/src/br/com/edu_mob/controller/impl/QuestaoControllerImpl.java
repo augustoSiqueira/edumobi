@@ -27,10 +27,10 @@ import br.com.edu_mob.util.Filter;
 public class QuestaoControllerImpl implements QuestaoController{
 
 	private static final Logger logger = Logger.getLogger(QuestaoDAOImpl.class.getName());
-
+	
 	@Autowired
 	private QuestaoDAO questaoDAO;
-
+	
 	@Autowired
 	private AlternativaDAO alternativaDAO;
 
@@ -45,7 +45,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 		}
 		return listaQuestoes;
 	}
-
+	
 	@Override
 	public Questao pesquisarPorId(Long id) throws RNException {
 		Questao questao = null;
@@ -57,7 +57,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 		}
 		return questao;
 	}
-
+	
 	@Override
 	public void incluir(Questao questao) throws RNException {
 		try {
@@ -68,7 +68,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 	}
-
+	
 	@Override
 	public void alterar(Questao questao) throws RNException {
 		try {
@@ -79,22 +79,22 @@ public class QuestaoControllerImpl implements QuestaoController{
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 	}
-
+	
 	@Override
 	public void excluir(Questao questao) throws RNException {
 		List<Alternativa> listaAlternativa = new ArrayList<Alternativa>();
 		Filter filtro = new Filter();
 		try {
 			filtro.put("idQuestao", questao.getId().toString());
-
+			
 			if(this.alternativaDAO.pesquisarPorFiltroCount(filtro) > 0) {
 				listaAlternativa = this.alternativaDAO.pesquisarPorFiltro(filtro);
-
+				
 				for (Alternativa alternativa : listaAlternativa) {
 					this.alternativaDAO.remove(alternativa);
 				}
 			}
-
+			
 			this.questaoDAO.remove(questao);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -143,7 +143,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 
 	@Override
 	public List<Questao> pesquisarPorFiltroPaginada(Filter filtro,
-			int primeiroReg, int paginaSize) throws RNException {
+		int primeiroReg, int paginaSize) throws RNException {
 		List<Questao> listaQuestoes = null;
 		try {
 			listaQuestoes = this.questaoDAO.pesquisarPorFiltroPaginada(filtro, primeiroReg, paginaSize);
@@ -153,6 +153,6 @@ public class QuestaoControllerImpl implements QuestaoController{
 		}
 		return listaQuestoes;
 	}
-
+	
 
 }
