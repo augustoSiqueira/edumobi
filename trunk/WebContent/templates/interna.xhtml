@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"	
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">
+	  
+	  
+<h:head>
+ 	<h:outputStylesheet library="css" name="bootstrap.min.css"/> 
+	<h:outputStylesheet library="css" name="estilo1.css"/>
+	<h:outputScript library="js" name="bootstrap.min.js" />		
+</h:head>
+
+
+<h:body>
+	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+    <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+      <p:graphicImage url="../resources/imagens/status.gif"/>
+    </p:dialog>
+	<p:growl autoUpdate="true" life="3000" showDetail="true" showSummary="false" />
+
+	<ui:insert name="barra_menu">
+			<ui:include src="/restrito/menu_sistema.xhtml" />
+		</ui:insert>
+	
+	<div class="container">
+	
+	<div class="starter-template">
+		<!-- <ui:insert name="titulo">Edu Mob</ui:insert> -->
+		<ui:insert name="corpo" />
+	</div>	
+		
+	</div>
+	
+	<footer>	
+        <ui:insert name="rodape">
+			<ui:include src="/publico/rodape.xhtml" />
+		</ui:insert>
+	</footer>
+</h:body>
+</html>

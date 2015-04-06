@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/interna.xhtml">	
+				
+		<ui:define name="corpo">
+
+				<div class="row">
+				<div class="col-md-4">
+				
+					<div class="panel panel-default">
+					  <div class="panel-heading"><h:outputLabel value="#{msg.aluno_label_titulo}"/></div>
+					  <div class="panel-body">
+					    
+					    <h:form id="edicao">
+					    
+					    <div class="form-group">
+	                       	<h:outputLabel value="#{msg.aluno_label_cpf}*: " for="cpf" />
+							<p:inputMask id="cpf" mask="999.999.999-99" placeHolder="" value="#{alunoBean.aluno.cpf}" required="true" styleClass="form-control"/>    
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_nome}*: " for="nome" />
+							<p:inputText id="nome" value="#{alunoBean.aluno.nome}" required="true" maxlength="100" validator="removeEmBranco" styleClass="form-control"/>
+	                  	</div>
+	                  	
+	                  	<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_email}*: " for="email" />
+							<p:inputText id="email" value="#{alunoBean.aluno.email}" required="true" validator="removeEmBranco" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_matricula}*: " for="matricula" />
+							<p:inputText id="matricula" value="#{alunoBean.aluno.matricula}" disabled="true" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_data_nascimento}: " for="dataNascimento" />
+							<p:calendar id="dataNascimento" value="#{alunoBean.aluno.dataNascimento}" pattern="dd/MM/yyyy" mask="true" />
+						</div>
+						
+						<div class="form-group">
+		            		<h:outputLabel value="#{msg.aluno_label_sexo}:" for="sexo" />
+							<p:selectOneMenu id="sexo" value="#{alunoBean.aluno.sexo}">
+								<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
+								<f:selectItems value="#{alunoBean.listaSexo}" var="sexo" itemLabel="#{sexo.label}" 
+									itemValue="#{sexo}" />
+							</p:selectOneMenu>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_telefone_residencial}: " for="telefoneResidencial" />
+							<p:inputMask mask="(99)9999-9999" id="telefoneResidencial" value="#{alunoBean.aluno.telefoneResidencial}" maxlength="15" validator="removeEmBranco" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_telefone_celular}: " for="telefoneCelular" />
+							<p:inputMask mask="(99)9999-9999" id="telefoneCelular" value="#{alunoBean.aluno.celular}" maxlength="15" validator="removeEmBranco" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_logradouro}: " for="logradouro" />
+							<p:inputText  id="logradouro" value="#{alunoBean.aluno.logradouro}" maxlength="130" validator="removeEmBranco" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_bairro}: " for="bairro" />
+							<p:inputText id="bairro" value="#{alunoBean.aluno.bairro}" maxlength="70" validator="removeEmBranco" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_cep}: " for="cep" />
+							<p:inputMask id="cep" mask="99999-999" value="#{alunoBean.aluno.cep}" validator="removeEmBranco" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_complemento}: " for="complemento" />
+							<p:inputText id="complemento" value="#{alunoBean.aluno.complemento}" maxlength="50" validator="removeEmBranco" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+	                  		<h:outputLabel value="#{msg.aluno_label_numero}: " for="numero" />
+							<p:inputText id="numero" value="#{alunoBean.aluno.numero}" maxlength="10" validator="removeEmBranco" styleClass="form-control"/>
+						</div>
+						
+						<div class="form-group">
+		            		<h:outputLabel value="#{msg.aluno_label_uf}:" for="uf" />
+							<p:selectOneMenu id="uf" value="#{alunoBean.uf}" valueChangeListener="#{alunoBean.ufChangeListener}"
+								converter="converterUF">
+								<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
+								<f:selectItems value="#{alunoBean.listaUF}" var="uf" itemLabel="#{uf.sigla}" 
+									itemValue="#{uf}" />
+								<f:ajax event="change" render="edicao:municipio" />	
+							</p:selectOneMenu>
+						</div>
+						
+						<div class="form-group">
+		            		<h:outputLabel value="#{msg.aluno_label_municipio}:" for="municipio" />
+							<p:selectOneMenu id="municipio" value="#{alunoBean.aluno.municipio}" converter="converterMunicipio" 
+								disabled="#{(alunoBean.uf == null or alunoBean.uf.id == null)}">
+								<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
+								<f:selectItems value="#{alunoBean.listaMunicipios}" var="municipio" itemLabel="#{municipio.nome}" 
+									itemValue="#{municipio}" />
+							</p:selectOneMenu>
+						</div>				
+						
+	                  	<div class="checkbox">
+					        <label>
+					          <p:selectBooleanCheckbox id="ativo" value="#{alunoBean.aluno.ativo}" required="true" />
+				       	 	  <h:outputLabel value="#{msg.aluno_label_ativo}*" for="ativo" />
+					        </label>
+					    </div>
+					    <p:commandButton value="#{msg.app_label_salvar}" action="#{alunoBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_ALUNO_INCLUIR')}" styleClass="btn btn-success pull-right"/>
+						</h:form>
+						<p:commandButton value="#{msg.app_label_limpar}" action="#{alunoBean.limparCampos}"  update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_ALUNO_INCLUIR')}" styleClass="btn btn-default pull-right"/>
+		
+                  	 </div>	<!--Fim Painel body  -->			
+					</div><!--Fim Painel  -->
+					
+					
+				</div><!-- Fim Linha Cadastrar  -->	
+				
+				<div class="col-md-8">
+					<div class="panel panel-default">
+					  <div class="panel-heading">#{msg.aluno_lista}</div>
+					  <div class="panel-body">
+					  		<h:form id="listagem">
+								<p:dataTable id="tabelaAluno" value="#{alunoBean.dataModelAluno}" var="aluno" rows="10" 
+									paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+									{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" selection="#{alunoBean.aluno}"
+									lazy="true" >
+									<p:column headerText="#{msg.aluno_label_cpf}" filterBy="#{aluno.cpf}">
+										#{aluno.cpf}
+									</p:column>	
+									<p:column headerText="#{msg.aluno_label_matricula}" filterBy="#{aluno.matricula}">
+										#{aluno.matricula}
+									</p:column>	
+									<p:column headerText="#{msg.aluno_label_nome}" filterBy="#{aluno.nome}">
+										#{aluno.nome}
+									</p:column>	
+									<p:column headerText="#{msg.aluno_label_ativo}">
+										<h:outputText value="#{msg.app_label_sim}" rendered="#{aluno.ativo}" />
+										<h:outputText value="#{msg.app_label_nao}" rendered="#{!aluno.ativo}" />
+									</p:column>
+									<p:column headerText="#{msg.app_label_acoes}" >
+										<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_ALUNO_ALTERAR')}" >
+											<p:graphicImage library="imagens" name="editar16.png" />
+											<f:setPropertyActionListener value="#{aluno}" target="#{alunoBean.aluno}" />
+											<f:setPropertyActionListener value="#{aluno.municipio.uf}" target="#{alunoBean.uf}" />
+										</p:commandLink>
+										<p:commandLink process="@this" action="#{alunoBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_ALUNO_EXCLUIR')}" >
+											<p:graphicImage library="imagens" name="excluir16.png" />
+											<f:setPropertyActionListener value="#{aluno}" target="#{alunoBean.aluno}" />
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>	
+							</h:form>
+					  </div>					  
+					</div>	
+				</div>	
+			</div>
+		</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#..#restrito#usuario"
+  PATH="/../restrito/usuario" SHAPE="256,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#..#restrito#perfil"
+  PATH="/../restrito/perfil" SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#..#restrito#principal"
+  PATH="/../restrito/principal" SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#index.html" PATH="/index.html"
+  SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#index.html:0" NAME="item" PATH="/index.html" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="principal:#{menuBean.pagePrincipal}:#..#restrito#principal"
+    NAME="output" PATH="/../restrito/principal"
+    TARGET="rules:#..#restrito#principal"
+    TITLE="#{menuBean.pagePrincipal}:principal" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="usuarios:#{menuBean.pageUsuarios}:#..#restrito#usuario"
+    NAME="output1" PATH="/../restrito/usuario"
+    TARGET="rules:#..#restrito#usuario"
+    TITLE="#{menuBean.pageUsuarios}:usuarios" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="perfis:#{menuBean.pagePerfis}:#..#restrito#perfil"
+    NAME="output2" PATH="/../restrito/perfil"
+    TARGET="rules:#..#restrito#perfil"
+    TITLE="#{menuBean.pagePerfis}:perfis" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>
