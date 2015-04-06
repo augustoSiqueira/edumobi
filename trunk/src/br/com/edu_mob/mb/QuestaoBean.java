@@ -31,6 +31,7 @@ import org.primefaces.model.UploadedFile;
 
 
 
+
 import br.com.edu_mob.controller.AlternativaController;
 import br.com.edu_mob.controller.AreaConhecimentoController;
 import br.com.edu_mob.controller.CategoriaController;
@@ -114,8 +115,13 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	
 	public void upload(FileUploadEvent event){
-		String caminhoImagem = this.questaoController.salvarImagem(event);
-		this.questao.setCaminhoImagem(caminhoImagem);
+		try{
+			String caminhoImagem = this.questaoController.salvarImagem(event);
+			this.questao.setCaminhoImagem(caminhoImagem);
+			} catch (RNException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			}
 	}
 	
 	
