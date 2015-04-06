@@ -1,11 +1,16 @@
 package br.com.edu_mob.controller.impl;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.primefaces.event.FileUploadEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -68,7 +73,40 @@ public class QuestaoControllerImpl implements QuestaoController{
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 	}
-
+	
+	@Override
+	public String salvarImagem(FileUploadEvent event) throws RNException{
+		
+		String nomeDoArquivo = event.getFile().getFileName();
+		
+		try {
+			
+			String arquivo = "C:\\Workspace-luna\\edumobi\\WebContent\\imagemQuestoes\\" + nomeDoArquivo;
+			
+			InputStream inputStream = event.getFile().getInputstream();
+			
+			OutputStream outputStream = new FileOutputStream(arquivo);
+			
+			int read = 0;
+			long tamanho = event.getFile().getSize();
+			byte[] arquivoByte = new byte[(int)tamanho];
+			
+			while ((read = inputStream.read(arquivoByte)) != -1) {
+				outputStream.write(arquivoByte, 0, read);
+			}
+			
+			inputStream.close();
+			outputStream.flush();
+			outputStream.close();
+			} catch (IOException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+				throw new RNException(ErrorMessage.DAO.getChave());
+			}
+		
+		return nomeDoArquivo;
+	
+	}
+	
 	@Override
 	public void alterar(Questao questao) throws RNException {
 		try {
