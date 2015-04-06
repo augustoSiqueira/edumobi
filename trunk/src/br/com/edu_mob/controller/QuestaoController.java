@@ -3,6 +3,8 @@ package br.com.edu_mob.controller;
 
 import java.util.List;
 
+import org.primefaces.event.FileUploadEvent;
+
 import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
@@ -20,5 +22,6 @@ public interface QuestaoController extends  GenericController<Questao> {
 	 * @throws DAOException
 	 */
 	List<QuestaoDTO> pesquisarPorFiltroDTO(Filter filtro) throws RNException;
+	public String salvarImagem(FileUploadEvent event) throws RNException;
 
 }
