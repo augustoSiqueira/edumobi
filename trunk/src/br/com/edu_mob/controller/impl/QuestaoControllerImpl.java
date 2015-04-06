@@ -82,9 +82,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 		try {
 			
 			String arquivo = "C:\\Workspace-luna\\edumobi\\WebContent\\imagemQuestoes\\" + nomeDoArquivo;
-			
 			InputStream inputStream = event.getFile().getInputstream();
-			
 			OutputStream outputStream = new FileOutputStream(arquivo);
 			
 			int read = 0;
