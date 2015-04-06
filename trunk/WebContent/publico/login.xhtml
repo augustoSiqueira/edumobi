@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"	
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/principal.xhtml">
+		<ui:define name="corpo">
+			<h:form id="login">
+				<p:growl id="growl" showDetail="true" />
+				<table>
+					<tr>
+						<td>#{msg.login_label_email}:</td>
+						<td><p:inputText id="login" label="#{msg.login_label_email}" alt="#{msg.login_label_email}" title="#{msg.login_label_email}" required="true" value="#{loginBean.email}" /></td>
+					</tr>
+					<tr>
+						<td>#{msg.login_label_senha}:</td>
+						<td><p:password id="senha" label="#{msg.login_label_senha}" alt="#{msg.login_label_senha}" title="#{msg.login_label_senha}" required="true" value="#{loginBean.senha}" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><p:commandButton id="btLogin" type="submit" action="#{loginBean.login}" value="Entrar" update="growl" /></td>
+					</tr>
+				</table>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>
