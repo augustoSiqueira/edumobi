@@ -37,7 +37,7 @@ public class Questao implements Serializable{
 	@NotEmpty
 	private String observacao;
 
-	@Column(length=500, nullable=true)
+	@Column(name="caminho_imagem",length=500, nullable=true)
 	private String caminhoImagem;
 
 	@Temporal(TemporalType.TIMESTAMP)
