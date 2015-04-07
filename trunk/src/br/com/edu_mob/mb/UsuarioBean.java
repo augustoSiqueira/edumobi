@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.context.RequestContext;
+
 import br.com.edu_mob.controller.PerfilController;
 import br.com.edu_mob.controller.UsuarioController;
 import br.com.edu_mob.entity.Perfil;
@@ -73,12 +75,9 @@ public class UsuarioBean extends GenericBean implements Serializable {
 	
 	public String limparCamposCancelar() {
 		this.usuario = new Usuario();
-		usuario.setCpf("");
-		usuario.setEmail("");
-		usuario.setNome("");
-		usuario.setPerfil(null);
-		usuario.setSenha("");
-		usuario.setId(null);
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('dlg1').hide();");
 		return null;
 	}
 
@@ -98,6 +97,8 @@ public class UsuarioBean extends GenericBean implements Serializable {
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.USUARIO.getValor());
 			this.atualizarGrid();
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlg1').hide();");
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -110,6 +111,8 @@ public class UsuarioBean extends GenericBean implements Serializable {
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.ATUALIZADO_SUCESSO.getValor(), Entidades.USUARIO.getValor());
 			this.atualizarGrid();
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlg1').hide();");
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());

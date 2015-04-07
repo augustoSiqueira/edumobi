@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
 import br.com.edu_mob.controller.FuncionalidadeController;
@@ -111,6 +112,19 @@ public class PerfilBean extends GenericBean implements Serializable {
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
 		}
 	}
+	
+	public void limparCamposCancelar() {
+		this.perfil = new Perfil();
+		perfil.setId(null);
+		try {
+			this.listaFuncionalidade =
+					new DualListModel<Funcionalidade>(this.funcionalidadeController.pesquisarPorFiltro(new Filter()),
+							new ArrayList<Funcionalidade>());
+		} catch (RNException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+		}
+	}
 
 	public void atualizarGrid() {
 		try {
@@ -129,6 +143,8 @@ public class PerfilBean extends GenericBean implements Serializable {
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.PERFIL.getValor());
 			this.atualizarGrid();
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlg1').hide();");
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -142,6 +158,8 @@ public class PerfilBean extends GenericBean implements Serializable {
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.ATUALIZADO_SUCESSO.getValor(), Entidades.PERFIL.getValor());
 			this.atualizarGrid();
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlg1').hide();");
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(ErrorMessage.ERRO.getChave(), e.getListaMensagens());
