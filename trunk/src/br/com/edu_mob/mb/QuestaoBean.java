@@ -2,13 +2,6 @@ package br.com.edu_mob.mb;
 
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +17,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.event.FileUploadEvent;
-
-
-
-import org.primefaces.model.UploadedFile;
-
-
-
 
 import br.com.edu_mob.controller.AlternativaController;
 import br.com.edu_mob.controller.AreaConhecimentoController;

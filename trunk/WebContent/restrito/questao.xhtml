@@ -28,7 +28,7 @@
 							</div>
 							
 							<div class="form-group">
-					        	<h:outputLabel value="#{msg.questao_label_comentario}: " for="descricao" />
+					        	<h:outputLabel value="#{msg.questao_label_comentario}: " for="comentario" />
 								<p:inputTextarea  id="comentario" value="#{questaoBean.questao.observacao}"  validator="removeEmBranco" styleClass="form-control" />
 							</div>
 							
@@ -51,13 +51,13 @@
 	                  		</div>
 	                  
 							<div class="form-group">
-					        	<h:outputLabel value="#{msg.questao_label_imagem}: " for="descricao" />
+					        	<h:outputLabel value="#{msg.questao_label_imagem}: " for="upload" />
 								<p:fileUpload id="upload" label="Upload..."  fileUploadListener="#{questaoBean.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" update="img" />
 							</div>
 
 							
 							<div class="form-group">
-							<p:graphicImage value="/imagemQuestoes/#{questaoBean.questao.caminhoImagem}" id="img" cache="false" width="100" height="100" rendered="#{!empty(questaoBean.questao.caminhoImagem)}"/>
+							<p:graphicImage value="../imagemQuestoes/#{questaoBean.questao.caminhoImagem}" id="img" cache="false" width="100" height="100" rendered="#{!empty(questaoBean.questao.caminhoImagem)}"/>
 							</div>
 							
 							
