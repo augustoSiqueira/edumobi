@@ -59,8 +59,20 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	@PostConstruct
 	public void init() {
 		
-		this.categoria = (Categoria) UtilSession.getHttpSessionObject("categoriaSelecionada");
-		UtilSession.getHttpSession().removeAttribute("categoriaSelecionada");
+		
+		// Redireciona o usuário pra tela de categoria, se ele não tiver a sessão de categoria
+		try {
+			this.categoria = (Categoria) UtilSession.getHttpSessionObject("categoriaSelecionada");
+			
+			if(this.categoria != null){
+				
+			}else{
+				FacesContext.getCurrentInstance().getExternalContext().redirect("categoria.jsf");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		this.filtroAreaConhecimento.put("idCategoria", this.categoria.getId().toString());
 		
@@ -128,6 +140,7 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	public void limparCampos() {
 		if(this.areaConhecimento != null){
 			this.areaConhecimento = new AreaConhecimento();
+			this.areaConhecimentoSelecionado = new AreaConhecimento();
 		}
 	}
 	
