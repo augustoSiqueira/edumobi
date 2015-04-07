@@ -14,10 +14,62 @@
 		</ui:define>
 		<ui:define name="corpo">
 			<div class="row">
-				<div class="col-md-4">
 				
-					<div class="panel panel-default">
-					  <div class="panel-heading"><h:outputLabel value="#{msg.categoria_titulo}"/></div>
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg.categoria_lista}</div>
+					<div class="panel-body">
+					<p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR')}">
+					  	<p:graphicImage library="imagens" name="add_32x32.png" title="Adicionar"/> 
+					  	<p:outputLabel value="Adicionar"  style="margin-left: 5px;"/>
+					  </p:commandLink>
+						<div class="clear"></div>
+					<h:form id="listagem">
+						<p:dataTable id="tabelaCategoria" value="#{categoriaBean.dataModelCategoria}" var="categoria" rows="5" 
+							paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+							{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" >
+							<p:column headerText="#{msg.categoria_label_nome}" filterBy="#{categoria.nome}">
+								#{categoria.nome}
+							</p:column>	
+							<p:column headerText="#{msg.categoria_label_pai}">
+								#{categoria.pai.nome}
+							</p:column>	
+							<p:column headerText="#{msg.categoria_label_ativo}" style="width: 10%;">
+								<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.ativo}" />
+								<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.ativo}" />
+							</p:column>
+							<p:column headerText="#{msg.categoria_label_curso}" style="width: 10%;">
+								<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.curso}" />
+								<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.curso}" />
+							</p:column>
+							<p:column headerText="#{msg.app_label_acoes}" style="width: 10%;" >
+								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_ALTERAR')}" styleClass="btnEdit">
+									<p:graphicImage library="imagens" name="edit_32x32.png" title="Editar" onclick="PF('dlg1').show();"/>
+									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
+								</p:commandLink>
+								<p:commandLink process="@this" action="#{categoriaBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_EXCLUIR')}"  >
+									<p:graphicImage library="imagens" name="delete_32x32.png" title="Excluir"/>
+									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
+								</p:commandLink>
+							</p:column>
+							<p:column headerText="#{msg.area_conhecimento_label_menu}" style="width: 15%;">
+								<center>
+									<p:commandButton process="@this" action="#{categoriaBean.adicionarAreaConhecimento}" rendered="#{categoria.curso}" value="#{msg.area_conhecimento_label_adicionar}">
+										<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
+									</p:commandButton>
+								</center>
+							</p:column>
+						</p:dataTable>	
+					</h:form>	
+			  </div>					  
+			</div>
+				
+		</div>	
+				
+	</div>
+	<p:dialog header="#{msg.categoria_titulo}" widgetVar="dlg1" modal="true" width="50%" miheight="500px" style="margin-top: 60px;">
+    	<div class="panel panel-default">
+					 
 					  <div class="panel-body">
 					    
 					    <h:form id="edicao">
@@ -34,8 +86,8 @@
 								<p:inputTextarea  id="descricao" value="#{categoriaBean.categoria.descricao}"  styleClass="form-control" />
 							</div>
 						    <div class="form-group">
-			            		<h:outputLabel value="#{msg.categoria_label_pai}:" for="categoriaPai" />
-								<p:selectOneMenu id="categoriaPai" value="#{categoriaBean.categoria.pai}" converter="converterCategoria">
+			            		<h:outputLabel value="#{msg.categoria_label_pai}:" for="categoriaPai" /><br/>
+								<p:selectOneMenu id="categoriaPai" value="#{categoriaBean.categoria.pai}" converter="converterCategoria" styleClass="comboBox">
 									<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
 									<f:selectItems value="#{categoriaBean.listaCategorias}" var="categoria" itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
 								</p:selectOneMenu>
@@ -48,65 +100,20 @@
 							 <div class="checkbox">
 					            <h:outputLabel value="#{msg.categoria_label_ativo}*: " for="ativo" />
 								<p:selectBooleanCheckbox id="ativo" value="#{categoriaBean.categoria.ativo}" required="true" />
-							</div>
-							 <div class="checkbox">
-					            <h:outputLabel value="#{msg.categoria_label_curso}: " for="curso" />
+								
+								<h:outputLabel value="#{msg.categoria_label_curso}: " for="curso" />
 								<p:selectBooleanCheckbox id="curso" value="#{categoriaBean.categoria.curso}" required="true" />
 							</div>
-						<p:commandButton value="#{msg.app_label_salvar}" action="#{categoriaBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR')}" styleClass="btn btn-success pull-right" />
-						<p:commandButton value="#{msg.app_label_limpar}" process="@none" action="#{categoriaBean.limparCampos}" update=":edicao" rendered="#{categoriaBean.categoria.id == null and sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR') }" styleClass="btn btn-success pull-right" />
-						<p:commandButton value="Cancelar" ajax="true" update="@form" actionListener="#{categoriaBean.limparCamposCancelar}" rendered="#{categoriaBean.categoria.id != null and sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR') }" styleClass="btn btn-success pull-right" />
+							 <div class="checkbox">
+					            
+							</div>
+						<p:commandLink value="#{msg.app_label_salvar}" action="#{categoriaBean.salvar}" update=":edicao :listagem" styleClass="btn btn-success pull-right" style="margin-left: 10px;"/>
+						<p:commandLink value="#{msg.app_label_limpar}" process="@none" action="#{categoriaBean.limparCampos}" update=":edicao" rendered="#{categoriaBean.categoria.id == null}" styleClass="btn btn-default pull-right" />
+						<p:commandLink value="Cancelar" ajax="false" update="@form" actionListener="#{categoriaBean.limparCamposCancelar}" rendered="#{categoriaBean.categoria.id != null}" styleClass="btn btn-default pull-right" />
 					</h:form>
 				</div>	<!--Fim Painel body  -->			
 			</div><!--Fim Painel  -->
-		</div><!-- Fim Linha Cadastrar  -->	
-		<div class="col-md-8">
-			<div class="panel panel-default">
-				<div class="panel-heading">#{msg.categoria_lista}</div>
-					<div class="panel-body">
-					<h:form id="listagem">
-						<p:dataTable id="tabelaCategoria" value="#{categoriaBean.dataModelCategoria}" var="categoria" rows="5" 
-							paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
-							{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" >
-							<p:column headerText="#{msg.categoria_label_nome}" filterBy="#{categoria.nome}">
-								#{categoria.nome}
-							</p:column>	
-							<p:column headerText="#{msg.categoria_label_pai}">
-								#{categoria.pai.nome}
-							</p:column>	
-							<p:column headerText="#{msg.categoria_label_ativo}">
-								<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.ativo}" />
-								<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.ativo}" />
-							</p:column>
-							<p:column headerText="#{msg.categoria_label_curso}">
-								<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.curso}" />
-								<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.curso}" />
-							</p:column>
-							<p:column headerText="#{msg.app_label_acoes}" >
-								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_ALTERAR')}" >
-									<p:graphicImage library="imagens" name="editar16.png" title="Editar" />
-									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
-								</p:commandLink>
-								<p:commandLink process="@this" action="#{categoriaBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_EXCLUIR')}"  >
-									<p:graphicImage library="imagens" name="excluir16.png" title="Excluir" />
-									<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
-								</p:commandLink>
-							</p:column>
-							<p:column headerText="#{msg.area_conhecimento_label_menu}">
-								<center>
-									<p:commandButton process="@this" action="#{categoriaBean.adicionarAreaConhecimento}" rendered="#{categoria.curso}" value="#{msg.area_conhecimento_label_adicionar}">
-										<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
-									</p:commandButton>
-								</center>
-							</p:column>
-						</p:dataTable>	
-					</h:form>	
-			  </div>					  
-			</div>
-				
-		</div>	
-				
-	</div>
+    </p:dialog>
 		</ui:define>
 	</ui:composition>
 </html>
