@@ -32,6 +32,7 @@ import br.com.edu_mob.util.Filter;
 public class QuestaoControllerImpl implements QuestaoController{
 
 	private static final Logger logger = Logger.getLogger(QuestaoDAOImpl.class.getName());
+	private static final String CAMINHO_DIRETORIO ="C:\\Workspace-luna\\edumobi\\WebContent\\imagemQuestoes\\";
 
 	@Autowired
 	private QuestaoDAO questaoDAO;
@@ -81,7 +82,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 		
 		try {
 			
-			String arquivo = "C:\\Workspace-luna\\edumobi\\WebContent\\imagemQuestoes\\" + nomeDoArquivo;
+			String arquivo =  CAMINHO_DIRETORIO + nomeDoArquivo;
 			InputStream inputStream = event.getFile().getInputstream();
 			OutputStream outputStream = new FileOutputStream(arquivo);
 			
