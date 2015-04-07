@@ -96,8 +96,9 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 					
 		for (int i = 0; i < this.listaAreaConhecimento.size(); i++) {
 			if(areaConhecimento.getDescricao().trim().equals(this.listaAreaConhecimento.get(i).getDescricao().trim())){
-				if(!existe){
+				if(!existe && atualizou == true){
 					if(areaConhecimento.getId() == this.listaAreaConhecimento.get(i).getId()){
+						this.areaConhecimento.setCategoria(this.categoria);
 						this.listaAreaConhecimento.set(i, areaConhecimento);
 						atualizou = true;
 						this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
@@ -106,6 +107,8 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 					}else{
 						existe = true;
 					}	
+				}else{
+					existe = true;
 				}
 			}
 		}
