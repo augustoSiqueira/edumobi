@@ -52,7 +52,7 @@
 	                  
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.questao_label_imagem}: " for="upload" />
-								<p:fileUpload id="upload" label="Upload..."  fileUploadListener="#{questaoBean.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" update="img" />
+								<p:fileUpload id="upload" label="Upload..."  fileUploadListener="#{questaoBean.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" invalidFileMessage="Arquivo inválido." auto="true" update="img" />
 							</div>
 
 							
