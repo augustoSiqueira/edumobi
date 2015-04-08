@@ -99,6 +99,7 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 				if(!existe && atualizou == true){
 					if(areaConhecimento.getId() == this.listaAreaConhecimento.get(i).getId()){
 						this.areaConhecimento.setCategoria(this.categoria);
+						this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
 						this.listaAreaConhecimento.set(i, areaConhecimento);
 						atualizou = true;
 						this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
@@ -124,6 +125,7 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 				if(this.areaConhecimentoSelecionado.getId() == null && areaConhecimento.getId() == null
 						&& this.areaConhecimentoSelecionado.getDescricao().equals(areaConhecimento.getDescricao())){
 					this.areaConhecimento.setCategoria(categoria);
+					this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
 					this.listaAreaConhecimento.add(this.areaConhecimento);
 					this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 							SucessMessage.ATUALIZADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
@@ -131,6 +133,7 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 				}				
 			}else{
 				this.areaConhecimento.setCategoria(categoria);
+				this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
 				this.listaAreaConhecimento.add(this.areaConhecimento);
 				this.areaConhecimento= new AreaConhecimento();
 				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
