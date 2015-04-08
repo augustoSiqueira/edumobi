@@ -26,13 +26,13 @@ import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.services.QuestaoDTO;
 import br.com.edu_mob.util.Filter;
+import br.com.edu_mob.util.InicializaApp;
 
 
 @Service("questaoController")
 public class QuestaoControllerImpl implements QuestaoController{
 
 	private static final Logger logger = Logger.getLogger(QuestaoDAOImpl.class.getName());
-	private static final String CAMINHO_DIRETORIO ="C:\\Workspace-luna\\edumobi\\WebContent\\imagemQuestoes\\";
 
 	@Autowired
 	private QuestaoDAO questaoDAO;
@@ -82,7 +82,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 		
 		try {
 			
-			String arquivo =  CAMINHO_DIRETORIO + nomeDoArquivo;
+			String arquivo = InicializaApp.CAMINHO_SERVIDOR +"/imagens/"+ nomeDoArquivo;
 			InputStream inputStream = event.getFile().getInputstream();
 			OutputStream outputStream = new FileOutputStream(arquivo);
 			
