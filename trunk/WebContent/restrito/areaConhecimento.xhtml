@@ -72,7 +72,7 @@
 								<h:outputText value="#{areaConhecimento.categoria.nome}"/>
 							</p:column> 
 							<p:column headerText="#{msg.app_label_acoes}" >
-								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_ALTERAR')}" >
+								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_ALTERAR')}" action="#{areaConhecimentoBean.btnAlterar}">
 									<p:graphicImage library="imagens" name="editar16.png" />
 									<f:setPropertyActionListener value="#{areaConhecimento}" target="#{areaConhecimentoBean.areaConhecimento}" />
 								</p:commandLink>

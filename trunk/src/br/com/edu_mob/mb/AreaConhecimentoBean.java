@@ -90,59 +90,79 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 		}
 	}
 	
+	public void btnAlterar(){
+		this.atualizou = true;
+	}
+	
 	public void adicionarAreaConhecimento() {
-		FacesContext context = FacesContext.getCurrentInstance();
+		if(atualizou){
+			alterarAreaConhecimento();
+		}else{
+			cadastrarAreaConhecimento();
+		}
+	}
+	
+	private void alterarAreaConhecimento() {
 		boolean existe = false;
-					
+		
 		for (int i = 0; i < this.listaAreaConhecimento.size(); i++) {
-			if(areaConhecimento.getDescricao().trim().equals(this.listaAreaConhecimento.get(i).getDescricao().trim())){
-				if(!existe && atualizou == true){
-					if(areaConhecimento.getId() == this.listaAreaConhecimento.get(i).getId()){
-						this.areaConhecimento.setCategoria(this.categoria);
-						this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
-						this.listaAreaConhecimento.set(i, areaConhecimento);
-						atualizou = true;
-						this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-								SucessMessage.ATUALIZADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
-						limparCampos();
-					}else{
-						existe = true;
-					}	
-				}else{
+			if(this.areaConhecimento.getDescricao().trim().equalsIgnoreCase(this.listaAreaConhecimento.get(i).getDescricao().trim())){
+				if(this.areaConhecimento.getId() != this.listaAreaConhecimento.get(i).getId()){
+					this.listaAreaConhecimento.remove(this.areaConhecimentoSelecionado);
 					existe = true;
+					break;
 				}
 			}
 		}
 		
 		if(existe){
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave()),
-					ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave(), Entidades.AREA_CONHECIMENTO.getValor());
-		}
-		
-		if(!atualizou && !existe){
-			if(this.areaConhecimentoSelecionado.getDescricao() != null){
-				
-				if(this.areaConhecimentoSelecionado.getId() == null && areaConhecimento.getId() == null
-						&& this.areaConhecimentoSelecionado.getDescricao().equals(areaConhecimento.getDescricao())){
+				ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave(), Entidades.AREA_CONHECIMENTO.getValor());
+		}else{
+			if (this.areaConhecimentoSelecionado.getDescricao() != null) {
+				if ((this.areaConhecimentoSelecionado.getId() == this.areaConhecimento.getId())
+						&& (this.areaConhecimentoSelecionado.getDescricao().equalsIgnoreCase(this.areaConhecimento.getDescricao()))) {
 					this.areaConhecimento.setCategoria(categoria);
 					this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
+					this.listaAreaConhecimento.remove(this.areaConhecimentoSelecionado);
 					this.listaAreaConhecimento.add(this.areaConhecimento);
-					this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-							SucessMessage.ATUALIZADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+					this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO
+							.getValor()), SucessMessage.ATUALIZADA_SUCESSO
+							.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
 					limparCampos();
-				}				
-			}else{
-				this.areaConhecimento.setCategoria(categoria);
-				this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
-				this.listaAreaConhecimento.add(this.areaConhecimento);
-				this.areaConhecimento= new AreaConhecimento();
-				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-						SucessMessage.CADASTRADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
-				limparCampos();
+					this.atualizou = false;
+				}
 			}
 		}
 	}
-	
+
+	/*
+	 * Realiza o cadastro de area de conhecimento
+	 * */
+	private void cadastrarAreaConhecimento() {
+		boolean existe = false;
+		
+		for (int i = 0; i < this.listaAreaConhecimento.size(); i++) {
+			if(this.areaConhecimento.getDescricao().trim().equalsIgnoreCase(this.listaAreaConhecimento.get(i).getDescricao().trim())){
+				existe = true;
+				break;
+			}
+		}
+		
+		if(existe){
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave()),
+				ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave(), Entidades.AREA_CONHECIMENTO.getValor());
+		}else{
+			this.areaConhecimento.setCategoria(categoria);
+			this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
+			this.listaAreaConhecimento.add(this.areaConhecimento);
+			this.areaConhecimento= new AreaConhecimento();
+			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+					SucessMessage.CADASTRADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+			limparCampos();
+		}
+	}
+
 	public void limparCampos() {
 		if(this.areaConhecimento != null){
 			this.areaConhecimento = new AreaConhecimento();
@@ -237,10 +257,6 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	
 	public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
 		this.areaConhecimento = areaConhecimento;
-		if((this.listaAreaConhecimento != null) && !this.listaAreaConhecimento.isEmpty()) {
-			this.listaAreaConhecimento.remove(areaConhecimento);
-		}
-		
 		this.areaConhecimentoSelecionado = areaConhecimento;
 	}
 
