@@ -173,6 +173,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO, Se
 			sb.append("select new br.com.edu_mob.services.CategoriaDTO(c.id, c.nome, c.ativo, c.pai.id, c.qtdQuestoes, c.titulo, c.descricao, ");
 			sb.append(" c.curso, c.dataAtualizacao) from Categoria c where c.ativo = true and c.dataAtualizacao >= :dataAtualizacao ");
 			listaCategoriaDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<CategoriaDTO>>() {
+				@SuppressWarnings("unchecked")
 				@Override
 				public List<CategoriaDTO> doInHibernate(Session session) throws HibernateException {
 					Query query = session.createQuery(sb.toString());

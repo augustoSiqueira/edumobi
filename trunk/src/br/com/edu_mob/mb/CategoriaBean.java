@@ -16,7 +16,6 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 import br.com.edu_mob.controller.CategoriaController;
-import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;

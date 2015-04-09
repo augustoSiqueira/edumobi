@@ -51,6 +51,7 @@ public class EmailUtil {
 	}	
 	
 	public static String mensagemEnvioSenha(Usuario usuario){
+		@SuppressWarnings("unused")
 		String html="";
 	
 		html+="Olá "+usuario.getNome()+", ";

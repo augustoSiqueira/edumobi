@@ -18,6 +18,7 @@ public class ConverterPickList implements Converter {
 		Object result = null;
 		if (uiComponent instanceof PickList) {
 			Object dualList = ((PickList) uiComponent).getValue();
+			@SuppressWarnings("rawtypes")
 			DualListModel dualListModel = (DualListModel) dualList;
 			for (Object object : dualListModel.getSource()) {
 				String id = "" + ((Funcionalidade) object).getId();

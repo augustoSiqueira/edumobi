@@ -131,6 +131,7 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 			sb.append("select new br.com.edu_mob.services.AreaConhecimentoDTO(aa.id, aa.descricao, aa.categoria.id, aa.dataAtualizacao) ");
 			sb.append(" from AreaConhecimento aa where aa.dataAtualizacao >= :dataAtualizacao ");
 			listaAreaConhecimentoDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<AreaConhecimentoDTO>>() {
+				@SuppressWarnings("unchecked")
 				@Override
 				public List<AreaConhecimentoDTO> doInHibernate(Session session) throws HibernateException {
 					Query query = session.createQuery(sb.toString());

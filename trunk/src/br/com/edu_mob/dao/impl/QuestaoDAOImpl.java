@@ -124,6 +124,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 			sb.append("select new br.com.edu_mob.services.QuestaoDTO(q.id, q.enunciado, q.observacao, q.caminhoImagem, q.areaConhecimento.id, ");
 			sb.append(" q.dataAtualizacao) from Questao q where q.dataAtualizacao >= :dataAtualizacao ");
 			listaQuestoesDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<QuestaoDTO>>() {
+				@SuppressWarnings("unchecked")
 				@Override
 				public List<QuestaoDTO> doInHibernate(Session session) throws HibernateException {
 					Query query = session.createQuery(sb.toString());

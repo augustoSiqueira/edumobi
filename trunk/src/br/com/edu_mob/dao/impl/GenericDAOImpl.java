@@ -25,6 +25,7 @@ public class GenericDAOImpl implements GenericDAO {
 
 	private HibernateTemplate hibernateTemplate;
 
+	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(GenericDAOImpl.class.getName());
 
 	@Autowired
@@ -88,6 +89,7 @@ public class GenericDAOImpl implements GenericDAO {
 	public <T> List<T> findByNamedQueryAndNamedParam(Class<T> entityClass, String queryName, String[] paramNames,
 			Object[] values) throws DataAccessException {
 
+		@SuppressWarnings("unchecked")
 		List<T> results = (List<T>) this.hibernateTemplate.findByNamedQueryAndNamedParam(queryName, paramNames, values);
 		return results;
 	}
@@ -113,6 +115,7 @@ public class GenericDAOImpl implements GenericDAO {
 	public <T> List<T> findByNamedParam(Class<T> entityClass, String query, String[] paramNames, Object[] values)
 			throws DataAccessException {
 
+		@SuppressWarnings("unchecked")
 		List<T> results = (List<T>) this.hibernateTemplate.findByNamedParam(query, paramNames, values);
 		return results;
 
@@ -132,16 +135,19 @@ public class GenericDAOImpl implements GenericDAO {
 			values[i] = params.get(key);
 		}
 
+		@SuppressWarnings("unchecked")
 		List<T> results = (List<T>) this.hibernateTemplate.findByNamedParam(query, paramNames, values);
 		return results;
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> findByCriteria(DetachedCriteria criteria) throws DataAccessException {
 		return (List<T>) this.hibernateTemplate.findByCriteria(criteria);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> buscarPaginada(DetachedCriteria criteria, int primeiroReg, int paginaSize)
 			throws DataAccessException {

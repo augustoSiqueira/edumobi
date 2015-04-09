@@ -1,7 +1,6 @@
 package br.com.edu_mob.mb;
 
 import java.io.Serializable;
-import java.util.logging.Level;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -11,13 +10,11 @@ import javax.faces.context.FacesContext;
 import br.com.edu_mob.controller.UsuarioController;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
-import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.message.SucessMessage;
 import br.com.edu_mob.security.AuthenticationService;
 import br.com.edu_mob.util.AliasNavigation;
 import br.com.edu_mob.util.MensagemUtil;
-import java.util.logging.Logger;
 
 @ManagedBean
 @ViewScoped
