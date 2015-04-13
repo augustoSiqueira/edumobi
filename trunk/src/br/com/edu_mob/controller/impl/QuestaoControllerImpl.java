@@ -27,6 +27,7 @@ import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.services.QuestaoDTO;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.InicializaApp;
+import br.com.edu_mob.util.Util;
 
 
 @Service("questaoController")
@@ -78,14 +79,15 @@ public class QuestaoControllerImpl implements QuestaoController{
 	@Override
 	public String salvarImagem(FileUploadEvent event) throws RNException{
 		
-		String nomeDoArquivo = event.getFile().getFileName();
-		
+		//String nomeDoArquivo = event.getFile().getFileName();
+		String nomeDoArquivo = Util.criptografar(Util.converteData(new Date(), "yyyy-MM-dd HH:mm:ss.SSSXXX"))+event.getFile().getFileName();
 		try {
 			
 			String arquivo = InicializaApp.CAMINHO_SERVIDOR +"/imagens/"+ nomeDoArquivo;
 			InputStream inputStream = event.getFile().getInputstream();
 			OutputStream outputStream = new FileOutputStream(arquivo);
-			
+			System.out.println(InicializaApp.CAMINHO_SERVIDOR);
+			System.out.println(arquivo);
 			int read = 0;
 			long tamanho = event.getFile().getSize();
 			byte[] arquivoByte = new byte[(int)tamanho];

@@ -21,6 +21,11 @@ public class MenuBean implements Serializable {
 	public String pagePrincipal() {
 		return AliasNavigation.PAGINA_PRINCIPAL;
 	}
+	public String getNomeUsuarioLogado(){
+		Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String[] nome = usuario.getNome().split(" ");
+		return nome[0];
+	}
 
 	public String pageDadosPessoais() {
 		Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

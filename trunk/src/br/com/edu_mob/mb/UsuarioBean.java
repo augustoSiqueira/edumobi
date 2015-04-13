@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.context.RequestContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.edu_mob.controller.PerfilController;
 import br.com.edu_mob.controller.UsuarioController;
@@ -59,7 +60,7 @@ public class UsuarioBean extends GenericBean implements Serializable {
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
 		}
 	}
-
+	
 	public void salvar() {
 		if ((this.usuario != null) && (this.usuario.getId() != null)) {
 			this.atualizar();

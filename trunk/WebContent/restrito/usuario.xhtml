@@ -22,7 +22,7 @@
 					  </div>
 					  <div class="panel-body">
 					  
-					  <p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}">
+					  <p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" action="#{usuarioBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}">
 					  	<p:graphicImage library="imagens" name="add_32x32.png" title="Adicionar"/> 
 					  	<p:outputLabel value="Adicionar"  style="margin-left: 5px;"/>
 					  </p:commandLink>
@@ -101,8 +101,8 @@
 					        </label>
 					    </div>
 					    <p:commandLink value="#{msg.app_label_salvar}" action="#{usuarioBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-success pull-right" style="margin-left: 10px;"/>
-						<p:commandLink value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update="@form" process="@none" ajax="true" rendered="#{usuarioBean.usuario.id == null and sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-default pull-right"/>
-						<p:commandLink value="Cancelar" action="#{usuarioBean.limparCamposCancelar}" ajax="false" update="@form" rendered="#{usuarioBean.usuario.id != null and sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}" styleClass="btn btn-default pull-right"/>
+						<p:commandLink value="#{msg.app_label_limpar}" action="#{usuarioBean.limparCampos}" update="@form" process="@none" ajax="true" rendered="#{usuarioBean.usuario.id == null}" styleClass="btn btn-default pull-right"/>
+						<p:commandLink value="Cancelar" action="#{usuarioBean.limparCamposCancelar}" ajax="false" update="@form" rendered="#{usuarioBean.usuario.id != null}" styleClass="btn btn-default pull-right"/>
 						</h:form>
                   	 </div>	<!--Fim Painel body  -->			
 					</div><!--Fim Painel  -->

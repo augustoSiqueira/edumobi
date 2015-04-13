@@ -14,6 +14,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.context.RequestContext;
+
 import br.com.edu_mob.controller.AlunoController;
 import br.com.edu_mob.controller.MunicipioController;
 import br.com.edu_mob.controller.UFController;
@@ -58,6 +60,8 @@ public class AlunoBean extends GenericBean implements Serializable {
 
 	private UF uf;
 
+	private int aba;
+	
 	@PostConstruct
 	public void init() {
 		Filter filtroMunicipio = new Filter();
@@ -145,6 +149,8 @@ public class AlunoBean extends GenericBean implements Serializable {
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.ALUNO.getValor());
 			this.atualizarGrid();
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlg1').hide();");
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -157,6 +163,8 @@ public class AlunoBean extends GenericBean implements Serializable {
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.ATUALIZADO_SUCESSO.getValor(), Entidades.ALUNO.getValor());
 			this.atualizarGrid();
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlg1').hide();");
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -248,5 +256,14 @@ public class AlunoBean extends GenericBean implements Serializable {
 	public void setUf(UF uf) {
 		this.uf = uf;
 	}
+
+	public int getAba() {
+		return aba;
+	}
+
+	public void setAba(int aba) {
+		this.aba = aba;
+	}
+	
 
 }

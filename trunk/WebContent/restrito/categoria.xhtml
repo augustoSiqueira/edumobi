@@ -19,7 +19,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">#{msg.categoria_lista}</div>
 					<div class="panel-body">
-					<p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR')}">
+					<p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" action="#{categoriaBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_CATEGORIA_INCLUIR')}">
 					  	<p:graphicImage library="imagens" name="add_32x32.png" title="Adicionar"/> 
 					  	<p:outputLabel value="Adicionar"  style="margin-left: 5px;"/>
 					  </p:commandLink>

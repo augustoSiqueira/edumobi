@@ -25,7 +25,14 @@
 				</div>
 			<div id="navbar" class="collapse navbar-collapse">
 			<sec:authorize ifAnyGranted="ROLE_USUARIO">
+				
 				<ul class="nav navbar-nav pull-right">
+					<li><p:outputLabel value="Seja bem vindo, #{menuBean.nomeUsuarioLogado} !" style="color:black; margin-top:8%"/></li>										
+				
+					<li><p:commandLink value="#{msg.app_label_sair}" onclick="document.location='#{request.contextPath}/j_spring_security_logout'"	icon="ui-icon-close" /></li>										
+				</ul>
+				
+				<ul class="nav navbar-nav pull-right" style="margin-right: 50px;">
 						
 						<li><p:commandLink value="#{msg.app_label_principal}"
 								action="#{menuBean.pagePrincipal}" /></li>
@@ -41,8 +48,7 @@
 								<li><p:commandLink value="#{msg.questao_label_menu}"	action="#{menuBean.pageQuestao}"	rendered="#{sec:areAnyGranted('ROLE_QUESTAO')}" /></li>
 								<li><p:commandLink value="#{msg.aluno_label_menu}"	action="#{menuBean.pageAlunos}"	rendered="#{sec:areAnyGranted('ROLE_ALUNO')}" /></li>
 							</ul></li>
-							<li><p:commandLink value="#{msg.app_label_sair}" onclick="document.location='#{request.contextPath}/j_spring_security_logout'"	icon="ui-icon-close" /></li>										
-				</ul>
+					</ul>
 				</sec:authorize>
 			</div>
 		</div>
