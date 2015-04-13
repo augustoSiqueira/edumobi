@@ -66,7 +66,10 @@ public class AlternativaControllerImpl implements AlternativaController, Seriali
 	}
 	
 	public List<Alternativa> incluirEmMemoria(Alternativa alternativa, List<Alternativa> lista){
-		return this.alternativaDAO.incluirEmMemoria(alternativa, lista);
+		if(alternativa.getResposta().trim()!=""){
+			return this.alternativaDAO.incluirEmMemoria(alternativa, lista);
+		}
+		return lista;
 	}
 	
 	public Alternativa alterarEmMemoria(Alternativa alternativa){

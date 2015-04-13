@@ -19,15 +19,18 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#"><img src="../resources/imagens/logo3.png" width="130" style="margin-top:-5px;"/></a>
-			</div>
+				<p:commandLink action="#{menuBean.pagePrincipal}" ajax="false" styleClass="navbar-brand">
+					<p:graphicImage library="imagens" name="logo3.png" width="130" style="margin-top:-5px;"></p:graphicImage>
+				</p:commandLink>
+				</div>
 			<div id="navbar" class="collapse navbar-collapse">
 			<sec:authorize ifAnyGranted="ROLE_USUARIO">
 				<ul class="nav navbar-nav pull-right">
-						<li><p:commandLink value="#{msg.dados_pessoais_label_titulo}"
-								action="#{menuBean.pageDadosPessoais}" /></li>
+						
 						<li><p:commandLink value="#{msg.app_label_principal}"
 								action="#{menuBean.pagePrincipal}" /></li>
+						<li><p:commandLink value="#{msg.dados_pessoais_label_titulo}"
+								action="#{menuBean.pageDadosPessoais}" /></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle"	data-toggle="dropdown" role="button" aria-expanded="false">
 								<h:outputLabel value="#{msg.app_label_cadastros}" icon="ui-icon ui-icon-document" /> <span class="caret"></span></a>

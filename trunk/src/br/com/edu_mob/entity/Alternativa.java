@@ -25,7 +25,6 @@ public class Alternativa implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="alternativa_seq")
 	private Long id;
 	
-	@NotEmpty
 	@Column(length = 200, nullable = false)
 	private String resposta;
 	

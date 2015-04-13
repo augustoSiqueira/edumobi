@@ -30,11 +30,11 @@ public class Questao implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="questao_seq")
 	private Long id;
 
-	@NotEmpty
+	@NotEmpty(message="Preencha o campo Enunciado.")
 	@Column(length=1000, nullable=false)
 	private String enunciado;
 
-	@NotEmpty
+	@NotEmpty(message="Preencha o campo Comentário.")
 	private String observacao;
 
 	@Column(name="caminho_imagem",length=500, nullable=true)

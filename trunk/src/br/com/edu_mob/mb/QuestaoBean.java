@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 
 import br.com.edu_mob.controller.AlternativaController;
@@ -63,6 +64,8 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	private Alternativa alternativa = null;
 	private Categoria categoria;
 	private boolean atualizado;
+	private int aba;
+	
 
 	@PostConstruct
 	public void init() {
@@ -157,7 +160,8 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 			
 			this.atualizarGrid();
 			this.listaAlternativa = new ArrayList<Alternativa>();
-			
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlg1').hide();");
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -205,7 +209,11 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 				}
 	}
 	
-	
+	public void carregarEditar(){
+		this.carregarListaAlternativa();
+		this.carregarAreaConhecimento();
+		
+	}
 	public void remove(){
 		this.listaAlternativa = this.alternativaController.excluirEmMemoria(this.alternativa,this.listaAlternativa);
 		this.limparCamposAlternativa();
@@ -239,6 +247,8 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 			this.atualizarGrid();
 			this.limparForm();
 			this.listaAlternativaExcluir = new ArrayList<Alternativa>();
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlg1').hide();");
 			
 		} catch (RNException e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
@@ -292,6 +302,35 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		}
 		
 		
+	}
+	
+	public void carregarAreaConhecimento(){
+		Filter filtro = new Filter();
+		
+		if((categoria != null) && (categoria.getId() != null)) {
+			filtro.put("idCategoria", categoria.getId().toString());
+			try {
+				this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltro(filtro);
+			} catch (RNException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			}
+		} else {
+			this.categoria = new Categoria();
+			this.questao.setAreaConhecimento(null);
+		}
+		
+		
+	}
+	
+	
+	
+	public int getAba() {
+		return aba;
+	}
+
+	public void setAba(int aba) {
+		this.aba = aba;
 	}
 
 	public DataModelQuestao getDataModelQuestao() {
