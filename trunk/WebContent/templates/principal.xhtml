@@ -26,8 +26,36 @@
 	<div class="container">
 	
 	<div class="starter-template">
-		<ui:insert name="titulo">Edu Mob</ui:insert>
-		<ui:insert name="corpo" />
+		<div class="row">
+				<div class="col-md-4">
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h:outputLabel value="Cursos" />
+						</div>
+						<div class="panel-body">
+							<h:form>
+								<p:tree value="#{menuCategoriaBean.root}" var="categoria"
+									styleClass="menuTree">
+									<p:treeNode>
+										<p:commandLink value="#{categoria.nome}" ajax="false" action="#{menuBean.pageCurso}" styleClass="menuLink"	rendered="#{categoria.curso == true}" >
+											<f:param name="id" value="#{categoria.id}"/>  
+										</p:commandLink>
+										<h:outputText value="#{categoria.nome}"
+											styleClass="menuSimples" rendered="#{categoria.curso == false}" />
+
+									</p:treeNode>
+								</p:tree>
+							</h:form>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<ui:insert name="corpo" />
+
+				</div>
+			</div>
 	</div>	
 		
 	</div>

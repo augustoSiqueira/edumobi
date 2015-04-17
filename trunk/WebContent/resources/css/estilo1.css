@@ -92,12 +92,12 @@ footer {
 	
 }
 .menuLink a , .menuSimples{
-	font: 18px "Comic Sans MS", cursive !important;
-	font-size:18px;
+	font-size:16px;
  
 }
 .menuLink{
-	font: 18px "Comic Sans MS", cursive !important;
+	margin-top: 0;
+	font-size:16px !important;
 }
 
 .menuSimples{
@@ -105,21 +105,23 @@ footer {
 }
 
 .ui-tree .ui-treenode-leaf-icon{
-	width: 32px !important;
+	width: 20px !important;
 	
  }
  
 span.ui-tree-toggler.ui-icon.ui-icon-triangle-1-e{
-	width: 32px;
-	height: 32px;
-    background:  url("#{facesContext.externalContext.requestContextPath}/resources/imagens/folder_close_32x32.png") top repeat-y !important; 
+	width: 20px;
+	height: 20px;
+	background-repeat: no-repeat !important;
+	background:  url("#{facesContext.externalContext.requestContextPath}/resources/imagens/folder_close_32x32.png") top !important; 
    
           
 } 
 span.ui-tree-toggler.ui-icon.ui-icon-triangle-1-s{
- 	width: 32px;
-	height: 32px;
-    background:  url("#{facesContext.externalContext.requestContextPath}/resources/imagens/folder_open_32x32.png") top repeat-y !important; 
+ 	width: 20px;
+	height: 20px;
+	background-repeat: no-repeat !important;
+    background:  url("#{facesContext.externalContext.requestContextPath}/resources/imagens/folder_open_20x20.png") top !important; 
    
  }
  
