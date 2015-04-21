@@ -42,6 +42,7 @@ public class CategoriaBean extends GenericBean implements Serializable {
 
 	private Categoria categoria = new Categoria();
 	
+		
 	@PostConstruct
 	public void init() {
 		Filter filtroCategoria = new Filter();
@@ -146,6 +147,16 @@ public class CategoriaBean extends GenericBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public void pagelivros(){
+		UtilSession.getHttpSession().setAttribute("categoriaId", this.categoria);
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("livros.jsf");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	public DataModelCategoria getDataModelCategoria() {
 		return this.dataModelCategoria;
@@ -172,5 +183,7 @@ public class CategoriaBean extends GenericBean implements Serializable {
 		if((this.listaCategorias != null) && !this.listaCategorias.isEmpty()) {
 			this.listaCategorias.remove(categoria);
 		}
-	}	
+	}
+
+		
 }

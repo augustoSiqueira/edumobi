@@ -86,7 +86,6 @@ public class QuestaoControllerImpl implements QuestaoController{
 			String arquivo = InicializaApp.CAMINHO_SERVIDOR +"/imagens/"+ nomeDoArquivo;
 			InputStream inputStream = event.getFile().getInputstream();
 			OutputStream outputStream = new FileOutputStream(arquivo);
-			System.out.println(InicializaApp.CAMINHO_SERVIDOR);
 			System.out.println(arquivo);
 			int read = 0;
 			long tamanho = event.getFile().getSize();

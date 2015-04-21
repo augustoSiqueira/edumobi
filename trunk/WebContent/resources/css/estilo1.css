@@ -1,7 +1,7 @@
 body {
   padding-top:30px;
   padding-bottom:30px;
-  font-size: 14px;
+  font-size: 13px;
   background-color: #EFE9E9;
 }
 
@@ -41,7 +41,7 @@ footer {
 
 
 .ui-widget {  
-    font-size: 14px !important;
+    font-size: 13px !important;
       
 }
 
@@ -135,4 +135,10 @@ span.ui-tree-toggler.ui-icon.ui-icon-triangle-1-s{
  	text-align: justify;
  
  }
+ .descricaoLivro{
+ 	text-align: justify !important;
+ 	font-size: 12px !important;
+ 	color: blue;
+ }
+
 

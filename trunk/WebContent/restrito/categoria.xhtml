@@ -59,6 +59,15 @@
 									</p:commandButton>
 								</center>
 							</p:column>
+							<p:column headerText="Livros" style="width: 10%;">
+							<center>
+								<p:commandLink action="#{categoriaBean.pagelivros}" rendered="#{categoria.curso}">
+								  	<p:graphicImage library="imagens" name="books_32x32.png" title="Vincular Livros"/> 
+								 		<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
+									
+									</p:commandLink>
+								</center>
+							</p:column>
 						</p:dataTable>	
 					</h:form>	
 			  </div>					  
@@ -114,6 +123,7 @@
 				</div>	<!--Fim Painel body  -->			
 			</div><!--Fim Painel  -->
     </p:dialog>
+  
 		</ui:define>
 	</ui:composition>
 </html>

@@ -33,7 +33,7 @@ public class CursoBean extends GenericBean implements Serializable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("meuObjetoId");  
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("cursoId");  
         }  
      }
 
