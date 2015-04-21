@@ -63,7 +63,7 @@
 									rowsPerPageTemplate="5, 10, 15" lazy="true">
 									<p:column headerText="Titulo" width="120">
 										<p:graphicImage value="../imagens/#{livros.capa}" id="img"
-											cache="false" width="70" height="100" />
+											cache="false" width="95" height="120" />
 
 									</p:column>
 									<p:column>
@@ -147,7 +147,7 @@
 							{NextPageLink} {LastPageLink}"
 					rowsPerPageTemplate="5, 10, 15" style="overflow: auto;">
 					<p:column headerText="Titulo" width="120">
-						<p:graphicImage url="#{livrosWeb.capa}" width="70" height="100px"
+						<p:graphicImage url="#{livrosWeb.capa}" width="95" height="120"
 							style="margin: 0 auto;" />
 					</p:column>
 					<p:column>
@@ -203,7 +203,7 @@
 							<h:outputLabel value="Titulo*: " />
 							<p:inputText id="nome" value="#{livrosBean.livro.nome}"
 								maxlength="255" styleClass="form-control"
-								validator="removeEmBranco" />
+								validator="removeEmBranco" required="true" requiredMessage="#{msg.erro_campo_titulo_vazio}" />
 						</div>
 						<div class="form-group">
 							<h:outputLabel value="Descrição*: " />
