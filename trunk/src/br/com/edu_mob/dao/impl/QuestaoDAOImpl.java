@@ -42,6 +42,8 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 	@Override
 	public List<Questao> pesquisarPorFiltro(Filter filtro) throws DAOException {
 		String enunciado = filtro.getAsString("enunciado");
+		String idAreaConhecimento = filtro.getAsString("idAreaConhecimento");
+
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		List<Questao> listaQuestoes = null;
 
@@ -49,6 +51,10 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Questao.class);
 			if(enunciado != null) {
 				detachedCriteria.add(Restrictions.ilike("enunciado", enunciado, MatchMode.ANYWHERE));
+			}
+
+			if((idAreaConhecimento != null) && !idAreaConhecimento.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("areaConhecimento.id", Long.parseLong(idAreaConhecimento)));
 			}
 
 			if(dataAtualizacao != null) {
@@ -69,6 +75,8 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 	public int pesquisarPorFiltroCount(Filter filtro) throws DAOException {
 		int retorno = 0;
 		String enunciado = filtro.getAsString("enunciado");
+		String idCategoria = filtro.getAsString("idCategoria");
+		String idAreaConhecimento = filtro.getAsString("idAreaConhecimento");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 
 		try {
@@ -76,6 +84,14 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 
 			if(enunciado != null) {
 				detachedCriteria.add(Restrictions.ilike("enunciado", enunciado));
+			}
+
+			if((idCategoria != null) && !idCategoria.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("categoria.id", Long.parseLong(idCategoria)));
+			}
+
+			if((idAreaConhecimento != null) && !idAreaConhecimento.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("areaConhecimento.id", Long.parseLong(idAreaConhecimento)));
 			}
 
 			if(dataAtualizacao != null) {
@@ -93,6 +109,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 	@Override
 	public List<Questao> pesquisarPorFiltroPaginada(Filter filtro, int primeiroReg, int paginaSize) throws DAOException {
 		String enunciado = filtro.getAsString("enunciado");
+		String idAreaConhecimento = filtro.getAsString("idAreaConhecimento");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		List<Questao> listaQuestao = null;
 
@@ -100,6 +117,10 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Questao.class);
 			if(enunciado != null) {
 				detachedCriteria.add(Restrictions.ilike("enunciado", enunciado));
+			}
+
+			if((idAreaConhecimento != null) && !idAreaConhecimento.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("areaConhecimento.id", Long.parseLong(idAreaConhecimento)));
 			}
 
 			if(dataAtualizacao != null) {
@@ -116,13 +137,36 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 	}
 
 	@Override
+	public int pesquisarQtdTotalQuestoes(Filter filtro) throws DAOException {
+		int qtdTotalCategoria = 0;
+		String idCategoria = filtro.getAsString("idCategoria");
+		StringBuilder sb = new StringBuilder();
+		try {
+			sb.append("select count(q.id) from Questao q ");
+			sb.append(" where q.areaConhecimento.categoria.id = " + Long.parseLong(idCategoria) + " ");
+			qtdTotalCategoria = this.getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+				@Override
+				public Integer doInHibernate(Session session) throws HibernateException {
+					Query query = session.createQuery(sb.toString());
+					return Integer.parseInt(query.uniqueResult().toString());
+				}
+			});
+		} catch(DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+		return qtdTotalCategoria;
+	}
+
+	@Override
 	public List<QuestaoDTO> pesquisarPorFiltroDTO(Filter filtro) throws DAOException {
 		List<QuestaoDTO> listaQuestoesDTO = null;
 		StringBuilder sb = new StringBuilder();
+		String idCategoria = (String) filtro.get("idCategoria");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		try {
 			sb.append("select new br.com.edu_mob.services.QuestaoDTO(q.id, q.enunciado, q.observacao, q.caminhoImagem, q.areaConhecimento.id, ");
-			sb.append(" q.dataAtualizacao) from Questao q where q.dataAtualizacao >= :dataAtualizacao ");
+			sb.append(" q.dataAtualizacao) from Questao q where q.dataAtualizacao >= :dataAtualizacao and q.areaConhecimento.categoria.id = " + Long.parseLong(idCategoria) + " ");
 			listaQuestoesDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<QuestaoDTO>>() {
 				@SuppressWarnings("unchecked")
 				@Override

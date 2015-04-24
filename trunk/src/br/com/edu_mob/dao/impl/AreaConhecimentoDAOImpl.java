@@ -126,10 +126,11 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 	public List<AreaConhecimentoDTO> pesquisarPorFiltroDTO(Filter filtro) throws DAOException {
 		List<AreaConhecimentoDTO> listaAreaConhecimentoDTO = null;
 		StringBuilder sb = new StringBuilder();
+		String idCategoria = (String) filtro.get("idCategoria");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		try {
 			sb.append("select new br.com.edu_mob.services.AreaConhecimentoDTO(aa.id, aa.descricao, aa.categoria.id, aa.dataAtualizacao) ");
-			sb.append(" from AreaConhecimento aa where aa.dataAtualizacao >= :dataAtualizacao ");
+			sb.append(" from AreaConhecimento aa where aa.dataAtualizacao >= :dataAtualizacao and aa.categoria.id = " + Long.parseLong(idCategoria) + " ");
 			listaAreaConhecimentoDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<AreaConhecimentoDTO>>() {
 				@SuppressWarnings("unchecked")
 				@Override

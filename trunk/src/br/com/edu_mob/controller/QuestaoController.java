@@ -22,6 +22,17 @@ public interface QuestaoController extends  GenericController<Questao> {
 	 * @throws DAOException
 	 */
 	List<QuestaoDTO> pesquisarPorFiltroDTO(Filter filtro) throws RNException;
-	public String salvarImagem(FileUploadEvent event) throws RNException;
+
+	String salvarImagem(FileUploadEvent event) throws RNException;
+
+	/**
+	 * Metodo responsavel por pesquisar a quantidade total de Questoes por filtro
+	 *
+	 * @param Filter filtro
+	 * @return int qtdTotal
+	 * @throws DAOException
+	 */
+
+	int pesquisarQtdTotalQuestoes(Filter filtro) throws RNException;
 
 }

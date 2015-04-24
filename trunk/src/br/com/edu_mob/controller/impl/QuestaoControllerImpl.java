@@ -75,14 +75,14 @@ public class QuestaoControllerImpl implements QuestaoController{
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 	}
-	
+
 	@Override
 	public String salvarImagem(FileUploadEvent event) throws RNException{
-		
+
 		//String nomeDoArquivo = event.getFile().getFileName();
 		String nomeDoArquivo = Util.criptografar(Util.converteData(new Date(), "yyyy-MM-dd HH:mm:ss.SSSXXX"))+event.getFile().getFileName();
 		try {
-			
+
 			String arquivo = InicializaApp.CAMINHO_SERVIDOR +"/imagens/"+ nomeDoArquivo;
 			InputStream inputStream = event.getFile().getInputstream();
 			OutputStream outputStream = new FileOutputStream(arquivo);
@@ -90,23 +90,23 @@ public class QuestaoControllerImpl implements QuestaoController{
 			int read = 0;
 			long tamanho = event.getFile().getSize();
 			byte[] arquivoByte = new byte[(int)tamanho];
-			
+
 			while ((read = inputStream.read(arquivoByte)) != -1) {
 				outputStream.write(arquivoByte, 0, read);
 			}
-			
+
 			inputStream.close();
 			outputStream.flush();
 			outputStream.close();
-			} catch (IOException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-				throw new RNException(ErrorMessage.DAO.getChave());
-			}
-		
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+
 		return nomeDoArquivo;
-	
+
 	}
-	
+
 	@Override
 	public void alterar(Questao questao) throws RNException {
 		try {
@@ -160,6 +160,14 @@ public class QuestaoControllerImpl implements QuestaoController{
 		List<QuestaoDTO> listaQuestoesDTO = null;
 		try {
 			listaQuestoesDTO = this.questaoDAO.pesquisarPorFiltroDTO(filtro);
+			if((listaQuestoesDTO != null) && !listaQuestoesDTO.isEmpty()) {
+				Filter filtroAlternativa = new Filter();
+				for (QuestaoDTO questaoDTO : listaQuestoesDTO) {
+					filtroAlternativa.put("idQuestao", questaoDTO.getId().toString());
+					questaoDTO.setListaAlternativasDTO(this.alternativaDAO.pesquisarPorFiltroDTO(filtroAlternativa));
+				}
+			}
+
 		} catch (DAOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
@@ -192,5 +200,16 @@ public class QuestaoControllerImpl implements QuestaoController{
 		return listaQuestoes;
 	}
 
+	@Override
+	public int pesquisarQtdTotalQuestoes(Filter filtro) throws RNException {
+		int qtdTotal = 0;
+		try {
+			qtdTotal = this.questaoDAO.pesquisarQtdTotalQuestoes(filtro);
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+		return qtdTotal;
+	}
 
 }
