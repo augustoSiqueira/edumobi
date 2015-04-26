@@ -29,9 +29,7 @@ import br.com.edu_mob.util.UtilSession;
 @ManagedBean
 @ViewScoped
 public class AreaConhecimentoBean extends GenericBean implements Serializable{
-
-	private static final long serialVersionUID = 3627978460790867150L;
-	
+	private static final long serialVersionUID = 3627978460790867150L;	
 	private static final Logger logger = Logger.getLogger(AreaConhecimentoBean.class.getName());
 	
 	@ManagedProperty(value = "#{dataModelAreaConhecimento}")
