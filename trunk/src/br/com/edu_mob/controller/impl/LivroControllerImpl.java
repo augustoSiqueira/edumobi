@@ -3,6 +3,7 @@ package br.com.edu_mob.controller.impl;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+
 
 
 
@@ -172,36 +175,38 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 		return listaLivros;
 	}
 	
-	private InputStream readJSON(String url) throws IOException, RuntimeException {
-        try {
-            HttpURLConnection conexao = (HttpURLConnection) new URL(url).openConnection();
+	private InputStream readJSON(String url) throws RNException {
+        
+            try {
+				HttpURLConnection conexao = (HttpURLConnection) new URL(url).openConnection();
 
-            conexao.setReadTimeout(10 * 1000);
-            conexao.setConnectTimeout(10 * 1000);
-            conexao.setDoInput(true);
-            conexao.setRequestMethod("GET");
+				conexao.setConnectTimeout(10 *1000);
+				conexao.setDoInput(true);
+				conexao.setRequestMethod("GET");
 
-            conexao.connect();
+				conexao.connect();
 
-            if (conexao.getResponseCode() == HttpURLConnection.HTTP_OK){
-                return conexao.getInputStream();
-            } else {
-                return null;
-            }
-        } catch (RuntimeException excecao) {
-            throw excecao;
-        }
+				if (conexao.getResponseCode() == HttpURLConnection.HTTP_OK){
+				    return conexao.getInputStream();
+				} else {
+				    return null;
+				}
+			} catch (IOException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+				throw new RNException(ErrorMessage.RUNTIMEEXCEPTION.getChave());
+			}
+			
+        
     }
 	
 	private String inputStreamToString(InputStream is) throws IOException {
         if (is != null) {
         	 String text = "";
 
-        	    // setup readers with Latin-1 (ISO 8859-1) encoding
         	    BufferedReader i = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 
         	    int numBytes;
-        	    CharBuffer buf = CharBuffer.allocate(1024);
+        	    CharBuffer buf = CharBuffer.allocate(2048);
         	    while ((numBytes = i.read(buf)) != -1) {
         	        text += String.copyValueOf(buf.array(), 0, numBytes);
         	        buf.clear();
@@ -215,13 +220,17 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 	
 	public List<Livro> pesquiasarLivrosWeb(String pesquisa) throws RNException{
 		
+		if(pesquisa == null || pesquisa.trim().equals("")){
+			throw new RNException(ErrorMessage.ERRO_CAMPO_PESQUISA_VAZIO.getChave());
+		}
+		
 		List<Livro> listaLivros = new ArrayList<Livro>();
 		
-		pesquisa = pesquisa.replace(" ", "%20");
+		pesquisa = pesquisa.replace(" ", "+");
 		StringBuffer url = new StringBuffer()
         .append("https://www.googleapis.com/books/v1/volumes?q=")
         .append(pesquisa)
-        .append("&maxResults=40");
+        .append("&orderBy=newest&printType=books&maxResults=40");
 		
 		try {
 			String retorno = inputStreamToString(readJSON(url.toString()));
@@ -292,20 +301,20 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 						
 						listaLivros.add(livro);
 					}
-					
+					listaLivros.removeAll(this.listar());
 					
 				} catch (JSONException e) {
 					logger.log(Level.SEVERE, e.getMessage(), e);
-					throw new RNException(ErrorMessage.DAO.getChave());
+					throw new RNException(ErrorMessage.ERRO_GERAR_LIVRO_WEB.getChave());
 				}
 			}
 			
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-			throw new RNException(ErrorMessage.DAO.getChave());
+			throw new RNException(ErrorMessage.ERRO_GERAR_LIVRO_WEB.getChave());
 		} catch (RuntimeException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-			throw new RNException(ErrorMessage.DAO.getChave());
+			throw new RNException(ErrorMessage.RUNTIMEEXCEPTION.getChave());
 		}
 		return listaLivros;
 	}
@@ -315,6 +324,13 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 		
 		String nomeDoArquivo = Util.criptografar(Util.converteData(new Date(), "yyyy-MM-dd HH:mm:ss.SSSXXX"))+".jpg";
 		String arquivo = InicializaApp.CAMINHO_SERVIDOR +"/imagens/"+ nomeDoArquivo;
+		System.out.println(arquivo);
+		
+		File diretorio = new File(InicializaApp.CAMINHO_SERVIDOR +"/imagens/");
+		if (!diretorio.exists()) {  
+		   diretorio.mkdirs(); 
+		} 
+		
 		URL url;
 		try {
 			url = new URL(urlImagem);
@@ -334,8 +350,8 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 			fos.write(response);
 			fos.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.ERRO_SALVAR_IMAGEM_WEB.getChave());
 		}
 		
 		

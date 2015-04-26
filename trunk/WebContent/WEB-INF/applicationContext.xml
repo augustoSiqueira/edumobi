@@ -56,6 +56,7 @@
 					<value>br.com.edu_mob.entity.Municipio</value>
 					<value>br.com.edu_mob.entity.UF</value>
 					<value>br.com.edu_mob.entity.Livro</value>
+					<value>br.com.edu_mob.entity.Simulado</value>
 				</list>
 			</property>
 		</bean>

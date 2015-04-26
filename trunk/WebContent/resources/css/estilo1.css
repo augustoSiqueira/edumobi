@@ -1,144 +1,143 @@
 body {
-  padding-top:30px;
-  padding-bottom:30px;
-  font-size: 13px;
-  background-color: #EFE9E9;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	font-size: 13px;
+	background-color: #EFE9E9;
 }
 
 .starter-template {
-  padding-top: 40px;
-  
+	padding-top: 40px;
 }
 
 footer {
-    position: fixed;
-    height: 30px;
-    padding:5px;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    background-color: black;
-    color: white;
+	position: fixed;
+	height: 30px;
+	padding: 5px;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	background-color: black;
+	color: white;
 }
 
-.dropdown label{
-	font-weight:normal;
+.dropdown label {
+	font-weight: normal;
 }
-.navbar{
+
+.navbar {
 	background-color: #0A8CBF;
 }
 
-.navbar-default .navbar-nav > li > a {
-    color: white;    
+.navbar-default .navbar-nav>li>a {
+	color: white;
 }
 
-.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-          color: white;
-          background-color: #0A8CBF;
-    }
-
-
-
-.ui-widget {  
-    font-size: 13px !important;
-      
+.navbar-default .navbar-nav .open .dropdown-menu>li>a:hover,
+	.navbar-default .navbar-nav .open .dropdown-menu>li>a:focus {
+	color: white;
+	background-color: #0A8CBF;
 }
 
-.ui-growl {  
-    top: 60px !important;
-    right: 10px !important;
-} 
+.ui-widget {
+	font-size: 13px !important;
+}
+
+.ui-growl {
+	top: 60px !important;
+	right: 10px !important;
+}
 
 .panel {
-	
 	border: 1px solid #0A8CBF;
-	
 }
-.panel .panel-heading{
+
+.panel .panel-heading {
 	background-color: #0A8CBF;
-	color:white;
-	padding: 8px 3px 3px 20px;	
+	color: white;
+	padding: 8px 3px 3px 20px;
 	font-size: 14px;
-	
 }
 
-.ui-selectonemenu{
-    width: 100% !important;
+.ui-selectonemenu {
+	width: 100% !important;
 }
 
-.clear { clear: both; }
-
-.comboBox{
-	width: 300px !important;	
+.clear {
+	clear: both;
 }
 
-.comboBox2{
-	width: 250px !important;	
+.comboBox {
+	width: 300px !important;
 }
 
-.btnEdit{
+.comboBox2 {
+	width: 250px !important;
+}
+
+.btnEdit {
 	margin-right: 10px;
-	padding-right:10px;
+	padding-right: 10px;
 	border-right: 1px solid black;
 }
 
-.btnAdicionar{
-	margin: 0 30px;	
+.btnAdicionar {
+	margin: 0 30px;
 }
 
-.menuTree{
+.menuTree {
 	border: none;
-	
 }
-.menuLink a , .menuSimples{
-	font-size:16px;
- 
+
+.menuLink a, .menuSimples {
+	font-size: 16px;
 }
-.menuLink{
+
+.menuLink {
 	margin-top: 0;
-	font-size:16px !important;
+	font-size: 16px !important;
 }
 
-.menuSimples{
-		
-}
-
-.ui-tree .ui-treenode-leaf-icon{
-	width: 20px !important;
+.menuSimples {
 	
- }
- 
-span.ui-tree-toggler.ui-icon.ui-icon-triangle-1-e{
+}
+
+.ui-tree .ui-treenode-leaf-icon {
+	width: 20px !important;
+}
+
+span.ui-tree-toggler.ui-icon.ui-icon-triangle-1-e {
 	width: 20px;
 	height: 20px;
 	background-repeat: no-repeat !important;
-	background:  url("#{facesContext.externalContext.requestContextPath}/resources/imagens/folder_close_32x32.png") top !important; 
-   
-          
-} 
-span.ui-tree-toggler.ui-icon.ui-icon-triangle-1-s{
- 	width: 20px;
+	background:
+		url("#{facesContext.externalContext.requestContextPath}/resources/imagens/folder_close_32x32.png")
+		top !important;
+}
+
+span.ui-tree-toggler.ui-icon.ui-icon-triangle-1-s {
+	width: 20px;
 	height: 20px;
 	background-repeat: no-repeat !important;
-    background:  url("#{facesContext.externalContext.requestContextPath}/resources/imagens/folder_open_20x20.png") top !important; 
-   
- }
- 
- .marginLeft{
- 	margin-left: 40px;
- 	
- }
- 
- .paragrafo{
- 	margin:5px 10px 5px 10px;
- 	text-align: justify;
- 
- }
- .descricaoLivro{
- 	text-align: justify !important;
- 	font-size: 12px !important;
- 	color: blue;
- }
+	background:
+		url("#{facesContext.externalContext.requestContextPath}/resources/imagens/folder_open_20x20.png")
+		top !important;
+}
 
+.marginLeft {
+	margin-left: 40px;
+}
 
+.paragrafo {
+	margin: 5px 10px 5px 10px;
+	text-align: justify;
+}
+
+.descricaoLivro {
+	text-align: justify !important;
+	font-size: 12px !important;
+	color: blue;
+}
+
+.ui-spinner-input{
+	width: 70px !important;
+}

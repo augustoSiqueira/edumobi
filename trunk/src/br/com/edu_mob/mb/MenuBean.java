@@ -69,4 +69,8 @@ public class MenuBean implements Serializable {
 		 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cursoId",id); 
 		 return AliasNavigation.PAGINA_CURSO;
 	}
+	
+	public String pageSimuladoDescricao() {
+		return AliasNavigation.PAGINA_SIMULADO_DESCRICAO;
+	}
 }

@@ -46,6 +46,14 @@
 							update=":listagemWeb">
 							<p:graphicImage library="imagens" name="add_32x32.png"
 								title="Adicionar" />
+							<p:outputLabel value="Adicionar Livro web" style="margin-left: 5px;" />
+						</p:commandLink>
+						
+						<p:commandLink onclick="PF('dlg2').show();"
+							class="pull-right btnAdicionar" action="#{livrosBean.popUpAdd}"
+							update=":edicao">
+							<p:graphicImage library="imagens" name="add_32x32.png"
+								title="Adicionar livro" />
 							<p:outputLabel value="Adicionar" style="margin-left: 5px;" />
 						</p:commandLink>
 						<div class="clear"></div>
@@ -249,6 +257,7 @@
 									rendered="#{!empty(livrosBean.livro.capa)}" />
 							</div>
 						</p:outputPanel>
+						<div class="clear"></div>
 						<p:commandLink value="#{msg.app_label_salvar}"
 							action="#{livrosBean.salvar}" process="@this, :edicao"
 							update=":listaLivros :edicao"

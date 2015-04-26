@@ -47,6 +47,7 @@
 								<li><p:commandLink value="#{msg.categoria_label_menu}"	action="#{menuBean.pageCategorias}"	rendered="#{sec:areAnyGranted('ROLE_CATEGORIA')}" /></li>
 								<li><p:commandLink value="#{msg.questao_label_menu}"	action="#{menuBean.pageQuestao}"	rendered="#{sec:areAnyGranted('ROLE_QUESTAO')}" /></li>
 								<li><p:commandLink value="#{msg.aluno_label_menu}"	action="#{menuBean.pageAlunos}"	rendered="#{sec:areAnyGranted('ROLE_ALUNO')}" /></li>
+								<li><p:commandLink value="#{msg.simulado_label_menu}"	action="#{menuBean.pageSimuladoDescricao}"	rendered="#{sec:areAnyGranted('ROLE_SIMULADO')}" /></li>
 							</ul></li>
 					</ul>
 				</sec:authorize>

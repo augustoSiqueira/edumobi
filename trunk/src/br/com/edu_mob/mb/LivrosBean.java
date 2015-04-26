@@ -35,7 +35,7 @@ public class LivrosBean extends GenericBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(QuestaoBean.class.getName());
+	private static final Logger logger = Logger.getLogger(LivrosBean.class.getName());
 	
 	private Livro livro;
 	private Categoria categoria;
@@ -76,8 +76,8 @@ public class LivrosBean extends GenericBean implements Serializable {
 	public void pesquisaWeb(){
 		
 		try {
-			listaLivrosWeb = livroController.pesquiasarLivrosWeb(getPesquisa());	
-			
+			listaLivrosWeb = livroController.pesquiasarLivrosWeb(getPesquisa());
+						
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -114,10 +114,10 @@ public class LivrosBean extends GenericBean implements Serializable {
 	}
 	
 	public void popUpAdd(){
-		pesquisaWeb();
-		
+		this.livro = new Livro();
+		this.listaLivrosWeb = null;
 	}
-	
+		
 	public void cancelar(){
 		livro = new Livro();
 		RequestContext context = RequestContext.getCurrentInstance();
@@ -160,9 +160,10 @@ public class LivrosBean extends GenericBean implements Serializable {
 	public void incluir() {
 		
 		try {
-			this.livroController.incluir(livro);
+			livro.setCategoria(categoria);
+			livroController.incluir(livro);
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.LIVRO.getValor());
+					SucessMessage.ATUALIZADO_SUCESSO.getValor(), Entidades.LIVRO.getValor());
 			RequestContext context = RequestContext.getCurrentInstance();
 			context.execute("PF('dlg2').hide();");
 		} catch (RNException e) {

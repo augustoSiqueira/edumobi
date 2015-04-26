@@ -32,7 +32,13 @@ public enum ErrorMessage {
 	CAMPO_NOME_VAZIO("erro_campo_nome_vazio"),
 	CAMPO_TITULO_VAZIO("erro_campo_titulo_vazio"),
 	CAMPO_DESCRICAO_VAZIO("erro_campo_descricao_vazio"),
-	CAMPO_QNT_QUESTAO_VAZIO("erro_campo_qnt_questao_vazio"), DADOS_PESSOAIS_SENHA_NAO_CONFERE("erro_dados_pessoais_senha_nao_confere");
+	CAMPO_QNT_QUESTAO_VAZIO("erro_campo_qnt_questao_vazio"), 
+	DADOS_PESSOAIS_SENHA_NAO_CONFERE("erro_dados_pessoais_senha_nao_confere"),
+	RUNTIMEEXCEPTION("erro_tempo_excedido"),
+	ERRO_GERAR_LIVRO_WEB("erro_obter_json_livro"),
+	ERRO_SALVAR_IMAGEM_WEB("erro_salvar_imagem_web"),
+	ERRO_CAMPO_PESQUISA_VAZIO("erro_campo_pesquisa_obrigatorio")
+	;
 
 	private ErrorMessage(String chave) {
 		this.chave = chave;

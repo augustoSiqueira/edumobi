@@ -1,5 +1,6 @@
 package br.com.edu_mob.controller.impl;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,14 +76,18 @@ public class QuestaoControllerImpl implements QuestaoController{
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 	}
-
+	
 	@Override
 	public String salvarImagem(FileUploadEvent event) throws RNException{
-
+		
 		//String nomeDoArquivo = event.getFile().getFileName();
 		String nomeDoArquivo = Util.criptografar(Util.converteData(new Date(), "yyyy-MM-dd HH:mm:ss.SSSXXX"))+event.getFile().getFileName();
 		try {
-
+			File diretorio = new File(InicializaApp.CAMINHO_SERVIDOR +"/imagens/");
+			if (!diretorio.exists()) {  
+			   diretorio.mkdirs(); 
+			} 
+			
 			String arquivo = InicializaApp.CAMINHO_SERVIDOR +"/imagens/"+ nomeDoArquivo;
 			InputStream inputStream = event.getFile().getInputstream();
 			OutputStream outputStream = new FileOutputStream(arquivo);
@@ -90,23 +95,23 @@ public class QuestaoControllerImpl implements QuestaoController{
 			int read = 0;
 			long tamanho = event.getFile().getSize();
 			byte[] arquivoByte = new byte[(int)tamanho];
-
+			
 			while ((read = inputStream.read(arquivoByte)) != -1) {
 				outputStream.write(arquivoByte, 0, read);
 			}
-
+			
 			inputStream.close();
 			outputStream.flush();
 			outputStream.close();
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			throw new RNException(ErrorMessage.DAO.getChave());
-		}
-
+			} catch (IOException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+				throw new RNException(ErrorMessage.DAO.getChave());
+			}
+		
 		return nomeDoArquivo;
-
+	
 	}
-
+	
 	@Override
 	public void alterar(Questao questao) throws RNException {
 		try {
