@@ -190,11 +190,6 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 				erros.add(ErrorMessage.CAMPO_DESCRICAO_VAZIO.getChave());
 				erro = true;
 			}
-
-			if( categoria.getQtdQuestoes() == null){
-				erros.add(ErrorMessage.CAMPO_QNT_QUESTAO_VAZIO.getChave());
-				erro = true;
-			}
 		}
 
 		if(erro){

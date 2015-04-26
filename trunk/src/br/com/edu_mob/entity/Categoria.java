@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -46,9 +48,6 @@ public class Categoria implements Serializable {
 	@JoinColumn(name="id_categoria_pai")
 	private Categoria pai;
 
-	@Column(name="qtd_questoes")
-	private Integer qtdQuestoes;
-
 	@Column(length=100)
 	private String titulo;
 
@@ -61,9 +60,10 @@ public class Categoria implements Serializable {
 	private Date dataAtualizacao;
 
 	@JsonBackReference
-	@OneToMany(mappedBy="categoria")
+	@OneToMany(mappedBy="categoria", fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
 	private List<AreaConhecimento> listaAreasConhecimento;
-	
+
 	@OneToMany(mappedBy="pai", fetch=FetchType.EAGER)
 	private List<Categoria> subCategorias;
 
@@ -102,14 +102,6 @@ public class Categoria implements Serializable {
 
 	public void setPai(Categoria pai) {
 		this.pai = pai;
-	}
-
-	public Integer getQtdQuestoes() {
-		return this.qtdQuestoes;
-	}
-
-	public void setQtdQuestoes(Integer qtdQuestoes) {
-		this.qtdQuestoes = qtdQuestoes;
 	}
 
 	public String getTitulo() {
@@ -153,11 +145,11 @@ public class Categoria implements Serializable {
 	public void setDataAtualizacao(Date dataAtualizacao) {
 		this.dataAtualizacao = dataAtualizacao;
 	}
-	
-	
+
+
 
 	public List<Categoria> getSubCategorias() {
-		return subCategorias;
+		return this.subCategorias;
 	}
 
 	public void setSubCategorias(List<Categoria> subCategorias) {

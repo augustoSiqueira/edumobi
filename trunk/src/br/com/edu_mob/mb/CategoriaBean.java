@@ -41,8 +41,8 @@ public class CategoriaBean extends GenericBean implements Serializable {
 	private List<Categoria> listaCategorias = null;
 
 	private Categoria categoria = new Categoria();
-	
-		
+
+
 	@PostConstruct
 	public void init() {
 		Filter filtroCategoria = new Filter();
@@ -70,15 +70,14 @@ public class CategoriaBean extends GenericBean implements Serializable {
 	public void limparCampos() {
 		this.categoria = new Categoria();
 	}
-	
+
 	public void limparCamposCancelar() {
 		this.categoria = new Categoria();
-		categoria.setDescricao(null);
-		categoria.setId(null);
-		categoria.setNome(null);
-		categoria.setPai(null);
-		categoria.setQtdQuestoes(null);
-		categoria.setTitulo(null);
+		this.categoria.setDescricao(null);
+		this.categoria.setId(null);
+		this.categoria.setNome(null);
+		this.categoria.setPai(null);
+		this.categoria.setTitulo(null);
 	}
 
 	public void atualizarGrid() {
@@ -138,7 +137,7 @@ public class CategoriaBean extends GenericBean implements Serializable {
 			}
 		}
 	}
-	
+
 	public void adicionarAreaConhecimento(){
 		UtilSession.getHttpSession().setAttribute("categoriaSelecionada", this.categoria);
 		try {
@@ -147,7 +146,7 @@ public class CategoriaBean extends GenericBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void pagelivros(){
 		UtilSession.getHttpSession().setAttribute("categoriaId", this.categoria);
 		try {
@@ -156,7 +155,7 @@ public class CategoriaBean extends GenericBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	public DataModelCategoria getDataModelCategoria() {
 		return this.dataModelCategoria;
@@ -185,5 +184,5 @@ public class CategoriaBean extends GenericBean implements Serializable {
 		}
 	}
 
-		
+
 }

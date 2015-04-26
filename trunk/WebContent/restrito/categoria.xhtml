@@ -101,12 +101,7 @@
 									<f:selectItems value="#{categoriaBean.listaCategorias}" var="categoria" itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
 								</p:selectOneMenu>
 							</div>
-							<div class="form-group">
-					            <h:outputLabel value="#{msg.categoria_label_qtd_questoes}*:" for="qtdQuestoes" />
-								<p:inputText id="qtdQuestoes" title="#{msg.categoria_label_qtd_questoes}" label="#{msg.categoria_label_qtd_questoes}" 
-									value="#{categoriaBean.categoria.qtdQuestoes}"  maxlength="5" styleClass="form-control" />
-							</div>
-							 <div class="checkbox">
+							<div class="checkbox">
 					            <h:outputLabel value="#{msg.categoria_label_ativo}*: " for="ativo" />
 								<p:selectBooleanCheckbox id="ativo" value="#{categoriaBean.categoria.ativo}" required="true" />
 								
