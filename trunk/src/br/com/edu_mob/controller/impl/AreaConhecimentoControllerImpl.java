@@ -17,6 +17,7 @@ import br.com.edu_mob.dao.AreaConhecimentoDAO;
 import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
+import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.services.AreaConhecimentoDTO;
 import br.com.edu_mob.util.Filter;
@@ -80,7 +81,7 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 		try {
 			if((areaConhecimento.getDescricao() != null) || !areaConhecimento.getDescricao().isEmpty()){
 				areaConhecimento.setDataAtualizacao(new Date());
-				this.areaConhecimentoDAO.save(areaConhecimento);
+				this.areaConhecimentoDAO.save(areaConhecimento);	
 			}
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -185,5 +186,17 @@ public class AreaConhecimentoControllerImpl implements AreaConhecimentoControlle
 			List<AreaConhecimento> lista) throws RNException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean verificarExistencia(AreaConhecimento areaConhecimento) {
+		boolean existe = false;
+		
+		try {
+			existe = this.areaConhecimentoDAO.verificarExistencia("descricao", areaConhecimento.getDescricao(), areaConhecimento.getId());
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return existe;
 	}
 }

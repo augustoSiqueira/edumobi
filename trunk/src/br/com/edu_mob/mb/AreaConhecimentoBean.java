@@ -1,5 +1,6 @@
 package br.com.edu_mob.mb;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +55,6 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	
 	private AreaConhecimento areaConhecimentoSelecionado = new AreaConhecimento();
 	
-	private List<AreaConhecimento> lista = new ArrayList<AreaConhecimento>();
-	
 	@PostConstruct
 	public void init() {
 		
@@ -103,36 +102,23 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	}
 	
 	private void alterarAreaConhecimento() {
-		boolean existe = false;
 		
-		for (int i = 0; i < this.listaAreaConhecimento.size(); i++) {
-			if(this.areaConhecimento.getDescricao().trim().equalsIgnoreCase(this.listaAreaConhecimento.get(i).getDescricao().trim())){
-				if(this.areaConhecimento.getId() != this.listaAreaConhecimento.get(i).getId()){
-					this.listaAreaConhecimento.remove(this.areaConhecimentoSelecionado);
-					existe = true;
-					break;
-				}
-			}
-		}
-		
-		if(existe){
-			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave()),
+		try {
+			this.areaConhecimento.setCategoria(this.categoria);
+			this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
+			boolean existe = this.areaConhecimentoController.verificarExistencia(this.areaConhecimento);
+			if(existe){
+				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave()),
 				ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave(), Entidades.AREA_CONHECIMENTO.getValor());
-		}else{
-			if (this.areaConhecimentoSelecionado.getDescricao() != null) {
-				if ((this.areaConhecimentoSelecionado.getId() == this.areaConhecimento.getId())
-						&& (this.areaConhecimentoSelecionado.getDescricao().equalsIgnoreCase(this.areaConhecimento.getDescricao()))) {
-					this.areaConhecimento.setCategoria(categoria);
-					this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
-					this.listaAreaConhecimento.remove(this.areaConhecimentoSelecionado);
-					this.listaAreaConhecimento.add(this.areaConhecimento);
-					this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO
-							.getValor()), SucessMessage.ATUALIZADA_SUCESSO
-							.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
-					limparCampos();
-					this.atualizou = false;
-				}
+			}else{
+				this.areaConhecimentoController.alterar(this.areaConhecimento);
+				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+				SucessMessage.ATUALIZADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+				atualizarGrid();
 			}
+			
+		} catch (RNException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -140,26 +126,23 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	 * Realiza o cadastro de area de conhecimento
 	 * */
 	private void cadastrarAreaConhecimento() {
-		boolean existe = false;
-		
-		for (int i = 0; i < this.listaAreaConhecimento.size(); i++) {
-			if(this.areaConhecimento.getDescricao().trim().equalsIgnoreCase(this.listaAreaConhecimento.get(i).getDescricao().trim())){
-				existe = true;
-				break;
-			}
-		}
-		
-		if(existe){
-			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave()),
-				ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave(), Entidades.AREA_CONHECIMENTO.getValor());
-		}else{
-			this.areaConhecimento.setCategoria(categoria);
+
+		try {
+			this.areaConhecimento.setCategoria(this.categoria);
 			this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
-			this.listaAreaConhecimento.add(this.areaConhecimento);
-			this.areaConhecimento= new AreaConhecimento();
-			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-					SucessMessage.CADASTRADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
-			limparCampos();
+			boolean existe = this.areaConhecimentoController.verificarExistencia(this.areaConhecimento);
+			if(existe){
+				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave()),
+				ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave(), Entidades.AREA_CONHECIMENTO.getValor());
+			}else{
+				this.areaConhecimentoController.incluir(this.areaConhecimento);
+				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+				SucessMessage.CADASTRADA_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
+				atualizarGrid();
+			}
+			
+		} catch (RNException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -180,34 +163,11 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 		}
 	}
 	
-	public void incluirLista() {
+	public void salvar() {
 		try {
-			List<AreaConhecimento> lista = new ArrayList<AreaConhecimento>();
-			
-			
-			if (this.areaConhecimento.getDescricao() != null
-					&& !this.areaConhecimento.getDescricao().isEmpty()) {
-				if (this.listaAreaConhecimento != null
-						&& this.listaAreaConhecimento.size() > 1) {
-					for (AreaConhecimento areaConhecimento : listaAreaConhecimento) {
-						areaConhecimento.setCategoria(this.categoria);
-						lista.add(areaConhecimento);
-						this.listaAreaConhecimento = lista;
-					}
-				} else {
-					areaConhecimento.setCategoria(this.categoria);
-					lista.add(areaConhecimento);
-					this.listaAreaConhecimento = lista;
-				}
-			}
-			
-			this.areaConhecimentoController.incluirLista(this.listaAreaConhecimento);
-			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.AREA_CONHECIMENTO.getValor());
-			this.atualizarGrid();
-		} catch (RNException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			FacesContext.getCurrentInstance().getExternalContext().redirect("categoria.jsf");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -307,13 +267,5 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 	public void setAreaConhecimentoSelecionado(
 			AreaConhecimento areaConhecimentoSelecionado) {
 		this.areaConhecimentoSelecionado = areaConhecimentoSelecionado;
-	}
-
-	public List<AreaConhecimento> getLista() {
-		return lista;
-	}
-
-	public void setLista(List<AreaConhecimento> lista) {
-		this.lista = lista;
 	}
 }

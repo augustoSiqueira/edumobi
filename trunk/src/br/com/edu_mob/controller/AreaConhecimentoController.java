@@ -15,7 +15,7 @@ public interface AreaConhecimentoController extends GenericController<AreaConhec
 	public AreaConhecimento alterarEmMemoria(AreaConhecimento areaConhecimento);
 	public List<AreaConhecimento> excluirEmMemoria(AreaConhecimento areaConhecimento, List<AreaConhecimento> lista);
 	public void validarListaMemoria(AreaConhecimento areaConhecimento, List<AreaConhecimento> lista) throws RNException;
-
+	boolean verificarExistencia(AreaConhecimento areaConhecimento);
 	/**
 	 * Metodo responsavel por retornar DTOs para transmissao mobile
 	 *
