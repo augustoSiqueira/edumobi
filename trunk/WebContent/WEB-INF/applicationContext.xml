@@ -57,6 +57,7 @@
 					<value>br.com.edu_mob.entity.UF</value>
 					<value>br.com.edu_mob.entity.Livro</value>
 					<value>br.com.edu_mob.entity.Simulado</value>
+					<value>br.com.edu_mob.entity.RespostaEstudo</value>
 				</list>
 			</property>
 		</bean>
