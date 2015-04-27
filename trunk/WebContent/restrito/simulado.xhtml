@@ -6,7 +6,9 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:sec="http://www.springframework.org/security/tags"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
 
 <ui:composition template="/templates/interna.xhtml">
 	<ui:define name="titulo">
@@ -38,14 +40,19 @@
 						<p:column headerText="#{msg.simulado_label_titulo}">
 								#{simulado.titulo}
 						</p:column>
+						<p:column headerText="#{msg.simulado_label_titulo}">
+								#{simulado.categoria.nome}
+						</p:column>
 						<p:column headerText="#{msg.app_label_acoes}" style="width: 10%;">
 							<p:commandLink process="@this" update=":edicao"
 								rendered="#{sec:areAnyGranted('ROLE_SIMULADO_ALTERAR')}"
-								styleClass="btnEdit">
+								styleClass="btnEdit" action="#{simuladoDescricaoBean.prepararEdicao}">
 								<p:graphicImage library="imagens" name="edit_32x32.png"
 									title="Editar" onclick="PF('dlg1').show();" />
 								<f:setPropertyActionListener value="#{simulado}"
 									target="#{simuladoDescricaoBean.simulado}" />
+								<f:setPropertyActionListener value="#{simulado.categoria}"
+									target="#{simuladoDescricaoBean.categoriaSelecionada}" />
 							</p:commandLink>
 							<p:commandLink process="@this"
 								action="#{simuladoDescricaoBean.excluir}"
@@ -100,7 +107,7 @@
 								min="0" onkeyup="onlyNumbers(this)" styleClass="spinner" />
 						</div>
 
-						<div class="form-group">
+						<div class="form-group" id="categoria">
 							<h:outputLabel value="#{msg.simulado_label_categoria}:" />
 							<br />
 							<p:selectOneMenu
@@ -117,13 +124,16 @@
 						</div>
 						<div class="form-group" id="areaConhecimento">
 
-							<h:outputLabel value="#{msg.simulado_label_area}*:" for="areas" />
-							<p:pickList id="areas" value="#{simuladoDescricaoBean.listaAreaConhecimento}"
-								var="area" itemLabel="#{area.descricao}"
-								itemValue="area"
-								converter="primeFacesPickListConverter" />
+							<h:outputLabel value="#{msg.simulado_label_area}*:" />
+							<p:pickList value="#{simuladoDescricaoBean.dualListAreaConhecimento}"
+								var="area" id="areas" itemLabel="#{area.descricao}"
+								itemValue="#{area}" converter="primeFacesPickListConverterAreaConhecimento">
+								<p:ajax event="transfer" />
+							</p:pickList>
 
 						</div>
+						<p:commandLink value="#{msg.app_label_salvar}" action="#{simuladoDescricaoBean.salvar}"  update=":edicao :listagem"  styleClass="btn btn-success pull-right" style="margin-left: 10px;" />
+						
 
 					</h:form>
 				</div>

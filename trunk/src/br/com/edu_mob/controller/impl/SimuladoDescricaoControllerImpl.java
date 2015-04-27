@@ -30,7 +30,7 @@ public class SimuladoDescricaoControllerImpl implements
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = Logger
-			.getLogger(CategoriaDAOImpl.class.getName());
+			.getLogger(SimuladoDescricaoControllerImpl.class.getName());
 
 	@Autowired
 	SimuladoDescricaoDAO simuladoDescricaoDAO;

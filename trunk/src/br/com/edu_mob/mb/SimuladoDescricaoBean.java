@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 import br.com.edu_mob.controller.AreaConhecimentoController;
@@ -19,7 +20,6 @@ import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.controller.SimuladoDescricaoController;
 import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Categoria;
-import br.com.edu_mob.entity.Funcionalidade;
 import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
@@ -50,9 +50,11 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 	private List<Categoria> listaCategorias;
 	private Categoria categoriaSelecionada;
 
-	private DualListModel<AreaConhecimento> listaAreaConhecimento;
-	List<AreaConhecimento> listaAreaConhecimentoSelecionada;
-
+	private DualListModel<AreaConhecimento> dualListAreaConhecimento;
+	
+	private List<AreaConhecimento> areaConhecimentoSource;
+	private List<AreaConhecimento> areaConhecimentoTarget;
+	
 	@PostConstruct
 	public void init() {
 
@@ -68,14 +70,11 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 				"categoriaController", CategoriaController.class);
 		areaConhecimentoController = (AreaConhecimentoController) this.getBean(
 				"areaConhecimentoController", AreaConhecimentoController.class);
-
-		listaAreaConhecimento = new DualListModel<AreaConhecimento>(
-				new ArrayList<AreaConhecimento>(),
-				new ArrayList<AreaConhecimento>());
-		listaAreaConhecimentoSelecionada = new ArrayList<AreaConhecimento>();
 		
-		if(simulado.getAreasConhecimento() != null)
-			listaAreaConhecimentoSelecionada = simulado.getAreasConhecimento();
+		areaConhecimentoSource = new ArrayList<AreaConhecimento>();
+		areaConhecimentoTarget = new ArrayList<AreaConhecimento>();
+		dualListAreaConhecimento = new DualListModel<AreaConhecimento>(areaConhecimentoSource, areaConhecimentoTarget);
+		
 	}
 
 	public void salvar() {
@@ -88,6 +87,8 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 
 	public void incluir() {
 		try {
+			this.simulado.setAreasConhecimento(dualListAreaConhecimento.getTarget());
+			this.simulado.setCategoria(categoriaSelecionada);
 			this.simuladoController.incluir(this.simulado);
 			this.addMessage(
 					MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
@@ -106,7 +107,9 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 	}
 
 	public void atualizar() {
-		try {
+		try {			
+			this.simulado.setAreasConhecimento(dualListAreaConhecimento.getTarget());
+			this.simulado.setCategoria(categoriaSelecionada);
 			this.simuladoController.alterar(this.simulado);
 			this.addMessage(
 					MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
@@ -141,8 +144,12 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 	}
 
 	public void atualizarGrid() {
+		limparCampos();
+		carregarCategorias();
+			
+	}
+	public void carregarCategorias(){
 		try {
-			this.limparCampos();
 			Filter filtroCategoria = new Filter();
 			filtroCategoria.put("ativo", Boolean.TRUE);
 			filtroCategoria.put("curso", Boolean.TRUE);
@@ -154,24 +161,40 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 					MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()),
 					e.getListaMensagens());
 		}
+		
+	}
+	
+	public void prepararEdicao(){
+		carregarCategorias();
+		carregarAreaConhecimento();
 	}
 
 	public void carregarAreaConhecimento() {
-		Filter filtro = new Filter();
-		filtro.put("idCategoria", categoriaSelecionada.getId().toString());
-		try {
-			List<AreaConhecimento> listaNaoSelecionada = areaConhecimentoController.pesquisarPorFiltro(filtro);
+		
+		if(categoriaSelecionada != null){
 			
-				listaNaoSelecionada.removeAll(listaAreaConhecimentoSelecionada);
-				listaAreaConhecimento = new DualListModel<AreaConhecimento>(listaNaoSelecionada, listaAreaConhecimentoSelecionada);
+			try {
+				Filter filtro = new Filter();
+				filtro.put("idCategoria", categoriaSelecionada.getId().toString());
+				areaConhecimentoSource = areaConhecimentoController.pesquisarPorFiltro(filtro);
+				
+				if(simulado.getId() != null && simulado.getAreasConhecimento() != null){
+					areaConhecimentoSource.removeAll(simulado.getAreasConhecimento());
+					dualListAreaConhecimento.setSource(areaConhecimentoSource);
+					dualListAreaConhecimento.setTarget(simulado.getAreasConhecimento());
+				}else{
+					dualListAreaConhecimento.setSource(areaConhecimentoSource);
+					dualListAreaConhecimento.setTarget(new ArrayList<AreaConhecimento>());
+				}				
+				
+			} catch (RNException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
 	}
-
+	
 	public DataModelSimuladoDescricao getDataModelSimuladoDescricao() {
 		return dataModelSimuladoDescricao;
 	}
@@ -231,13 +254,32 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 		this.areaConhecimentoController = areaConhecimentoController;
 	}
 
-	public DualListModel<AreaConhecimento> getListaAreaConhecimento() {
-		return listaAreaConhecimento;
+	public DualListModel<AreaConhecimento> getDualListAreaConhecimento() {
+		return dualListAreaConhecimento;
 	}
 
-	public void setListaAreaConhecimento(
-			DualListModel<AreaConhecimento> listaAreaConhecimento) {
-		this.listaAreaConhecimento = listaAreaConhecimento;
+	public void setDualListAreaConhecimento(
+			DualListModel<AreaConhecimento> dualListAreaConhecimento) {
+		this.dualListAreaConhecimento = dualListAreaConhecimento;
 	}
 
+	public List<AreaConhecimento> getAreaConhecimentoSource() {
+		return areaConhecimentoSource;
+	}
+
+	public void setAreaConhecimentoSource(
+			List<AreaConhecimento> areaConhecimentoSource) {
+		this.areaConhecimentoSource = areaConhecimentoSource;
+	}
+
+	public List<AreaConhecimento> getAreaConhecimentoTarget() {
+		return areaConhecimentoTarget;
+	}
+
+	public void setAreaConhecimentoTarget(
+			List<AreaConhecimento> areaConhecimentoTarget) {
+		this.areaConhecimentoTarget = areaConhecimentoTarget;
+	}
+	
+	
 }

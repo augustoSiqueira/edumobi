@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -54,7 +55,7 @@ public class SimuladoDescricaoDAOImpl extends GenericDAOImpl implements
 		List<Simulado> listaSimulado = null;
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria
-					.forClass(Livro.class);
+					.forClass(Simulado.class);
 			if ((titulo != null) && !titulo.isEmpty()) {
 				detachedCriteria.add(Restrictions.ilike("titulo", titulo,
 						MatchMode.ANYWHERE));
@@ -92,7 +93,7 @@ public class SimuladoDescricaoDAOImpl extends GenericDAOImpl implements
 		int retorno = 0;
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria
-					.forClass(Livro.class);
+					.forClass(Simulado.class);
 			if ((titulo != null) && !titulo.isEmpty()) {
 				detachedCriteria.add(Restrictions.ilike("titulo", titulo,
 						MatchMode.ANYWHERE));
@@ -129,7 +130,7 @@ public class SimuladoDescricaoDAOImpl extends GenericDAOImpl implements
 		List<Simulado> listaSimulado = null;
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria
-					.forClass(Livro.class);
+					.forClass(Simulado.class);
 			if ((titulo != null) && !titulo.isEmpty()) {
 				detachedCriteria.add(Restrictions.ilike("titulo", titulo,
 						MatchMode.ANYWHERE));
@@ -163,7 +164,7 @@ public class SimuladoDescricaoDAOImpl extends GenericDAOImpl implements
 		boolean existe = false;
 		try {
 			if (((campo != null) && !campo.isEmpty()) && ((valor != null) && !valor.isEmpty())) {
-				DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Livro.class);
+				DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Simulado.class);
 				detachedCriteria.add(Restrictions.eq(campo, valor).ignoreCase());
 				if (id != null) {
 					detachedCriteria.add(Restrictions.ne("id", id));
