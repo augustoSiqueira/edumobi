@@ -143,6 +143,8 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 		}
 	}
 
+	
+	
 	public void atualizarGrid() {
 		limparCampos();
 		carregarCategorias();
