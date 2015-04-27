@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 
 @Entity
 @Table
@@ -41,6 +44,7 @@ public class Simulado {
 	private Categoria categoria;
 	
 	@OneToMany(fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
 	private List<AreaConhecimento> areasConhecimento;
 	
 	@Temporal(TemporalType.TIMESTAMP)

@@ -87,6 +87,27 @@ public class SimuladoDescricaoControllerImpl implements
 					.getChave()));
 		}
 	}
+	
+	//valida se existe um outro simulado com o mesmo titulo e mesma categoria
+	//pode ter titulos iguais, contanto que a categoria seja diferente
+	//Esta incompleta.
+	private void validarTitulo(Simulado simulado){
+		List<Simulado> listaSimulado = null;
+		Filter filtro = new Filter();
+		filtro.put("", simulado.getTitulo());
+		filtro.put("", simulado.getCategoria().getId());
+		
+		try {
+			listaSimulado = simuladoDescricaoDAO.pesquisarPorFiltro(filtro);
+			for (Simulado simulado2 : listaSimulado) {
+								
+			}
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	@Override
 	public void excluir(Simulado simulado) throws RNException {

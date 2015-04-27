@@ -55,6 +55,7 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 	private List<AreaConhecimento> areaConhecimentoSource;
 	private List<AreaConhecimento> areaConhecimentoTarget;
 	
+	private boolean habilitarCategoria;
 	@PostConstruct
 	public void init() {
 
@@ -168,8 +169,10 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 	
 	public void prepararEdicao(){
 		carregarCategorias();
+		dualListAreaConhecimento.setTarget(simulado.getAreasConhecimento());
 		carregarAreaConhecimento();
 	}
+	
 
 	public void carregarAreaConhecimento() {
 		
@@ -183,7 +186,8 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 				if(simulado.getId() != null && simulado.getAreasConhecimento() != null){
 					areaConhecimentoSource.removeAll(simulado.getAreasConhecimento());
 					dualListAreaConhecimento.setSource(areaConhecimentoSource);
-					dualListAreaConhecimento.setTarget(simulado.getAreasConhecimento());
+					if(dualListAreaConhecimento.getTarget().size() == 0)
+					dualListAreaConhecimento.setTarget(new ArrayList<AreaConhecimento>());
 				}else{
 					dualListAreaConhecimento.setSource(areaConhecimentoSource);
 					dualListAreaConhecimento.setTarget(new ArrayList<AreaConhecimento>());
@@ -197,6 +201,12 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 		}
 	}
 	
+	public boolean isHabilitarCategoria() {
+		if(dualListAreaConhecimento.getTarget().size() == 0)
+			return false;
+		return true;
+	}
+
 	public DataModelSimuladoDescricao getDataModelSimuladoDescricao() {
 		return dataModelSimuladoDescricao;
 	}
