@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/interna.xhtml">
+	<ui:define name="corpo">
+		<h:form id="listagem">
+			<p:dataTable id="tabelaQuestoes" value="#{respostaEstudoBean.dataModelRespostaEstudo}"
+				var="questao" rows="2" paginator="true" emptyMessage="#{msg.app_label_nenhum_registro_encontrado}"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+								{NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5, 10, 15" lazy="true">
+				<p:column>
+					<p:dataTable id="tabelaAlternativas" selectionMode="single" selection="#{respostaEstudoBean.alternativa}" rowKey="#{alternativa.id}" 
+			            	value="#{questao.listaAlternativas}" var="alternativa" style="border:none !important">
+			            	<f:facet name="header">
+			            		<i class="icon-ok" /><h:outputText value="#{msg.resposta_estudo_label_acerto}" escape="true" class="alert alert-success" style="color:green" 
+			            			rendered="#{(questao.correta != null) and (questao.correta == true)}" />
+								<i class="icon-remove" /><h:outputText value="#{msg.resposta_estudo_label_erro}" escape="true" class="alert alert-danger" style="color:red" rendered="#{(questao.correta != null) and (questao.correta == false)}" />
+						        <br />
+					        	<div align="left">
+					            	<h:outputText value="#{msg.resposta_estudo_label_questao} - #{questao.numero}" style="text-align:left" />
+					            </div>
+					            <div align="left">
+					            	<h:outputText value="#{questao.enunciado}" style="text-align:left" />
+					            </div>
+					        </f:facet>
+			            	<p:column style="border-style:none">
+			            		#{alternativa.resposta}
+			            	</p:column>
+			            	<f:facet name="footer">
+			            		<div>
+						            <p:commandButton id="btnResponder" action="#{respostaEstudoBean.responder}" value="#{msg.resposta_estudo_label_responder}" 
+						            	process="tabelaAlternativas" update=":listagem:tabelaQuestoes:tabelaAlternativas">
+						            	<f:setPropertyActionListener value="#{questao}" target="#{respostaEstudoBean.questao}" />
+						            </p:commandButton>
+						            <p:commandButton id="btnComentario" action="#{respostaEstudoBean.exibirComentario}" value="#{msg.resposta_estudo_label_comentario}"
+						            	 process="tabelaAlternativas" update=":listagem:tabelaQuestoes:tabelaAlternativas">
+				                		<f:setPropertyActionListener value="#{questao}" target="#{respostaEstudoBean.questao}" />
+						            </p:commandButton>
+					           </div> 
+					           <div style="margin-top:15px; text-align: left" >
+			                		<h:outputText id="questaoObs" value="#{questao.observacao}" style="color:blue" 
+			                			rendered="#{questao.exibirComentario != null and questao.exibirComentario == true}" />
+		    					 </div>
+			                </f:facet>
+		    		</p:dataTable>
+		    	</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

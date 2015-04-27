@@ -12,24 +12,39 @@
 		
 		<ui:define name="corpo">
 			<div class="panel panel-default">
-				<div class="panel-heading"><h:outputLabel value="#{cursoBean.categoria.nome}"/></div>
+				<div class="panel-heading"><h:outputLabel value="#{cursoBean.categoria.nome}" styleClass="menuLink" /></div>
 					<div class="panel-body">
 						<p>
-					  		<p:outputLabel value="#{cursoBean.categoria.titulo}"/>
-					  		<p:commandButton value="Simulado" styleClass="pull-right"/>
-					  		<p:commandButton value="Estudo" styleClass="pull-right"/>
+							<p:link outcome="relatorio_estudo.jsf?faces-redirect=true" value="#{msg.curso_label_label_analise_desempenho}" style="float:right" styleClass="menuLink">
+					        	<f:param name="idCategoria" value="#{cursoBean.categoria.id}" />
+					        </p:link>
 					  	</p>
-					  	<hr/>
+						<p>
+					  		<p:outputLabel value="#{msg.curso_label_label_descricao}: " styleClass="menuLink" />
+					  	</p>
 					  	<p>
-					  		<p:outputLabel value="#{cursoBean.categoria.descricao}" styleClass="paragrafo"/>
+					  		<p:outputLabel value="#{cursoBean.categoria.descricao}" styleClass="paragrafo, menuLink" />
 					  	</p>
 					  	<p>
-					  		<p:outputLabel value="Total de questão: "/>
-					  		<p:outputLabel value="Respondidas: " styleClass="marginLeft"/>
-					  		<p:outputLabel value="Perc. de Acertos: " styleClass="marginLeft"/>
-					  	
+						  	<p:dataList value="#{cursoBean.categoria.listaAreasConhecimento}" var="areaConhecimento" type="definition" styleClass="menuLink">
+						        <f:facet name="header">
+						            #{msg.curso_label_label_areas_conhecimento}
+						        </f:facet>
+						        <p:link outcome="resposta_estudo.jsf?faces-redirect=true" value="- #{areaConhecimento.descricao}" styleClass="menuLink">
+						        	<f:param name="idAreaConhecimento" value="#{areaConhecimento.id}" />
+						        </p:link>
+						    </p:dataList>
 					  	</p>
-					  	
+					  	<p>
+					  			<p:outputLabel value="Total Respondidas: #{cursoBean.qtdRespondidas}" styleClass="marginLeft, menuLink" style="padding-right:20px" />
+					  			<p:outputLabel value="#{msg.curso_label_label_acertos}: #{cursoBean.qtdCorretas}" styleClass="marginLeft, menuLink" style="padding-right:20px" />
+					  			<p:outputLabel value="#{msg.curso_label_label_erros}: #{cursoBean.qtdErradas}" styleClass="marginLeft, menuLink" style="padding-right:20px" />
+					  	</p>
+					  	<p>
+						  	<p:chart type="pie" model="#{cursoBean.pieChartModel}" style="width:300px;height:200px;float:right">
+								<p:ajax event="itemSelect" listener="#{relatorioEstudoBean.itemSelect}" />
+							</p:chart>
+					  	</p>
 					</div>
 			</div>
 		</ui:define>

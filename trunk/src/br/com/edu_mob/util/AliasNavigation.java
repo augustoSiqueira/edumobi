@@ -25,10 +25,15 @@ public class AliasNavigation {
 	public static final String PAGINA_CADASTRO_ALUNO = "/restrito/cadastrarAluno.jsf?faces-redirect=true";
 
 	public static final String PAGINA_ALUNO = "/restrito/aluno.jsf?faces-redirect=true";
-	
+
 	public static final String PAGINA_CURSO = "/restrito/curso.jsf?faces-redirect=true";
-	
+
 	public static final String PAGINA_SIMULADO_DESCRICAO = "/restrito/simulado.jsf?faces-redirect=true";
+
+	public static final String PAGINA_RESPOSTA_ESTUDO = "/restrito/resposta_estudo.jsf?faces-redirect=true";
+
+	public static final String PAGINA_RELATORIO_ESTUDO = "/restrito/relatorio_estudo.jsf?faces-redirect=true";
+
 
 
 }

@@ -63,14 +63,22 @@ public class MenuBean implements Serializable {
 	public String pageAlunos() {
 		return AliasNavigation.PAGINA_ALUNO;
 	}
-	
+
 	public String pageCurso() {
-		 long id = Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));  
-		 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cursoId",id); 
-		 return AliasNavigation.PAGINA_CURSO;
+		long id = Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cursoId",id);
+		return AliasNavigation.PAGINA_CURSO;
 	}
-	
+
 	public String pageSimuladoDescricao() {
 		return AliasNavigation.PAGINA_SIMULADO_DESCRICAO;
+	}
+
+	public String pageRespostaEstudo() {
+		return AliasNavigation.PAGINA_RESPOSTA_ESTUDO;
+	}
+
+	public String pageRelatorioEstudo() {
+		return AliasNavigation.PAGINA_RELATORIO_ESTUDO;
 	}
 }

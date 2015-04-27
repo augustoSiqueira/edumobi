@@ -2,19 +2,26 @@ package br.com.edu_mob.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -48,6 +55,25 @@ public class Questao implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "id_area_conhecimento")
 	private AreaConhecimento areaConhecimento;
+
+	@Fetch(FetchMode.SUBSELECT)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="questao")
+	private List<Alternativa> listaAlternativas;
+
+	@Transient
+	private Boolean correta;
+
+	@Transient
+	private Boolean exibirComentario;
+
+	@Transient
+	private int numero;
+
+	public Questao() {
+		super();
+		this.correta = null;
+		this.exibirComentario = null;
+	}
 
 	public Long getId(){
 		return this.id;
@@ -95,6 +121,38 @@ public class Questao implements Serializable{
 
 	public void setDataAtualizacao(Date dataAtualizacao) {
 		this.dataAtualizacao = dataAtualizacao;
+	}
+
+	public List<Alternativa> getListaAlternativas() {
+		return this.listaAlternativas;
+	}
+
+	public void setListaAlternativas(List<Alternativa> listaAlternativas) {
+		this.listaAlternativas = listaAlternativas;
+	}
+
+	public Boolean getCorreta() {
+		return this.correta;
+	}
+
+	public void setCorreta(Boolean correta) {
+		this.correta = correta;
+	}
+
+	public Boolean getExibirComentario() {
+		return this.exibirComentario;
+	}
+
+	public void setExibirComentario(Boolean exibirComentario) {
+		this.exibirComentario = exibirComentario;
+	}
+
+	public int getNumero() {
+		return this.numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 
 	@Override

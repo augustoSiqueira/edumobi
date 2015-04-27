@@ -236,4 +236,18 @@ public class Util {
 		return decimalFormat.format(id);
 	}
 
+	/**
+	 * Metodo responsavel por verificar se contem a clausula where na consulta
+	 *
+	 * @param String sql
+	 * @return boolean true or false
+	 */
+
+	public static boolean verificarWhere(String sql) {
+		if (sql.contains("WHERE")) {
+			return true;
+		}
+		return false;
+	}
+
 }

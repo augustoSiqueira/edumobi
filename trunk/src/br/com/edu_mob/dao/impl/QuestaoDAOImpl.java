@@ -27,7 +27,7 @@ import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.services.QuestaoDTO;
 import br.com.edu_mob.util.Filter;
 
-@Repository("QuestaoDAO")
+@Repository("questaoDAO")
 @Transactional(propagation=Propagation.REQUIRED)
 public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 
