@@ -31,9 +31,7 @@
 					    <h:form id="edicao">
 					    
 					    <h:outputLabel value="#{msg.area_conhecimento_label_categoria}: #{areaConhecimentoBean.categoria.nome}" for="categoria" />
-<!-- 					    <h:outputLabel value="#{areaConhecimento.categoria.nome}"/> -->
-					    
-					    
+
 					    <h:panelGrid columns="3">
 		            			<h:outputLabel value="#{msg.area_conhecimento_label_descricao}*: " for="descricao" />
 								<p:inputText id="descricao" value="#{areaConhecimentoBean.areaConhecimento.descricao}" validator="removeEmBranco" required="true" maxlength="50" styleClass="form-control" />
@@ -41,7 +39,6 @@
 								<p:commandButton process="@form" value="#{msg.area_conhecimento_label_add}"
 									action="#{areaConhecimentoBean.adicionarAreaConhecimento}"
 									update=":edicao :listagem">
-<!-- 									<p:graphicImage library="imagens" name="adicionar16.png" /> -->
 								</p:commandButton>
 							
 						</h:panelGrid>
@@ -58,10 +55,10 @@
 				<div class="panel-heading">#{msg.area_conhecimento_lista}</div>
 					<div class="panel-body">
 					<h:form id="listagem">
-						<p:dataTable id="tabelaAreaConhecimento" value="#{areaConhecimentoBean.listaAreaConhecimento}" var="areaConhecimento" rows="5" 
+						<p:dataTable id="tabelaAreaConhecimento" value="#{areaConhecimentoBean.dataModelAreaConhecimento}" var="areaConhecimento" rows="5" 
 							paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 							{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" lazy="true" >
-							<p:column headerText="#{msg.area_conhecimento_label_nome}" filterBy="#{areaConhecimento.descricao}">
+							<p:column headerText="#{msg.area_conhecimento_label_nome}" filterBy="#{areaConhecimento.descricao}" >
 								#{areaConhecimento.descricao}
 							</p:column>	
 <!-- 							<p:column headerText="#{msg.categoria_label_ativo}"> -->
@@ -71,23 +68,26 @@
 							<p:column headerText="#{msg.categoria_label_curso}"> 
 								<h:outputText value="#{areaConhecimento.categoria.nome}"/>
 							</p:column> 
-							<p:column headerText="#{msg.app_label_acoes}" >
-								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_ALTERAR')}" action="#{areaConhecimentoBean.btnAlterar}">
-									<p:graphicImage library="imagens" name="editar16.png" />
+							
+							
+							<p:column headerText="#{msg.app_label_acoes}" style="width: 10%;" >
+								<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_ALTERAR')}" action="#{areaConhecimentoBean.btnAlterar}" styleClass="btnEdit">
+									<p:graphicImage library="imagens" name="edit_32x32.png" title="Editar"/>
 									<f:setPropertyActionListener value="#{areaConhecimento}" target="#{areaConhecimentoBean.areaConhecimento}" />
 								</p:commandLink>
-								<p:commandLink process="@this" action="#{areaConhecimentoBean.excluir}" update=":edicao :listagem">
-									<p:graphicImage library="imagens" name="excluir16.png" />
+								<p:commandLink process="@this" action="#{areaConhecimentoBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_EXCLUIR')}"  >
+									<p:graphicImage library="imagens" name="delete_32x32.png" title="Excluir"/>
 									<f:setPropertyActionListener value="#{areaConhecimento}" target="#{areaConhecimentoBean.areaConhecimento}" />
 								</p:commandLink>
 							</p:column>
+
 						</p:dataTable>	
 					</h:form>	
 					
 					<br/>
 					
 					<h:form id="botao">
-						<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.incluirLista}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-left" />
+						<p:commandButton value="#{msg.app_label_salvar}" action="#{areaConhecimentoBean.salvar}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-left" />
 <!-- 						<p:commandButton value="#{msg.app_label_limpar}" action="#{areaConhecimentoBean.limparCampos}" update="@form" process="@none" rendered="#{sec:areAnyGranted('ROLE_AREA_CONHECIMENTO_INCLUIR')}" styleClass="btn btn-success pull-right" /> -->
 					</h:form>
 			  </div>					  
