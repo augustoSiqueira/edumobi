@@ -13,16 +13,19 @@
 		<ui:define name="corpo">
 
 				<div class="row">
-				<p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" action="#{alunoBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_ALUNO_INCLUIR')}">
-					  	<p:graphicImage library="imagens" name="add_32x32.png" title="Adicionar"/> 
-					  	<p:outputLabel value="Adicionar"  style="margin-left: 5px;"/>
-					  	<f:setPropertyActionListener value="0" target="#{alunoBean.aba}" />
-					  </p:commandLink>
-				<div class="clear"></div>				
+			
 				<div class="col-md-12">
+				
 					<div class="panel panel-default">
-					  <div class="panel-heading">#{msg.aluno_lista}</div>
+					  <div class="panel-heading"><h:outputLabel value="#{msg.aluno_lista}"/></div>
 					  <div class="panel-body">
+					  
+						 <p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" action="#{alunoBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_ALUNO_INCLUIR')}">
+						  	<p:graphicImage library="imagens" name="add_32x32.png" title="Adicionar"/> 
+						  	<p:outputLabel value="Adicionar"  style="margin-left: 5px;"/>
+						  	<f:setPropertyActionListener value="0" target="#{alunoBean.aba}" />
+						  </p:commandLink>
+						  <div class="clear"></div>
 					  		<h:form id="listagem">
 								<p:dataTable id="tabelaAluno" value="#{alunoBean.dataModelAluno}" var="aluno" rows="10" 
 									paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 

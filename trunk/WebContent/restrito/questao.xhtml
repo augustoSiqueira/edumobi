@@ -18,7 +18,7 @@
 				
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">#{msg.questao_lista}</div>
+				<div class="panel-heading"><h:outputLabel value="#{msg.questao_lista}"/></div>
 					<div class="panel-body">
 					  <p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" action="#{questaoBean.limparForm}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}">
 					  	<p:graphicImage library="imagens" name="add_32x32.png" title="Adicionar"/> 
