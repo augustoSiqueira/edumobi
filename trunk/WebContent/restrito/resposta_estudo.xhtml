@@ -30,6 +30,10 @@
 					            <div align="left">
 					            	<h:outputText value="#{questao.enunciado}" style="text-align:left" />
 					            </div>
+					            <div align="left">
+					        		<p:graphicImage value="../imagens/#{questao.caminhoImagem}" id="img"
+											cache="false" width="95" height="120" />
+					            </div>
 					        </f:facet>
 			            	<p:column style="border-style:none">
 			            		#{alternativa.resposta}
