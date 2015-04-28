@@ -45,7 +45,6 @@
 								#{questao.areaConhecimento.descricao}
 							</p:column>	
 							
-														
 							<p:column headerText="#{msg.app_label_acoes}"  style="width: 10%;">
 								<p:commandLink process="@this" action="#{questaoBean.carregarEditar}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" styleClass="btnEdit">
 									<p:graphicImage library="imagens" name="edit_32x32.png" title="Editar" onclick="PF('dlg1').show();"/>
@@ -107,18 +106,28 @@
 								<f:selectItems value="#{questaoBean.listaAreaConhecimento}" var="areaConhecimento" itemLabel="#{areaConhecimento.descricao}" itemValue="#{areaConhecimento}" />
 							</p:selectOneMenu>								
 	                  		</div>
-	                  
+	                  		
+	                  		<div class="form-group col-md-6">
+							<h:panelGrid columns="2" cellpadding="5">
+        							<h:outputText value="Nível da questão:" />
+       									 <p:rating value="#{questaoBean.nivel}" cancel="false" />
+       						</h:panelGrid> 
+							</div>
+							
 	                  		<p:outputPanel id="imagem">
 							<div class="form-group col-md-8">
 					        	<h:outputLabel value="#{msg.questao_label_imagem}: " for="upload" />
 								<p:fileUpload id="upload" label="Upload..."  fileUploadListener="#{questaoBean.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" update="imagem" />
 							</div>
-
+							
+							
 							
 							<div class="form-group">
 							<p:graphicImage value="../imagens/#{questaoBean.questao.caminhoImagem}" id="img" cache="false" width="100" height="100" rendered="#{!empty(questaoBean.questao.caminhoImagem)}"/>
 							</div>
 							</p:outputPanel>
+							
+							
 							
 						</p:tab>
 						<p:tab title="Alternativas">
