@@ -17,9 +17,7 @@
 				<div class="col-md-12">
 					
 					<div class="panel panel-default">
-					  <div class="panel-heading">#{msg.usuario_lista}
-					  
-					  </div>
+					  <div class="panel-heading"><h:outputLabel value="#{msg.usuario_lista}"/></div>
 					  <div class="panel-body">
 					  
 					  <p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" action="#{usuarioBean.limparCampos}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}">
