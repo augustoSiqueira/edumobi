@@ -68,6 +68,9 @@ public class Questao implements Serializable{
 
 	@Transient
 	private int numero;
+	
+	@Column(name="nivel")
+	private Integer nivel;
 
 	public Questao() {
 		super();
@@ -153,6 +156,14 @@ public class Questao implements Serializable{
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+	
+	public Integer getNivel(){
+		return this.nivel;
+	}
+	
+	public void setNivel(Integer nivel){
+		this.nivel = nivel;
 	}
 
 	@Override
