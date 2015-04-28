@@ -66,6 +66,8 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	private boolean atualizado;
 	private int aba;
 	
+	private Integer nivel = 1;
+	
 
 	@PostConstruct
 	public void init() {
@@ -118,6 +120,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		this.limparCampos();
 		this.limparCamposAlternativa();
 		this.listaAlternativa = new ArrayList<Alternativa>();
+		this.nivel = 1;
 	}
 	
 	public void limparCampos() {
@@ -145,7 +148,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		try {
 			
 			this.alternativaController.validarAlternativas(this.listaAlternativa);
-			
+			this.questao.setNivel(this.nivel);
 			this.questaoController.incluir(this.questao);
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.CADASTRADA_SUCESSO.getValor(), Entidades.QUESTAO.getValor());
@@ -212,6 +215,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	public void carregarEditar(){
 		this.carregarListaAlternativa();
 		this.carregarAreaConhecimento();
+		this.nivel = this.questao.getNivel();
 		
 	}
 	public void remove(){
@@ -232,7 +236,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 				this.alternativaController.excluir(altExcluir);
 			}
 			
-			
+			this.questao.setNivel(this.nivel);
 			this.questaoController.alterar(this.questao);
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.ATUALIZADA_SUCESSO.getValor(), Entidades.QUESTAO.getValor());
@@ -399,6 +403,14 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	
 	public void setCategoria(Categoria categoria){
 		this.categoria = categoria;
+	}
+	
+	public Integer getNivel(){
+		return this.nivel;
+	}
+	
+	public void setNivel(Integer nivel){
+		this.nivel = nivel;
 	}
 	
 }
