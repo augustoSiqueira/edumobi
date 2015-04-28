@@ -45,8 +45,6 @@ public class RelatorioEstudoBean extends GenericBean implements Serializable {
 
 	private Usuario usuarioLogado;
 
-	private static final String ID_CATEGORIA = "1";
-
 	@PostConstruct
 	public void init() {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -77,7 +75,7 @@ public class RelatorioEstudoBean extends GenericBean implements Serializable {
 		yAxis.setLabel("Áreas de Conhecimento");
 
 		filtro.put("idUsuario", this.usuarioLogado.getId().toString());
-		filtro.put("idCategoria", ID_CATEGORIA);
+		filtro.put("idCategoria", this.categoria.getId().toString());
 		yAxis.setMin(0);
 		try {
 			yAxis.setMax(this.respostaEstudoController.pesquisarPorFiltroCountHQLRelatorio(filtro));
@@ -92,7 +90,7 @@ public class RelatorioEstudoBean extends GenericBean implements Serializable {
 		HorizontalBarChartModel model = new HorizontalBarChartModel();
 
 		filtro.put("idUsuario", this.usuarioLogado.getId().toString());
-		filtro.put("idCategoria", ID_CATEGORIA);
+		filtro.put("idCategoria", this.categoria.getId().toString());
 
 		ChartSeries areaConhecimentoCorretas = new ChartSeries();
 
