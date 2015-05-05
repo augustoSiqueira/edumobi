@@ -174,29 +174,35 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	public void add(){
 		this.atualizado = false;
 		
-		if(this.listaAlternativa != null && !this.listaAlternativa.isEmpty()){
+		try{
 			
-				for (Alternativa alt : this.listaAlternativa) {
+		
+				if(this.listaAlternativa != null && !this.listaAlternativa.isEmpty()){
 					
-					if(alt.getResposta().equals(this.alternativa.getResposta())){
-						alt = this.alternativaController.alterarEmMemoria(this.alternativa);
-						this.atualizado = true;
-					}
+						for (Alternativa alt : this.listaAlternativa) {
+							this.alternativaController.validarAlternativasMemoria(this.alternativa,this.listaAlternativa);
+							
+							if(alt.getResposta().equals(this.alternativa.getResposta())){
+									alt = this.alternativaController.alterarEmMemoria(this.alternativa);
+									this.atualizado = true;
+							}
+						}
 				}
-			
-		}
 		
-		if(this.atualizado == false){
-			try{
-			this.alternativaController.validarAlternativasMemoria(this.alternativa,this.listaAlternativa);
-			this.listaAlternativa = this.alternativaController.incluirEmMemoria(this.alternativa, this.listaAlternativa);
-			}catch (RNException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
-			}
-		}
+				if(this.alternativa.getId() == null){
+					
+					this.alternativaController.validarAlternativasMemoria(this.alternativa,this.listaAlternativa);
+					this.listaAlternativa = this.alternativaController.incluirEmMemoria(this.alternativa, this.listaAlternativa);
+				
+				}
+				
+				this.limparCamposAlternativa();
 		
-		this.limparCamposAlternativa();
+		}catch (RNException e) {
+			this.alternativa.setCorreta(false);
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+		}
 	}
 	
 	public void carregarListaAlternativa(){
@@ -228,11 +234,9 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		
 		try {
 			this.alternativaController.validarAlternativas(this.listaAlternativa);
-			
 			this.listaAlternativaExcluir = this.alternativaController.pesquisarPorFiltro(this.filtro);
 			
 			for (Alternativa altExcluir : this.listaAlternativaExcluir) {
-				
 				this.alternativaController.excluir(altExcluir);
 			}
 			
