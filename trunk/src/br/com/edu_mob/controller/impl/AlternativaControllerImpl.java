@@ -179,7 +179,7 @@ public class AlternativaControllerImpl implements AlternativaController, Seriali
 			}
 		}
 		
-		if(qtdAlternativasCorretas == 1 && alternativa.getCorreta() == true){
+		if(qtdAlternativasCorretas >= 1 && alternativa.getCorreta() == true){
 			throw new RNException(ErrorMessage.ALTERNATIVA_CORRETA_MAIOR.getChave());
 		}
 			
