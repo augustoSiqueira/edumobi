@@ -121,6 +121,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		this.limparCamposAlternativa();
 		this.listaAlternativa = new ArrayList<Alternativa>();
 		this.nivel = 1;
+		this.aba = 0;
 	}
 	
 	public void limparCampos() {
@@ -149,17 +150,13 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 			
 			this.alternativaController.validarAlternativas(this.listaAlternativa);
 			this.questao.setNivel(this.nivel);
+			this.questao.setListaAlternativas(listaAlternativa);
 			this.questaoController.incluir(this.questao);
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.CADASTRADA_SUCESSO.getValor(), Entidades.QUESTAO.getValor());
 			this.atualizarGrid();
 			
 			int tamanho = 0;
-			
-			for (Alternativa alt : this.listaAlternativa) {
-				alt.setQuestao(this.listaQuestoes.get(tamanho));
-				this.alternativaController.incluir(alt);
-			}
 			
 			this.atualizarGrid();
 			this.listaAlternativa = new ArrayList<Alternativa>();
@@ -174,58 +171,49 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 	public void add(){
 		this.atualizado = false;
 		
-		try{
+		if(this.listaAlternativa != null && !this.listaAlternativa.isEmpty()){
 			
-		
-				if(this.listaAlternativa != null && !this.listaAlternativa.isEmpty()){
+				for (Alternativa alt : this.listaAlternativa) {
 					
-						for (Alternativa alt : this.listaAlternativa) {
-							this.alternativaController.validarAlternativasMemoria(this.alternativa,this.listaAlternativa);
-							
-							if(alt.getResposta().equals(this.alternativa.getResposta())){
-									alt = this.alternativaController.alterarEmMemoria(this.alternativa);
-									this.atualizado = true;
-							}
-						}
+					if(alt.getResposta().equals(this.alternativa.getResposta())){
+						alt = this.alternativaController.alterarEmMemoria(this.alternativa);
+						this.atualizado = true;
+					}
 				}
-		
-				if(this.alternativa.getId() == null){
-					
-					this.alternativaController.validarAlternativasMemoria(this.alternativa,this.listaAlternativa);
-					this.listaAlternativa = this.alternativaController.incluirEmMemoria(this.alternativa, this.listaAlternativa);
-				
-				}
-				
-				this.limparCamposAlternativa();
-		
-		}catch (RNException e) {
-			this.alternativa.setCorreta(false);
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			
 		}
+		
+		if(this.atualizado == false){
+			try{
+			this.alternativaController.validarAlternativasMemoria(this.alternativa,this.listaAlternativa);
+			this.listaAlternativa = this.alternativaController.incluirEmMemoria(this.alternativa, this.listaAlternativa);
+			}catch (RNException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			}
+		}
+		
+		this.limparCamposAlternativa();
 	}
 	
 	public void carregarListaAlternativa(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		this.filtro.put("idQuestao", this.questao.getId().toString());
-			try{
-				this.listaAlternativa = this.alternativaController.pesquisarPorFiltro(this.filtro);
-				}catch (RNException e) {
-					logger.log(Level.SEVERE, e.getMessage(), e);
-					for (String msg : e.getListaMensagens()) {
-						context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), msg));
-					}
-				}
+		this.listaAlternativa = questao.getListaAlternativas();
+		
 	}
 	
 	public void carregarEditar(){
 		this.carregarListaAlternativa();
 		this.carregarAreaConhecimento();
 		this.nivel = this.questao.getNivel();
+		this.aba = 0;
 		
 	}
 	public void remove(){
 		this.listaAlternativa = this.alternativaController.excluirEmMemoria(this.alternativa,this.listaAlternativa);
+		if((alternativa != null) && (alternativa.getId() != null)){
+			this.listaAlternativaExcluir.add(alternativa);			
+		}
+			
 		this.limparCamposAlternativa();
 	}
 
@@ -233,24 +221,18 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		this.filtro.put("idQuestao", this.questao.getId().toString());
 		
 		try {
+			
 			this.alternativaController.validarAlternativas(this.listaAlternativa);
-			this.listaAlternativaExcluir = this.alternativaController.pesquisarPorFiltro(this.filtro);
-			
-			for (Alternativa altExcluir : this.listaAlternativaExcluir) {
-				this.alternativaController.excluir(altExcluir);
-			}
-			
+			this.questao.setListaAlternativas(listaAlternativa);		
 			this.questao.setNivel(this.nivel);
 			this.questaoController.alterar(this.questao);
-			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-					SucessMessage.ATUALIZADA_SUCESSO.getValor(), Entidades.QUESTAO.getValor());
 			
-				for (Alternativa alt : this.listaAlternativa) {
-							alt.setQuestao(this.questao);
-							this.alternativaController.incluir(alt);
-				}
-				
-				
+			for (Alternativa removerAlternativa : listaAlternativaExcluir) {
+				this.alternativaController.excluir(removerAlternativa);
+			}
+			
+			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+					SucessMessage.ATUALIZADA_SUCESSO.getValor(), Entidades.QUESTAO.getValor());			
 			
 			this.atualizarGrid();
 			this.limparForm();
@@ -269,14 +251,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		try {
 			
 			if ((this.questao != null) && (this.questao.getId() != null)) {
-				this.filtro.put("idQuestao", this.questao.getId().toString());
-				this.listaAlternativaExcluir = this.alternativaController.pesquisarPorFiltro(this.filtro);
-				
-				for (Alternativa altExcluir : this.listaAlternativaExcluir) {
-					
-					this.alternativaController.excluir(altExcluir);
-				}
-				
+								
 				this.questaoController.excluir(this.questao);
 				
 				this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),

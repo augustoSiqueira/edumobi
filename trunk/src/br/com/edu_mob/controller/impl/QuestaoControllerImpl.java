@@ -125,24 +125,10 @@ public class QuestaoControllerImpl implements QuestaoController{
 
 	@Override
 	public void excluir(Questao questao) throws RNException {
-		List<Alternativa> listaAlternativa = new ArrayList<Alternativa>();
-		Filter filtro = new Filter();
+		
 		try {
-			filtro.put("idQuestao", questao.getId().toString());
-
-			if(this.alternativaDAO.pesquisarPorFiltroCount(filtro) > 0) {
-				listaAlternativa = this.alternativaDAO.pesquisarPorFiltro(filtro);
-
-				for (Alternativa alternativa : listaAlternativa) {
-					this.alternativaDAO.remove(alternativa);
-				}
-			}
-
 			this.questaoDAO.remove(questao);
 		} catch (DataAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			throw new RNException(ErrorMessage.DAO.getChave());
-		}catch (DAOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}

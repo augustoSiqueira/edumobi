@@ -2,18 +2,24 @@ package br.com.edu_mob.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.edu_mob.entity.enuns.Sexo;
@@ -61,6 +67,9 @@ public class Aluno extends Usuario implements Serializable {
 	@JoinColumn(name="id_municipio")
 	private Municipio municipio;
 
+	@ManyToMany
+	private List<Categoria> cursos;
+	
 	public String getMatricula() {
 		return this.matricula;
 	}
@@ -149,4 +158,13 @@ public class Aluno extends Usuario implements Serializable {
 		this.municipio = municipio;
 	}
 
+	public List<Categoria> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(List<Categoria> cursos) {
+		this.cursos = cursos;
+	}
+	
+	
 }

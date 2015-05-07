@@ -29,10 +29,6 @@ public class Alternativa implements Serializable{
 	@Column(nullable = false)
 	private boolean correta;
 
-	@ManyToOne
-	@JoinColumn(name = "id_questao")
-	private Questao questao;
-
 	public Long getId(){
 		return this.id;
 	}
@@ -56,15 +52,6 @@ public class Alternativa implements Serializable{
 	public void setCorreta(boolean correta){
 		this.correta = correta;
 	}
-
-	public Questao getQuestao(){
-		return this.questao;
-	}
-
-	public void setQuestao(Questao questao){
-		this.questao = questao;
-	}
-
 
 	@Override
 	public boolean equals(Object obj) {

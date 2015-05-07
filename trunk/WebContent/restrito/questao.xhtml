@@ -141,8 +141,8 @@
 								    </div>
 								   
 						
-							<p:commandButton value="Adicionar" action="#{questaoBean.add}" process="@this,resposta, correta" update="tabelaAlternativa, resposta" styleClass="btn btn-default pull-right"  style="margin-bottom:10px;"  />				
-														
+							<p:commandLink value="Adicionar" action="#{questaoBean.add}" process="@this,resposta, correta" update="tabelaAlternativa, resposta" styleClass="btn btn-default pull-right"  style="margin-bottom:10px;"  />				
+						<div class="clear"></div>								
 						<p:dataTable id="tabelaAlternativa"  value="#{questaoBean.listaAlternativa}" var="alternativa" emptyMessage="Não existe alternativas!!" >
 							<p:column headerText="Alternativas">
       						  <h:outputText value="#{alternativa.resposta}" />
@@ -161,9 +161,10 @@
 									<f:setPropertyActionListener value="1" target="#{questaoBean.aba}" />
 									
 								</p:commandLink>
-								<p:commandLink process="@this" action="#{questaoBean.remove}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
+								<p:commandLink process="@this" action="#{questaoBean.remove}" update=":edicao:abas:tabelaAlternativa" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
 									<p:graphicImage library="imagens" name="excluir16.png" />
 									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
+									<f:setPropertyActionListener value="1" target="#{questaoBean.aba}" />
 								</p:commandLink>
 							</p:column>
 							

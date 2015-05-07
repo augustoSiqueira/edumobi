@@ -57,7 +57,7 @@ public class Questao implements Serializable{
 	private AreaConhecimento areaConhecimento;
 
 	@Fetch(FetchMode.SUBSELECT)
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="questao")
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<Alternativa> listaAlternativas;
 
 	@Transient

@@ -20,7 +20,7 @@
     </p:dialog>
 
 
-	<div id="form_login">
+	<div id="form_login" style="margin-top: 80px;">
 		<center>
 			<img src="../resources/imagens/logo2.png" width="130" />
 		</center>
@@ -45,9 +45,17 @@
 		                        <p:inputText id="senha" label="#{msg.aluno_label_email}" alt="#{msg.aluno_label_email}" title="#{msg.aluno_label_email}" required="true" 
 		                        	value="#{alunoBean.aluno.email}" styleClass="form-control" requiredMessage="#{msg.erro_campo_email_vazio}" validator="removeEmBranco" validatorMessage="#{msg.erro_campo_email_vazio}"/>
 		                    </div>
+		                    <div class="form-group">
+		                    	<h:outputLabel value="#{msg.aluno_label_curso}" for="" /><br/>
+								<p:selectOneMenu value="#{alunoBean.curso}" converter="converterCategoria" required="true" requiredMessage="#{msg.erro_aluno_curso}">
+									<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
+									<f:selectItems value="#{alunoBean.listaCursos}" var="curso" itemLabel="#{curso.nome}" itemValue="#{curso}" />
+								</p:selectOneMenu>
+		                    
+		                    </div>
 		                    
 							<p:commandButton id="btCadastrar" type="submit" action="#{alunoBean.cadastrarPreviamente}" value="#{msg.app_label_cadastrar}" 
-								styleClass="btn btn-default pull-right" update=":mensagem :cadastrarAluno"  />
+								styleClass="btn btn-default pull-right " update=":mensagem :cadastrarAluno"  />
 							
 							
 					</h:form>	
