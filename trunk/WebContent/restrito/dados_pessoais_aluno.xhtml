@@ -94,6 +94,22 @@
 											value="#{dadosPessoaisBean.aluno.logradouro}" maxlength="130"
 											validator="removeEmBranco" styleClass="form-control" />
 									</div>
+									
+									<div class="form-group">
+										<h:outputLabel value="#{msg.aluno_label_numero}: "
+											for="numero" />
+										<p:inputText id="numero"
+											value="#{dadosPessoaisBean.aluno.numero}" maxlength="10"
+											validator="removeEmBranco" styleClass="form-control" />
+									</div>
+									
+									<div class="form-group">
+										<h:outputLabel value="#{msg.aluno_label_complemento}: "
+											for="complemento" />
+										<p:inputText id="complemento"
+											value="#{dadosPessoaisBean.aluno.complemento}" maxlength="50"
+											validator="removeEmBranco" styleClass="form-control" />
+									</div>
 
 									<div class="form-group">
 										<h:outputLabel value="#{msg.aluno_label_bairro}: "
@@ -111,35 +127,6 @@
 									</div>
 
 									<div class="form-group">
-										<h:outputLabel value="#{msg.aluno_label_complemento}: "
-											for="complemento" />
-										<p:inputText id="complemento"
-											value="#{dadosPessoaisBean.aluno.complemento}" maxlength="50"
-											validator="removeEmBranco" styleClass="form-control" />
-									</div>
-
-									<div class="form-group">
-										<h:outputLabel value="#{msg.aluno_label_numero}: "
-											for="numero" />
-										<p:inputText id="numero"
-											value="#{dadosPessoaisBean.aluno.numero}" maxlength="10"
-											validator="removeEmBranco" styleClass="form-control" />
-									</div>
-
-									<div class="form-group">
-										<h:outputLabel value="#{msg.aluno_label_uf}:" for="uf" />
-										<p:selectOneMenu id="uf" value="#{dadosPessoaisBean.uf}"
-											valueChangeListener="#{dadosPessoaisBean.ufChangeListener}"
-											converter="converterUF">
-											<f:selectItem itemLabel="#{msg.app_label_selecione}"
-												itemValue="#{null}" />
-											<f:selectItems value="#{dadosPessoaisBean.listaUF}" var="uf"
-												itemLabel="#{uf.sigla}" itemValue="#{uf}" />
-											<f:ajax event="change" render="municipio" />
-										</p:selectOneMenu>
-									</div>
-
-									<div class="form-group">
 										<h:outputLabel value="#{msg.aluno_label_municipio}:"
 											for="municipio" />
 										<p:selectOneMenu id="municipio"
@@ -151,6 +138,20 @@
 											<f:selectItems value="#{dadosPessoaisBean.listaMunicipios}"
 												var="municipio" itemLabel="#{municipio.nome}"
 												itemValue="#{municipio}" />
+										</p:selectOneMenu>
+									</div>
+									
+									
+									<div class="form-group">
+										<h:outputLabel value="#{msg.aluno_label_uf}:" for="uf" />
+										<p:selectOneMenu id="uf" value="#{dadosPessoaisBean.uf}"
+											valueChangeListener="#{dadosPessoaisBean.ufChangeListener}"
+											converter="converterUF">
+											<f:selectItem itemLabel="#{msg.app_label_selecione}"
+												itemValue="#{null}" />
+											<f:selectItems value="#{dadosPessoaisBean.listaUF}" var="uf"
+												itemLabel="#{uf.sigla}" itemValue="#{uf}" />
+											<f:ajax event="change" render="municipio" />
 										</p:selectOneMenu>
 									</div>
 								</p:tab>
