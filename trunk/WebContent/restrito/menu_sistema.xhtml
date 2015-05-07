@@ -24,35 +24,18 @@
 				</p:commandLink>
 				</div>
 			<div id="navbar" class="collapse navbar-collapse">
-			<sec:authorize ifAnyGranted="ROLE_USUARIO">
-				
+					
 				<ul class="nav navbar-nav pull-right">
-					<li><p:outputLabel value="Seja bem vindo, " style="color:black; margin-top:10%"/>
-						&nbsp;<p:outputLabel value=" #{menuBean.nomeUsuarioLogado}" style="color:white; margin-top:10%"/>
+					<li><p:outputLabel value="Seja bem vindo" style="color:black; margin-top:10px;font-size: 14px !important;"/>
+						<br/><p:outputLabel value=" #{menuBean.nomeUsuarioLogado} " style="color:white;font-size: 14px !important; float: right;"/>
 					</li>										
 						
-					<li><p:commandLink value="#{msg.app_label_sair}" onclick="document.location='#{request.contextPath}/j_spring_security_logout'"	icon="ui-icon-close" /></li>										
+					<li><p:commandLink onclick="document.location='#{request.contextPath}/j_spring_security_logout'" style="margin-top:-5px;" title="Sair">
+						<p:graphicImage library="imagens" name="sair.png" width="40"/>
+					</p:commandLink></li>										
 				</ul>
 				
-				<ul class="nav navbar-nav pull-right" style="margin-right: 50px;">
-						
-						<li><p:commandLink value="#{msg.app_label_principal}"
-								action="#{menuBean.pagePrincipal}" /></li>
-						<li><p:commandLink value="#{msg.dados_pessoais_label_titulo}"
-								action="#{menuBean.pageDadosPessoais}" /></li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle"	data-toggle="dropdown" role="button" aria-expanded="false">
-								<h:outputLabel value="#{msg.app_label_cadastros}" icon="ui-icon ui-icon-document" /> <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><p:commandLink value="#{msg.usuario_label_menu}" action="#{menuBean.pageUsuarios}" rendered="#{sec:areAnyGranted('ROLE_USUARIO')}" /></li>
-								<li><p:commandLink value="#{msg.perfil_label_menu}"	action="#{menuBean.pagePerfis}"	rendered="#{sec:areAnyGranted('ROLE_PERFIL')}" /></li>
-								<li><p:commandLink value="#{msg.categoria_label_menu}"	action="#{menuBean.pageCategorias}"	rendered="#{sec:areAnyGranted('ROLE_CATEGORIA')}" /></li>
-								<li><p:commandLink value="#{msg.questao_label_menu}"	action="#{menuBean.pageQuestao}"	rendered="#{sec:areAnyGranted('ROLE_QUESTAO')}" /></li>
-								<li><p:commandLink value="#{msg.aluno_label_menu}"	action="#{menuBean.pageAlunos}"	rendered="#{sec:areAnyGranted('ROLE_ALUNO')}" /></li>
-								<li><p:commandLink value="#{msg.simulado_label_menu}"	action="#{menuBean.pageSimuladoDescricao}"	rendered="#{sec:areAnyGranted('ROLE_SIMULADO')}" /></li>
-							</ul></li>
-					</ul>
-				</sec:authorize>
+			
 			</div>
 		</div>
 		</nav>
