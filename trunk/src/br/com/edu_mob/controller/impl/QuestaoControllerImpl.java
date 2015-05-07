@@ -22,6 +22,7 @@ import br.com.edu_mob.dao.QuestaoDAO;
 import br.com.edu_mob.dao.impl.QuestaoDAOImpl;
 import br.com.edu_mob.entity.Alternativa;
 import br.com.edu_mob.entity.Questao;
+import br.com.edu_mob.entity.enuns.Letra;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
@@ -70,11 +71,23 @@ public class QuestaoControllerImpl implements QuestaoController{
 	public void incluir(Questao questao) throws RNException {
 		try {
 			questao.setDataAtualizacao(new Date());
-			this.questaoDAO.save(questao);
+			
+			this.questaoDAO.save(atribuirLetra(questao));
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
+	}
+	
+	private Questao atribuirLetra(Questao questao){
+		String[] letras = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","U","V","W","Y","Z"};
+		
+		if(questao.getListaAlternativas() != null && questao.getListaAlternativas().size()>0){
+			for (int i = 0; i < questao.getListaAlternativas().size(); i++) {
+				questao.getListaAlternativas().get(i).setLetra(Letra.valueOf(letras[i]));
+			}			
+		}		
+		return questao;
 	}
 	
 	@Override
@@ -116,7 +129,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 	public void alterar(Questao questao) throws RNException {
 		try {
 			questao.setDataAtualizacao(new Date());
-			this.questaoDAO.update(questao);
+			this.questaoDAO.update(atribuirLetra(questao));
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());

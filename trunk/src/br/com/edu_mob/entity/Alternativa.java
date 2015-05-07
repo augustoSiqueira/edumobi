@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import br.com.edu_mob.entity.enuns.Letra;
 
 @Entity
 @Table
@@ -28,6 +32,9 @@ public class Alternativa implements Serializable{
 
 	@Column(nullable = false)
 	private boolean correta;
+	
+	@Enumerated(EnumType.STRING)
+	private Letra letra;
 
 	public Long getId(){
 		return this.id;
@@ -51,6 +58,14 @@ public class Alternativa implements Serializable{
 
 	public void setCorreta(boolean correta){
 		this.correta = correta;
+	}
+	
+	public Letra getLetra() {
+		return letra;
+	}
+
+	public void setLetra(Letra letra) {
+		this.letra = letra;
 	}
 
 	@Override
