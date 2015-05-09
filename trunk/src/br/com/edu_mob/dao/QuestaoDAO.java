@@ -28,4 +28,22 @@ public interface QuestaoDAO extends GenericDAO, PesquisaDAO<Questao> {
 
 	int pesquisarQtdTotalQuestoes(Filter filtro) throws DAOException;
 
+	/**
+	 * Metodo responsavel por pesquisar Questoes para o simulado
+	 * @param Filter filtro
+	 * @return List<Questao> listaQuestao
+	 * @throws DAOException
+	 */
+
+	List<Questao> pesquisarSimulado(Filter filtro) throws DAOException;
+
+	/**
+	 * Metodo responsavel por pesquisar Questoes para o simulado web service
+	 * @param Filter filtro
+	 * @return List<QuestaoDTO> listaQuestoesDTO
+	 * @throws DAOException
+	 */
+
+	List<QuestaoDTO> pesquisarSimuladoDTO(Filter filtro) throws DAOException;
+
 }

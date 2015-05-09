@@ -1,5 +1,6 @@
 package br.com.edu_mob.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.edu_mob.dao.QuestaoDAO;
+import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.message.ErrorMessage;
@@ -134,6 +136,68 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 			throw new DAOException(ErrorMessage.DAO.getChave());
 		}
 		return listaQuestao;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Questao> pesquisarSimulado(Filter filtro) throws DAOException {
+		List<Questao> listaQuestoes = null;
+		List<AreaConhecimento> listaAreasConhecimento = (List<AreaConhecimento>) filtro.get("listaAreasConhecimento");
+		List<Long> listaIdsAreas = new ArrayList<Long>();
+		StringBuilder sb = new StringBuilder();
+		try {
+			if((listaAreasConhecimento != null) && !listaAreasConhecimento.isEmpty()) {
+				for (AreaConhecimento areaConhecimento : listaAreasConhecimento) {
+					listaIdsAreas.add(areaConhecimento.getId());
+				}
+				sb.append("select q from Questao q ");
+				sb.append(" where q.areaConhecimento.id in (:idsAreasConhecimento) ");
+				listaQuestoes = this.getHibernateTemplate().execute(new HibernateCallback<List<Questao>>() {
+					@SuppressWarnings("unchecked")
+					@Override
+					public List<Questao> doInHibernate(Session session) throws HibernateException {
+						Query query = session.createQuery(sb.toString());
+						query.setParameterList("idsAreasConhecimento", listaIdsAreas);
+						return query.list();
+					}
+				});
+			}
+		} catch(DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+		return listaQuestoes;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<QuestaoDTO> pesquisarSimuladoDTO(Filter filtro) throws DAOException {
+		List<QuestaoDTO> listaQuestoesDTO = null;
+		List<AreaConhecimento> listaAreasConhecimento = (List<AreaConhecimento>) filtro.get("listaAreasConhecimento");
+		List<Long> listaIdsAreas = new ArrayList<Long>();
+		StringBuilder sb = new StringBuilder();
+		try {
+			if((listaAreasConhecimento != null) && !listaAreasConhecimento.isEmpty()) {
+				for (AreaConhecimento areaConhecimento : listaAreasConhecimento) {
+					listaIdsAreas.add(areaConhecimento.getId());
+				}
+				sb.append("select new br.com.edu_mob.services.QuestaoDTO(q.id, q.enunciado, q.observacao, q.caminhoImagem, q.areaConhecimento.id, ");
+				sb.append(" q.dataAtualizacao) from Questao q where q.areaConhecimento.id in (:idsAreasConhecimento) ");
+				listaQuestoesDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<QuestaoDTO>>() {
+					@SuppressWarnings("unchecked")
+					@Override
+					public List<QuestaoDTO> doInHibernate(Session session) throws HibernateException {
+						Query query = session.createQuery(sb.toString());
+						query.setParameterList("idsAreasConhecimento", listaIdsAreas);
+						return query.list();
+					}
+				});
+			}
+		} catch(DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+		return listaQuestoesDTO;
 	}
 
 	@Override

@@ -11,22 +11,17 @@ import org.springframework.stereotype.Service;
 
 import br.com.edu_mob.controller.SimuladoDescricaoController;
 import br.com.edu_mob.dao.SimuladoDescricaoDAO;
-import br.com.edu_mob.dao.impl.CategoriaDAOImpl;
-import br.com.edu_mob.entity.Livro;
 import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.services.SimuladoDTO;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 
 @Service("simuladoDescricaoController")
-public class SimuladoDescricaoControllerImpl implements
-		SimuladoDescricaoController, Serializable {
+public class SimuladoDescricaoControllerImpl implements SimuladoDescricaoController, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = Logger
@@ -40,7 +35,7 @@ public class SimuladoDescricaoControllerImpl implements
 
 		List<Simulado> listaSimulado = null;
 		try {
-			listaSimulado = simuladoDescricaoDAO
+			listaSimulado = this.simuladoDescricaoDAO
 					.findAll(Simulado.class);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -53,10 +48,9 @@ public class SimuladoDescricaoControllerImpl implements
 
 	@Override
 	public Simulado pesquisarPorId(Long id) throws RNException {
-
 		Simulado simulado = null;
 		try {
-			simulado = simuladoDescricaoDAO.findById(Simulado.class,
+			simulado = this.simuladoDescricaoDAO.findById(Simulado.class,
 					id);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -69,7 +63,7 @@ public class SimuladoDescricaoControllerImpl implements
 	@Override
 	public void incluir(Simulado simulado) throws RNException {
 		try {
-			simuladoDescricaoDAO.save(simulado);
+			this.simuladoDescricaoDAO.save(simulado);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DAO
@@ -80,14 +74,14 @@ public class SimuladoDescricaoControllerImpl implements
 	@Override
 	public void alterar(Simulado simulado) throws RNException {
 		try {
-			simuladoDescricaoDAO.update(simulado);
+			this.simuladoDescricaoDAO.update(simulado);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DAO
 					.getChave()));
 		}
 	}
-	
+
 	//valida se existe um outro simulado com o mesmo titulo e mesma categoria
 	//pode ter titulos iguais, contanto que a categoria seja diferente
 	//Esta incompleta.
@@ -96,23 +90,23 @@ public class SimuladoDescricaoControllerImpl implements
 		Filter filtro = new Filter();
 		filtro.put("", simulado.getTitulo());
 		filtro.put("", simulado.getCategoria().getId());
-		
+
 		try {
-			listaSimulado = simuladoDescricaoDAO.pesquisarPorFiltro(filtro);
+			listaSimulado = this.simuladoDescricaoDAO.pesquisarPorFiltro(filtro);
 			for (Simulado simulado2 : listaSimulado) {
-								
+
 			}
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
 	public void excluir(Simulado simulado) throws RNException {
 		try {
-			simuladoDescricaoDAO.remove(simulado);
+			this.simuladoDescricaoDAO.remove(simulado);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DAO
@@ -157,6 +151,18 @@ public class SimuladoDescricaoControllerImpl implements
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 		return listaSimulado;
+	}
+
+	@Override
+	public List<SimuladoDTO> pesquisarPorFiltroDTO(Filter filtro) throws RNException {
+		List<SimuladoDTO> listaSimuladoDTO = null;
+		try {
+			listaSimuladoDTO = this.simuladoDescricaoDAO.pesquisarPorFiltroDTO(filtro);
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+		return listaSimuladoDTO;
 	}
 
 }

@@ -1,5 +1,6 @@
 package br.com.edu_mob.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -22,37 +24,42 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table
-@SequenceGenerator(name="simulado_desc_seq", sequenceName="simulado_desc_seq")
-public class Simulado {
+@SequenceGenerator(name="simulado_seq", sequenceName="simulado_seq")
+public class Simulado implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="simulado_desc_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="simulado_seq")
 	private Long id;
-	
+
 	@Column(length = 100, nullable = false)
 	private String titulo;
+
 	@Column(length = 255, nullable = false)
 	private String descricao;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="tempo")
-	private Date tempo;
-	
+	@Column(name="duracao")
+	private Date duracao;
+
+	@Column(name="qtd_questoes")
 	private int qnt_questao;
-	
+
 	@ManyToOne
+	@JoinColumn(name="id_categoria")
 	private Categoria categoria;
-	
+
 	@OneToMany(fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SUBSELECT)
 	private List<AreaConhecimento> areasConhecimento;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_atualizacao")
 	private Date dataAtualizacao;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -60,7 +67,7 @@ public class Simulado {
 	}
 
 	public String getTitulo() {
-		return titulo;
+		return this.titulo;
 	}
 
 	public void setTitulo(String titulo) {
@@ -68,23 +75,23 @@ public class Simulado {
 	}
 
 	public String getDescricao() {
-		return descricao;
+		return this.descricao;
 	}
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
-	public Date getTempo() {
-		return tempo;
+	public Date getDuracao() {
+		return this.duracao;
 	}
 
-	public void setTempo(Date tempo) {
-		this.tempo = tempo;
+	public void setDuracao(Date duracao) {
+		this.duracao = duracao;
 	}
 
 	public int getQnt_questao() {
-		return qnt_questao;
+		return this.qnt_questao;
 	}
 
 	public void setQnt_questao(int qnt_questao) {
@@ -92,7 +99,7 @@ public class Simulado {
 	}
 
 	public Categoria getCategoria() {
-		return categoria;
+		return this.categoria;
 	}
 
 	public void setCategoria(Categoria categoria) {
@@ -100,7 +107,7 @@ public class Simulado {
 	}
 
 	public List<AreaConhecimento> getAreasConhecimento() {
-		return areasConhecimento;
+		return this.areasConhecimento;
 	}
 
 	public void setAreasConhecimento(List<AreaConhecimento> areasConhecimento) {
@@ -108,14 +115,41 @@ public class Simulado {
 	}
 
 	public Date getDataAtualizacao() {
-		return dataAtualizacao;
+		return this.dataAtualizacao;
 	}
 
 	public void setDataAtualizacao(Date dataAtualizacao) {
 		this.dataAtualizacao = dataAtualizacao;
 	}
-	
-	
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = (prime * result) + ((this.id == null) ? 0 : this.id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		Simulado other = (Simulado) obj;
+		if (this.id == null) {
+			if (other.id != null) {
+				return false;
+			}
+		} else if (!this.id.equals(other.id)) {
+			return false;
+		}
+		return true;
+	}
+
 }

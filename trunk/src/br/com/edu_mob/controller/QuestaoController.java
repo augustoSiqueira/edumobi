@@ -35,4 +35,22 @@ public interface QuestaoController extends  GenericController<Questao> {
 
 	int pesquisarQtdTotalQuestoes(Filter filtro) throws RNException;
 
+	/**
+	 * Metodo responsavel por pesquisar Questoes para o Simulado
+	 * @param Filter filtro
+	 * @return List<Questao> listaQuestoes
+	 * @throws DAOException
+	 */
+
+	List<Questao> pesquisarSimulado(Filter filtro) throws RNException;
+
+	/**
+	 * Metodo responsavel por pesquisar Questoes para o Simulado
+	 * @param Filter filtro
+	 * @return List<QuestaoDTO> listaQuestoesDTO
+	 * @throws RNException
+	 */
+
+	List<QuestaoDTO> pesquisarSimuladoDTO(Filter filtro) throws RNException;
+
 }
