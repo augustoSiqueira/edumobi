@@ -14,7 +14,9 @@ import br.com.edu_mob.controller.AlunoController;
 import br.com.edu_mob.controller.AreaConhecimentoController;
 import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.controller.QuestaoController;
+import br.com.edu_mob.controller.SimuladoDescricaoController;
 import br.com.edu_mob.entity.Aluno;
+import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.Util;
@@ -36,6 +38,9 @@ public class Services  {
 
 	@Autowired
 	private QuestaoController questaoController;
+
+	@Autowired
+	private SimuladoDescricaoController simuladoDescricaoController;
 
 	private final static String DATA_PADRAO = "01/01/2015 00:00:00";
 
@@ -85,6 +90,36 @@ public class Services  {
 			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
 			filtro.put("idCategoria", idCategoria);
 			listaQuestoesDTO = this.questaoController.pesquisarPorFiltroDTO(filtro);
+		} catch(RNException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+		return listaQuestoesDTO;
+	}
+
+	@RequestMapping(value="/simulados.do", method = RequestMethod.GET)
+	public List<SimuladoDTO> pesquisarSimulados(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data, @RequestParam(required=true, defaultValue="0") String idCategoria) {
+		List<SimuladoDTO> listaSimuladoDTO = null;
+		Filter filtro = new Filter();
+		try {
+			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
+			filtro.put("idCategoria", idCategoria);
+			listaSimuladoDTO = this.simuladoDescricaoController.pesquisarPorFiltroDTO(filtro);
+		} catch(RNException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+		return listaSimuladoDTO;
+	}
+
+	@RequestMapping(value="/questoesSimulado.do", method = RequestMethod.GET)
+	public List<QuestaoDTO> pesquisarQuestoesSimulado(@RequestParam(required=true, defaultValue=DATA_PADRAO) String data, @RequestParam(required=true, defaultValue="0") Long idSimulado) {
+		List<QuestaoDTO> listaQuestoesDTO = null;
+		Filter filtro = new Filter();
+		Simulado simulado = null;
+		try {
+			simulado = this.simuladoDescricaoController.pesquisarPorId(idSimulado);
+			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
+			filtro.put("listaAreasConhecimento", simulado.getAreasConhecimento());
+			listaQuestoesDTO = this.questaoController.pesquisarSimuladoDTO(filtro);
 		} catch(RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
