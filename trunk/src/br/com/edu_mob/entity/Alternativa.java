@@ -32,9 +32,13 @@ public class Alternativa implements Serializable{
 
 	@Column(nullable = false)
 	private boolean correta;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Letra letra;
+
+	@ManyToOne
+	@JoinColumn(name = "id_questao")
+	private Questao questao;
 
 	public Long getId(){
 		return this.id;
@@ -59,13 +63,21 @@ public class Alternativa implements Serializable{
 	public void setCorreta(boolean correta){
 		this.correta = correta;
 	}
-	
+
 	public Letra getLetra() {
-		return letra;
+		return this.letra;
 	}
 
 	public void setLetra(Letra letra) {
 		this.letra = letra;
+	}
+
+	public Questao getQuestao() {
+		return this.questao;
+	}
+
+	public void setQuestao(Questao questao) {
+		this.questao = questao;
 	}
 
 	@Override
