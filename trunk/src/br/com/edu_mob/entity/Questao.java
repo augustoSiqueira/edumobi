@@ -56,19 +56,22 @@ public class Questao implements Serializable{
 	@JoinColumn(name = "id_area_conhecimento")
 	private AreaConhecimento areaConhecimento;
 
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="questao")
 	@Fetch(FetchMode.SUBSELECT)
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<Alternativa> listaAlternativas;
 
 	@Transient
 	private Boolean correta;
 
 	@Transient
+	private Alternativa alternativa;
+
+	@Transient
 	private Boolean exibirComentario;
 
 	@Transient
 	private int numero;
-	
+
 	@Column(name="nivel")
 	private Integer nivel;
 
@@ -157,13 +160,21 @@ public class Questao implements Serializable{
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
-	
+
 	public Integer getNivel(){
 		return this.nivel;
 	}
-	
+
 	public void setNivel(Integer nivel){
 		this.nivel = nivel;
+	}
+
+	public Alternativa getAlternativa() {
+		return this.alternativa;
+	}
+
+	public void setAlternativa(Alternativa alternativa) {
+		this.alternativa = alternativa;
 	}
 
 	@Override
