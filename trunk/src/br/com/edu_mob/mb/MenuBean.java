@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.util.AliasNavigation;
 
@@ -69,6 +70,12 @@ public class MenuBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cursoId",id);
 		return AliasNavigation.PAGINA_CURSO;
 	}
+	
+	public String pageCursoComprado(long id) {		
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cursoId",id);
+		return AliasNavigation.PAGINA_CURSO;
+	}
+	
 
 	public String pageSimuladoDescricao() {
 		return AliasNavigation.PAGINA_SIMULADO_DESCRICAO;

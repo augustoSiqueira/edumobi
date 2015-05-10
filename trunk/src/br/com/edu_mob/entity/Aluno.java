@@ -67,7 +67,7 @@ public class Aluno extends Usuario implements Serializable {
 	@JoinColumn(name="id_municipio")
 	private Municipio municipio;
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Categoria> cursos;
 	
 	public String getMatricula() {

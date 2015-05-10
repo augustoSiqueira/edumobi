@@ -11,7 +11,7 @@ body {
 }
 
 hr{
-	margin-bottom: 2px;
+	margin-bottom: 5px;
 	margin-top: 5px;
 }
 .starter-template {
@@ -95,8 +95,7 @@ hr{
 }
 
 .menu_lateral{
-	min-height:800px;
-	height: 100%;	
+	min-height:600px;
 	background-color: #0A8CBF;
 	margin-top: -5px;
 	color: white;
@@ -132,7 +131,7 @@ hr{
 
 .menuLink a, .menuSimples {
 	font-size: 16px;
-	color: white !important;	
+		
 }
 
 .menuLink {
@@ -144,6 +143,15 @@ hr{
 
 .menuSimples {
 	
+}
+.link_cursos{	
+	display: block;
+	font-size: 15px !important;
+	cursor:pointer !important; 
+}
+.link_cursos:HOVER{
+	
+  cursor:pointer !important;   
 }
 
 .ui-tree .ui-treenode-leaf-icon {

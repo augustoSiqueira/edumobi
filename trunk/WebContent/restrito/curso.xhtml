@@ -1,52 +1,161 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:sec="http://www.springframework.org/security/facelets/tags"
-	  xmlns:util="http://java.sun.com/jsf/composite/components/util"
-	  xmlns:p="http://primefaces.org/ui">
-	  
-	<ui:composition template="/templates/principal.xhtml">
-		
-		<ui:define name="corpo">
-			<div class="panel panel-default">
-				<div class="panel-heading"><h:outputLabel value="#{cursoBean.categoria.nome}" styleClass="menuLink" /></div>
-					<div class="panel-body">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components/util"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+
+	<ui:define name="corpo">
+		<div class="panel panel-default">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<h3 style="float: left; margin-top: 2px;">
+					<h:outputLabel value="#{cursoBean.categoria.nome}" />
+				</h3>
+				<p style="float: right">
+					<p:link outcome="relatorio_estudo.jsf?faces-redirect=true"
+						value="#{msg.curso_label_label_analise_desempenho}"
+						styleClass="menuLink" rendered="#{cursoBean.cursoVinculado}">
+						<f:param name="idCategoria" value="#{cursoBean.categoria.id}" />
+					</p:link>
+					<p:commandLink onclick="PF('dlg1').show();"
+						rendered="#{cursoBean.cursoVinculado == false and cursoBean.categoria.id != null}"
+						value="Adquira este curso !"  styleClass="menuLink"/>
+				</p>
+				<div class="clear"></div>
+				<p>
+					<p:outputLabel value="#{msg.curso_label_label_descricao}: " />
+					<p:outputLabel value="#{cursoBean.categoria.descricao}"
+						styleClass="paragrafo" />
+					<hr />
+				</p>
+				<p:outputPanel rendered="#{cursoBean.cursoVinculado}">
+					<div class="col-md-8">
 						<p>
-							<p:link outcome="relatorio_estudo.jsf?faces-redirect=true" value="#{msg.curso_label_label_analise_desempenho}" style="float:right" styleClass="menuLink">
-					        	<f:param name="idCategoria" value="#{cursoBean.categoria.id}" />
-					        </p:link>
-					  	</p>
-						<p>
-					  		<p:outputLabel value="#{msg.curso_label_label_descricao}: " styleClass="menuLink" />
-					  	</p>
-					  	<p>
-					  		<p:outputLabel value="#{cursoBean.categoria.descricao}" styleClass="paragrafo, menuLink" />
-					  	</p>
-					  	<p>
-						  	<p:dataList value="#{cursoBean.categoria.listaAreasConhecimento}" var="areaConhecimento" type="definition" styleClass="menuLink">
-						        <f:facet name="header">
+							<p:dataList value="#{cursoBean.categoria.listaAreasConhecimento}"
+								var="areaConhecimento">
+								<f:facet name="header">
 						            #{msg.curso_label_label_areas_conhecimento}
 						        </f:facet>
-						        <p:link outcome="resposta_estudo.jsf?faces-redirect=true" value="- #{areaConhecimento.descricao}" styleClass="menuLink">
-						        	<f:param name="idAreaConhecimento" value="#{areaConhecimento.id}" />
-						        </p:link>
-						    </p:dataList>
-					  	</p>
-					  	<p>
-					  			<p:outputLabel value="Total Respondidas: #{cursoBean.qtdRespondidas}" styleClass="marginLeft, menuLink" style="padding-right:20px" />
-					  			<p:outputLabel value="#{msg.curso_label_label_acertos}: #{cursoBean.qtdCorretas}" styleClass="marginLeft, menuLink" style="padding-right:20px" />
-					  			<p:outputLabel value="#{msg.curso_label_label_erros}: #{cursoBean.qtdErradas}" styleClass="marginLeft, menuLink" style="padding-right:20px" />
-					  	</p>
-					  	<p>
-						  	<p:chart type="pie" model="#{cursoBean.pieChartModel}" style="width:300px;height:200px;float:right">
-								<p:ajax event="itemSelect" listener="#{relatorioEstudoBean.itemSelect}" />
-							</p:chart>
-					  	</p>
+								<p:link outcome="resposta_estudo.jsf?faces-redirect=true"
+									value="#{areaConhecimento.descricao}" style="font-size:15px !important;margin:5px !important;">
+									<f:param name="idAreaConhecimento"
+										value="#{areaConhecimento.id}" />
+								</p:link>
+							</p:dataList>
+						</p>
+						<p>
+							<p:outputLabel
+								value="Total Respondidas: #{cursoBean.qtdRespondidas}"
+								styleClass="marginLeft, menuLink" style="padding-right:20px" />
+							<p:outputLabel
+								value="#{msg.curso_label_label_acertos}: #{cursoBean.qtdCorretas}"
+								styleClass="marginLeft, menuLink" style="padding-right:20px" />
+							<p:outputLabel
+								value="#{msg.curso_label_label_erros}: #{cursoBean.qtdErradas}"
+								styleClass="marginLeft, menuLink" style="padding-right:20px" />
+						</p>
+
 					</div>
+
+					<div class="col-md-4">
+
+						<p:chart type="pie" model="#{cursoBean.pieChartModel}"
+							style="width:300px;height:200px;">
+							<p:ajax event="itemSelect"
+								listener="#{relatorioEstudoBean.itemSelect}" />
+						</p:chart>
+
+					</div>
+				</p:outputPanel>
+
+				<p:outputPanel rendered="#{cursoBean.cursoVinculado == false}">
+					<div class="col-md-12">
+						<p>
+							<p:dataList value="#{cursoBean.categoria.listaAreasConhecimento}"
+								var="areaConhecimento" type="definition" styleClass="menuLink">
+								<f:facet name="header">
+						            #{msg.curso_label_label_areas_conhecimento}
+						        </f:facet>
+								<p:outputLabel value="- #{areaConhecimento.descricao}"
+									styleClass="menuLink">
+								</p:outputLabel>
+							</p:dataList>
+						</p>
+					</div>
+
+				</p:outputPanel>
+
+				<div class="col-md-12">
+
+					<p:dataTable id="tabelaLivros" value="#{cursoBean.dataModelLivro}"
+						var="livros" rows="3" paginator="true"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+							{NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="1,3,5" lazy="true" paginatorPosition="bottom">
+						<f:facet name="header">
+				            Sugestões de livros para estudo
+				        </f:facet>
+						<p:column headerText="Titulo" width="120">
+							<p:graphicImage value="../imagens/#{livros.capa}" id="img"
+								cache="false" width="95" height="120" />
+
+						</p:column>
+						<p:column>
+							<div class="col-md-12">
+								<h:outputLabel value="Titulo: " />
+								<p:outputLabel value=" #{livros.nome}" />
+								<br />
+								<p:outputLabel value="Autor: " />
+								<p:outputLabel value=" #{livros.autor}" />
+								<br />
+								<p:outputLabel value="Edição: " />
+								<p:outputLabel value=" #{livros.edicao}" />
+								<br />
+								<p:outputLabel value="Paginas: " />
+								<p:outputLabel value=" #{livros.qnt_paginas}"
+									style="margin-right:30px;" />
+
+								<p:outputLabel value=" #{livros.isbn}" />
+								<br />
+								<p:outputLabel value="Descrição: " />
+								<p:outputLabel value=" #{livros.descricao}"
+									styleClass="descricaoLivro" />
+
+							</div>
+
+						</p:column>
+					</p:dataTable>
+				</div>
+
+
 			</div>
-		</ui:define>
-	</ui:composition>
+		</div>
+		<p:dialog header="#{cursoBean.categoria.nome}" widgetVar="dlg1"
+			modal="true" width="50%" miheight="500px" closable="false" >
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<h3 align="center">Atenção</h3>
+					<p align="justify">O modulo de efetuar compra de curso encontra-se em desenvolvimento. Mas como a EDUMOBI é parceira da UNIBRATEC estaremos disponibilizando este curso inteiramente grátis, para que seus alunos possam aproveitar e estudar da melhor forma possível.</p>
+					<hr/>
+					<div style="float: right;">
+						<p:commandLink value="Comprar" action="#{cursoBean.comprarCurso}" styleClass="btn btn-success" style="margin-right:5px;" /> 
+						<p:commandLink value="Cancelar" action="#{cursoBean.cancelarCompra}" styleClass="btn btn-default" />
+					</div>
+				</div>
+			</div>
+		</p:dialog>
+		<p:dialog header="#{cursoBean.categoria.nome}" widgetVar="dlg2"
+			modal="true" width="50%" miheight="500px" closable="false">
+			<p:outputLabel value=" Obrigado por adquirir o curso de #{cursoBean.categoria.nome}" style="size:18px;"/>
+			<hr/>
+			<p:commandLink value="Confirmar" action="#{cursoBean.comprarCursoConfirmado}" styleClass="btn btn-success"  style="float: right;"></p:commandLink>
+			</p:dialog>
+	</ui:define>
+</ui:composition>
 </html>

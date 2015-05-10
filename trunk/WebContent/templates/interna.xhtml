@@ -18,6 +18,14 @@
 
 
 <h:body>
+<script>
+	  $(document).ready(function () {
+		  var tamanho = $(document).height();		 
+		  $(".menu_lateral").css("height",tamanho);
+		 
+	  });
+	
+	</script>
 	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
     <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
       <p:graphicImage url="../resources/imagens/status.gif"/>
@@ -88,7 +96,7 @@
 									<f:param name="id" value="#{categoria.id}" />
 								</p:commandLink>
 								<h:outputText value="#{categoria.nome}" styleClass="menuSimples"
-									rendered="#{categoria.curso == false}" />
+									rendered="#{categoria.curso == false}" style="color:white;" />
 
 							</p:treeNode>
 						</p:tree>
