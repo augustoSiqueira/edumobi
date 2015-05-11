@@ -17,11 +17,13 @@ import org.springframework.web.jsf.FacesContextUtils;
 
 import br.com.edu_mob.controller.QuestaoController;
 import br.com.edu_mob.controller.RespostaEstudoController;
+import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.entity.RespostaEstudo;
 import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.util.Filter;
+import br.com.edu_mob.util.UtilSession;
 
 @ManagedBean
 @ViewScoped
@@ -38,6 +40,8 @@ public class DataModelRespostaEstudo extends LazyDataModel<Questao> {
 	private List<Questao> listaQuestoes;
 
 	private static int QTD_REGISTROS = 4;
+	
+	private Long idAreaconhecimento;
 
 	@Override
 	public Questao getRowData(String rowKey) {
@@ -66,7 +70,7 @@ public class DataModelRespostaEstudo extends LazyDataModel<Questao> {
 		List<RespostaEstudo> listaRespostaEstudo = null;
 		try {
 			filtro.putAll(filters);
-			filtro.put("idAreaConhecimento", facesContext.getExternalContext().getRequestParameterMap().get("idAreaConhecimento").toString());
+			filtro.put("idAreaConhecimento", UtilSession.getHttpSessionObject("idAreaConhecimento").toString());
 			this.listaQuestoes = this.questaoController.pesquisarPorFiltroPaginada(filtro, first, QTD_REGISTROS);
 			if(((this.listaQuestoes != null) && !this.listaQuestoes.isEmpty())) {
 				for (Questao questao : this.listaQuestoes) {
@@ -89,5 +93,15 @@ public class DataModelRespostaEstudo extends LazyDataModel<Questao> {
 		}
 		return this.listaQuestoes;
 	}
+
+	public Long getIdAreaconhecimento() {
+		return idAreaconhecimento;
+	}
+
+	public void setIdAreaconhecimento(Long idAreaconhecimento) {
+		this.idAreaconhecimento = idAreaconhecimento;
+	}
+	
+	
 
 }

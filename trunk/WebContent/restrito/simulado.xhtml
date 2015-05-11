@@ -81,7 +81,7 @@
 			</div>
 		</div>
 		<p:dialog header="#{msg.simulado_titulo}" widgetVar="dlg1"
-			modal="true" width="50%" height="450px" style="margin-top: 60px;">
+			modal="true" width="50%" height="450px" style="margin-top: 75px;">
 			<div class="panel panel-default">
 
 				<div class="panel-body" style="overflow: auto">
@@ -117,10 +117,11 @@
 						<div class="form-group">
 							<h:outputLabel value="#{msg.simulado_label_categoria}:" />
 							<br />
-							<p:selectOneMenu
+							<h:selectOneMenu
 								value="#{simuladoDescricaoBean.categoriaSelecionada}"
-								converter="converterCategoria" styleClass="comboBox2" 
-								id="categoria" disabled="#{simuladoDescricaoBean.habilitarCategoria}">
+								converter="converterCategoria" styleClass="form-control"
+								id="categoria"
+								disabled="#{simuladoDescricaoBean.habilitarCategoria}">
 								<f:selectItem itemLabel="#{msg.app_label_selecione}"
 									itemValue="#{null}" />
 								<f:selectItems value="#{simuladoDescricaoBean.listaCategorias}"
@@ -128,7 +129,7 @@
 									itemValue="#{categoria}" />
 								<f:ajax event="change" render="areas"
 									listener="#{simuladoDescricaoBean.carregarAreaConhecimento}" />
-							</p:selectOneMenu>
+							</h:selectOneMenu>
 						</div>
 						<div class="form-group" id="areaConhecimento">
 
@@ -138,6 +139,8 @@
 								var="area" id="areas" itemLabel="#{area.descricao}"
 								itemValue="#{area}"
 								converter="primeFacesPickListConverterAreaConhecimento">
+								<f:facet name="sourceCaption">Disponíveis</f:facet>
+								<f:facet name="targetCaption">Selecionados</f:facet>
 								<p:ajax event="transfer" update=":edicao:categoria" />
 							</p:pickList>
 

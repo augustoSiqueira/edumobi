@@ -51,6 +51,7 @@ public class Categoria implements Serializable {
 	@Column(length=100)
 	private String titulo;
 
+	@Column(length=1000)
 	private String descricao;
 
 	private boolean curso;

@@ -75,6 +75,7 @@ public class QuestaoBean extends GenericBean implements Serializable  {
 		Filter filtroCategoria = new Filter();
 		
 		filtroCategoria.put("curso", true);
+		filtroCategoria.put("ativo", true);
 		this.questao = new Questao();
 		this.alternativa = new Alternativa();
 		this.categoria = new Categoria();

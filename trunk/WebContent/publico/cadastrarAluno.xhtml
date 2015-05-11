@@ -47,10 +47,10 @@
 		                    </div>
 		                    <div class="form-group">
 		                    	<h:outputLabel value="#{msg.aluno_label_curso}" for="" /><br/>
-								<p:selectOneMenu value="#{alunoBean.curso}" converter="converterCategoria" required="true" requiredMessage="#{msg.erro_aluno_curso}">
+								<h:selectOneMenu value="#{alunoBean.curso}" converter="converterCategoria" required="true" requiredMessage="#{msg.erro_aluno_curso}" class="form-control">
 									<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
 									<f:selectItems value="#{alunoBean.listaCursos}" var="curso" itemLabel="#{curso.nome}" itemValue="#{curso}" />
-								</p:selectOneMenu>
+								</h:selectOneMenu>
 		                    
 		                    </div>
 		                    

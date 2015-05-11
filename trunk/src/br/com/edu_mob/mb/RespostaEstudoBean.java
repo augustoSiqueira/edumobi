@@ -23,6 +23,7 @@ import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.util.MensagemUtil;
+import br.com.edu_mob.util.UtilSession;
 
 @ManagedBean
 @ViewScoped
@@ -59,6 +60,7 @@ public class RespostaEstudoBean extends GenericBean implements Serializable {
 		this.respostaEstudoController = (RespostaEstudoController) this.getBean("respostaEstudoController", RespostaEstudoController.class);
 		this.areaConhecimentoController = (AreaConhecimentoController) this.getBean("areaConhecimentoController", AreaConhecimentoController.class);
 		try {
+			UtilSession.getHttpSession().setAttribute("idAreaConhecimento", Long.parseLong(context.getExternalContext().getRequestParameterMap().get("idAreaConhecimento")));
 			this.areaConhecimento = this.areaConhecimentoController.pesquisarPorId(Long.parseLong(context.getExternalContext().getRequestParameterMap().get("idAreaConhecimento").toString()));
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);

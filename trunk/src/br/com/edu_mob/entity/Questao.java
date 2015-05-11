@@ -56,7 +56,7 @@ public class Questao implements Serializable{
 	@JoinColumn(name = "id_area_conhecimento")
 	private AreaConhecimento areaConhecimento;
 
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="questao")
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@Fetch(FetchMode.SUBSELECT)
 	private List<Alternativa> listaAlternativas;
 

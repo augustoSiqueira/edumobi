@@ -47,7 +47,7 @@ public class CategoriaBean extends GenericBean implements Serializable {
 	public void init() {
 		Filter filtroCategoria = new Filter();
 		filtroCategoria.put("ativo", Boolean.TRUE);
-		filtroCategoria.put("curso", Boolean.TRUE);
+		filtroCategoria.put("curso", Boolean.FALSE);
 		this.categoria = new Categoria();
 		this.categoriaController = (CategoriaController) this.getBean("categoriaController", CategoriaController.class);
 		this.dataModelCategoria = new DataModelCategoria();

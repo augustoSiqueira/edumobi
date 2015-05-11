@@ -194,3 +194,7 @@ span.ui-tree-toggler.ui-icon.ui-icon-triangle-1-s {
 .ui-spinner-input{
 	width: 70px !important;
 }
+
+.ui-picklist .ui-picklist-list{
+    width:250px !important;
+}

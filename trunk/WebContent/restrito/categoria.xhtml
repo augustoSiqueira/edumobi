@@ -92,7 +92,7 @@
 							</div>
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.categoria_label_descricao}: " for="descricao" />
-								<p:inputTextarea  id="descricao" value="#{categoriaBean.categoria.descricao}"  styleClass="form-control" />
+								<p:inputTextarea  id="descricao" value="#{categoriaBean.categoria.descricao}" rows="4" autoResize="false" maxlength="1000"  styleClass="form-control" />
 							</div>
 						    <div class="form-group">
 			            		<h:outputLabel value="#{msg.categoria_label_pai}:" for="categoriaPai" /><br/>

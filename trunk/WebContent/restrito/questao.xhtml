@@ -91,20 +91,20 @@
 							
 							<div class="form-group col-md-6">
 	                  		<h:outputLabel value="#{msg.categoria_label_menu}:" for="categoria" /><br/>
-							<p:selectOneMenu id="categoria" value="#{questaoBean.categoria}" valueChangeListener="#{questaoBean.carregarAreaConhecimento}"
-								converter="converterCategoria" styleClass="comboBox2">
+							<h:selectOneMenu id="categoria" value="#{questaoBean.categoria}" valueChangeListener="#{questaoBean.carregarAreaConhecimento}"
+								converter="converterCategoria" styleClass="form-control">
 								<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
 								<f:selectItems value="#{questaoBean.listaCategoria}" var="categoria" itemLabel="#{categoria.nome}" 
 									itemValue="#{categoria}" />
 								<f:ajax event="change" render="areaConhecimento" />	
-							</p:selectOneMenu>								
+							</h:selectOneMenu>								
 	                  		</div>
 	                  		
 	                  		<div class="form-group col-md-6">
 	                  		<h:outputLabel value="#{msg.area_conhecimento_label_menu}:" for="areaConhecimento"  /><br/>
-							<p:selectOneMenu id="areaConhecimento" value="#{questaoBean.questao.areaConhecimento}" disabled="#{questaoBean.categoria.id == null}" converter="converterAreaConhecimento" required="true" styleClass="comboBox2" >
+							<h:selectOneMenu id="areaConhecimento" value="#{questaoBean.questao.areaConhecimento}" disabled="#{questaoBean.categoria.id == null}" converter="converterAreaConhecimento" required="true" styleClass="form-control" >
 								<f:selectItems value="#{questaoBean.listaAreaConhecimento}" var="areaConhecimento" itemLabel="#{areaConhecimento.descricao}" itemValue="#{areaConhecimento}" />
-							</p:selectOneMenu>								
+							</h:selectOneMenu>								
 	                  		</div>
 	                  		
 	                  		<div class="form-group col-md-6">

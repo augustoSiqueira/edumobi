@@ -36,10 +36,6 @@ public class Alternativa implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private Letra letra;
 
-	@ManyToOne
-	@JoinColumn(name = "id_questao")
-	private Questao questao;
-
 	public Long getId(){
 		return this.id;
 	}
@@ -70,14 +66,6 @@ public class Alternativa implements Serializable{
 
 	public void setLetra(Letra letra) {
 		this.letra = letra;
-	}
-
-	public Questao getQuestao() {
-		return this.questao;
-	}
-
-	public void setQuestao(Questao questao) {
-		this.questao = questao;
 	}
 
 	@Override
