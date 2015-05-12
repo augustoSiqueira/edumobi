@@ -143,6 +143,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 	public List<Questao> pesquisarSimulado(Filter filtro) throws DAOException {
 		List<Questao> listaQuestoes = null;
 		List<AreaConhecimento> listaAreasConhecimento = (List<AreaConhecimento>) filtro.get("listaAreasConhecimento");
+		String qtdQuestoes =  filtro.getAsString("qtdQuestoes");
 		List<Long> listaIdsAreas = new ArrayList<Long>();
 		StringBuilder sb = new StringBuilder();
 		try {
@@ -158,6 +159,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 					public List<Questao> doInHibernate(Session session) throws HibernateException {
 						Query query = session.createQuery(sb.toString());
 						query.setParameterList("idsAreasConhecimento", listaIdsAreas);
+						query.setMaxResults(Integer.parseInt(qtdQuestoes));
 						return query.list();
 					}
 				});

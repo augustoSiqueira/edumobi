@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/interna.xhtml">
+	<ui:define name="corpo">
+		
+		<h:form id="painelQuestoes">
+			<h:outputText value="Tempo Restante: "  style="font-weight:bold;font-size:14px" />
+			<h:outputText id="tempo" value="#{respostaSimuladoBean.horario}" style="font-weight:bold;font-size:14px" />
+			<p:poll interval="60" partialSubmit="true" listener="#{respostaSimuladoBean.iniciarCronometro}" update=":painelQuestoes:tempo" />
+			
+			<p:dataGrid id="numeracaoQuestoes" var="questaoPainel" value="#{respostaSimuladoBean.listaQuestoes}" layout="grid" 
+				rows="10" columns="10" emptyMessage="#{msg.app_label_nenhum_registro_encontrado}" >
+				<f:facet name="header">
+					#{msg.resposta_simulado_label_questoes}
+				</f:facet>
+				<p:column>
+					<p:commandButton id="btnQuestao" action="#{respostaSimuladoBean.atualizarQuestao}" process="@this" ajax="false" 
+						value="#{questaoPainel.numero}" update=":listaQuestoes:tabelaQuestoes" style="font-weight:bold" rendered="#{questaoPainel.alternativa == null}">
+						<f:setPropertyActionListener value="#{questaoPainel}" target="#{respostaSimuladoBean.questaoPainel}" />
+					</p:commandButton>
+					<p:commandButton id="btnQuestaoRespondida" action="#{respostaSimuladoBean.atualizarQuestao}" process="@this" ajax="false" 
+						value="#{questaoPainel.numero}" update=":listaQuestoes:tabelaQuestoes" rendered="#{questaoPainel.alternativa != null}"
+						 style="color:red;font-weight:bold">
+						<f:setPropertyActionListener value="#{questaoPainel}" target="#{respostaSimuladoBean.questaoPainel}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataGrid>
+		</h:form>
+		<h:form id="listaQuestoes">
+			<p:dataTable id="tabelaQuestoes" value="#{respostaSimuladoBean.listaQuestoes}"
+					var="questao" rows="1" paginator="true" emptyMessage="#{msg.app_label_nenhum_registro_encontrado}"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+									{NextPageLink} {LastPageLink}"
+					rowsPerPageTemplate="5, 10, 15" lazy="true">
+					<p:column>
+						<p:dataTable id="tabelaAlternativas" selectionMode="single" selection="#{respostaSimuladoBean.alternativa}" 
+							rowKey="#{alternativa.id}" value="#{questao.listaAlternativas}" var="alternativa" style="border:none !important">
+				            	<f:facet name="header">
+				            		<div align="left">
+						            	<h:outputText value="#{msg.resposta_simulado_label_questao} - #{questao.numero}" style="text-align:left" />
+						            </div>
+						            <div align="left">
+						            	<h:outputText value="#{questao.enunciado}" style="text-align:left" />
+						            </div>
+						            <div align="left">
+						        		<p:graphicImage value="../imagens/#{questao.caminhoImagem}" id="img"
+												cache="false" width="95" height="120" />
+						            </div>
+						        </f:facet>
+				            	<p:column style="border-style:none">
+				            		#{alternativa.resposta}
+				            	</p:column>
+				            	<f:facet name="footer">
+				            		<div>
+							            <p:commandButton id="btnResponder" action="#{respostaSimuladoBean.responder}" value="#{msg.resposta_simulado_label_responder}" 
+							            	process="tabelaAlternativas" update=":painelQuestoes:numeracaoQuestoes :listaQuestoes:tabelaQuestoes">
+							            	<f:setPropertyActionListener value="#{questao}" target="#{respostaSimuladoBean.questao}" />
+							            </p:commandButton>
+							       </div> 
+				                </f:facet>
+			    		</p:dataTable>
+		    		</p:column>
+				</p:dataTable>
+				<p:commandButton id="btnQuestao" action="#{respostaSimuladoBean.finalizarSimulado}" style="font-weight:bold;font-size:14px;color:green" 
+					process="@this" ajax="false" value="#{msg.resposta_simulado_label_finalizar_simulado}" update=":listaQuestoes:tabelaQuestoes">
+				</p:commandButton>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -32,8 +32,12 @@ public class AliasNavigation {
 
 	public static final String PAGINA_RESPOSTA_ESTUDO = "/restrito/resposta_estudo.jsf?faces-redirect=true";
 
+	public static final String PAGINA_RESPOSTA_SIMULADO = "/restrito/resposta_simulado.jsf?faces-redirect=true";
+
+	public static final String PAGINA_RESULTADOS_SIMULADO = "/restrito/resultados_simulado.jsf?faces-redirect=true";
+
 	public static final String PAGINA_RELATORIO_ESTUDO = "/restrito/relatorio_estudo.jsf?faces-redirect=true";
 
-
+	public static final String PAGINA_RELATORIO_SIMULADO = "/restrito/relatorio_simulado.jsf?faces-redirect=true";
 
 }

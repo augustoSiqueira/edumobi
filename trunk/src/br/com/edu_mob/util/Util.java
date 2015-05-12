@@ -22,6 +22,8 @@ public class Util {
 
 	public static final String FORMATO_DATA_HORA_PT_BR = "dd/MM/yyyy HH:mm:ss";
 
+	public static final String FORMATO_HORA_PT_BR = "HH:mm";
+
 	/**
 	 * Metodo responsavel por converter Data
 	 * @param Date valor

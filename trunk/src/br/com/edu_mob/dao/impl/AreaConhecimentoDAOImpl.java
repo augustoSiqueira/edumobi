@@ -32,7 +32,8 @@ import br.com.edu_mob.util.MensagemUtil;
 @Transactional(propagation = Propagation.REQUIRED)
 public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhecimentoDAO, Serializable {
 
-	private static final long serialVersionUID = -539985070564944663L;
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = Logger.getLogger(AreaConhecimentoDAOImpl.class.getName());
 
 	@Autowired

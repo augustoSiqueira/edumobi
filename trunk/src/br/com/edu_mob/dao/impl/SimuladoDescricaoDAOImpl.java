@@ -199,7 +199,7 @@ SimuladoDescricaoDAO, Serializable {
 			if((listaSimulado != null) && !listaSimulado.isEmpty()) {
 				for (int i = 0; i < listaSimulado.size(); i++) {
 					SimuladoDTO simuladoDTO = new SimuladoDTO(listaSimulado.get(i).getId(), listaSimulado.get(i).getTitulo(),
-							listaSimulado.get(i).getDescricao(), listaSimulado.get(i).getDuracao(), listaSimulado.get(i).getQnt_questao(),
+							listaSimulado.get(i).getDescricao(), listaSimulado.get(i).getDuracao(), listaSimulado.get(i).getQntQuestao(),
 							listaSimulado.get(i).getCategoria(), listaSimulado.get(i).getAreasConhecimento());
 					listaSimulado.remove(listaSimulado.get(i));
 					listaSimuladoDTO.add(simuladoDTO);

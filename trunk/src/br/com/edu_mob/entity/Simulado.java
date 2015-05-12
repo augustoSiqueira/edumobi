@@ -44,7 +44,7 @@ public class Simulado implements Serializable {
 	private Date duracao;
 
 	@Column(name="qtd_questoes")
-	private int qnt_questao;
+	private int qntQuestao;
 
 	@ManyToOne
 	@JoinColumn(name="id_categoria")
@@ -90,12 +90,12 @@ public class Simulado implements Serializable {
 		this.duracao = duracao;
 	}
 
-	public int getQnt_questao() {
-		return this.qnt_questao;
+	public int getQntQuestao() {
+		return this.qntQuestao;
 	}
 
-	public void setQnt_questao(int qnt_questao) {
-		this.qnt_questao = qnt_questao;
+	public void setQntQuestao(int qntQuestao) {
+		this.qntQuestao = qntQuestao;
 	}
 
 	public Categoria getCategoria() {
