@@ -1,5 +1,6 @@
 package br.com.edu_mob.mb;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -26,6 +28,7 @@ import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.message.InfoMessage;
 import br.com.edu_mob.util.AliasNavigation;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
@@ -85,13 +88,16 @@ public class RespostaSimuladoBean extends GenericBean implements Serializable {
 		}
 	}
 
-	public void iniciarCronometro() {
+	public String iniciarCronometro() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		this.duracao.add(Calendar.MINUTE, -1);
+		this.horario =  Util.converteData(this.duracao.getTime(), Util.FORMATO_HORA_PT_BR);
 		if((this.duracao.get(Calendar.HOUR) == 0) && (this.duracao.get(Calendar.MINUTE) == 0) && (this.duracao.get(Calendar.SECOND) == 0)) {
-			this.finalizarSimulado();
-		} else {
-			this.duracao.add(Calendar.MINUTE, -1);
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Tempo Esgotado", MensagemUtil.getMensagem(InfoMessage.TEMPO_ESGOTADO.getChave())));
 			this.horario =  Util.converteData(this.duracao.getTime(), Util.FORMATO_HORA_PT_BR);
+			this.finalizarSimulado();
 		}
+		return null;
 	}
 
 	public void responder() {
@@ -112,6 +118,7 @@ public class RespostaSimuladoBean extends GenericBean implements Serializable {
 	}
 
 	public String finalizarSimulado() {
+		FacesContext context = FacesContext.getCurrentInstance();
 		Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		ResultadoSimulado resultadoSimulado = new ResultadoSimulado();
 		resultadoSimulado.setDataHoraInicio(this.dataInicio);
@@ -120,12 +127,15 @@ public class RespostaSimuladoBean extends GenericBean implements Serializable {
 		resultadoSimulado.setSimulado(this.simulado);
 		try {
 			this.respostaSimuladoController.salvar(this.listaQuestoes, this.simulado, resultadoSimulado, usuario);
+			context.getExternalContext().redirect(AliasNavigation.PAGINA_RESULTADOS_SIMULADO + "&idSimulado=" + this.simulado.getId());
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+		}  catch (IOException e1) {
+			logger.log(Level.SEVERE, e1.getMessage(), e1);
+			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e1.getMessage());
 		}
-
-		return AliasNavigation.PAGINA_RESULTADOS_SIMULADO + "&idSimulado=" + this.simulado.getId();
+		return null;
 	}
 
 	public List<Questao> formatarQuestoes(List<Questao> listaQuestao) {

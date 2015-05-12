@@ -54,6 +54,7 @@ public class ResultadoSimuladoBean extends GenericBean implements Serializable {
 		this.simuladoDescricaoController = (SimuladoDescricaoController) this.getBean("simuladoDescricaoController", SimuladoDescricaoController.class);
 		try {
 			this.simulado = this.simuladoDescricaoController.pesquisarPorId(Long.parseLong(context.getExternalContext().getRequestParameterMap().get("idSimulado").toString()));
+			context.getExternalContext().getSessionMap().put("idSimulado", this.simulado.getId());
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());

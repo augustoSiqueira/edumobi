@@ -52,7 +52,7 @@ public class DataModelResultadoSimulado extends LazyDataModel<ResultadoSimulado>
 		WebApplicationContext webAppContext = FacesContextUtils.getRequiredWebApplicationContext(facesContext);
 		this.resultadoSimuladoController = webAppContext.getBean("resultadoSimuladoController", ResultadoSimuladoController.class);
 		Filter filtro = new Filter();
-		filtro.put("idSimulado", facesContext.getExternalContext().getRequestParameterMap().get("idSimulado").toString());
+		filtro.put("idSimulado", 	facesContext.getExternalContext().getSessionMap().get("idSimulado").toString());
 		try {
 			filtro.putAll(filters);
 			this.listaResultadosSimulados = this.resultadoSimuladoController.pesquisarPorFiltroPaginada(filtro, first, pageSize);

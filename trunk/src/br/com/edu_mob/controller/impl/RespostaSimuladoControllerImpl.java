@@ -75,7 +75,11 @@ public class RespostaSimuladoControllerImpl implements RespostaSimuladoControlle
 					}
 					respostaSimulado.setAlternativaCorreta(retornarAlternativaCorreta(questao.getListaAlternativas()));
 					respostaSimulado.setUsuario(usuario);
-					respostaSimulado.setCorreta(questao.getCorreta());
+					if(questao.getCorreta() != null) {
+						respostaSimulado.setCorreta(questao.getCorreta());
+					} else {
+						respostaSimulado.setCorreta(Boolean.FALSE);
+					}
 					if((questao.getCorreta() != null) && questao.getCorreta()) {
 						qtdCorretas++;
 					}
