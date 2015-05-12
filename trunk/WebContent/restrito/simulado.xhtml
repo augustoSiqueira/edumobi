@@ -69,13 +69,21 @@
 											target="#{simuladoDescricaoBean.simulado}" />
 									</p:commandLink>
 								</p:column>
-
-
+								<p:column>
+									<p:link value="Iniciar" outcome="resposta_simulado.jsf">
+										<f:param name="idSimulado" value="#{simulado.id}" />
+									</p:link>
+									<br />
+									<p:link value="Resultados" outcome="resultados_simulado.jsf">
+										<f:param name="idSimulado" value="#{simulado.id}" />
+									</p:link>
+									<br />
+									<p:link value="Análise Geral" outcome="relatorio_simulado.jsf">
+										<f:param name="idSimulado" value="#{simulado.id}" />
+									</p:link>
+								</p:column>
 							</p:dataTable>
-
-
 						</h:form>
-
 					</div>
 				</div>
 			</div>
@@ -110,7 +118,7 @@
 
 							<h:outputLabel value="#{msg.simulado_label_questao}*: "
 								for="nome" style="margin-left:20px;" />
-							<p:spinner value="#{simuladoDescricaoBean.simulado.qnt_questao}"
+							<p:spinner value="#{simuladoDescricaoBean.simulado.qntQuestao}"
 								min="0" onkeyup="onlyNumbers(this)" styleClass="spinner" />
 						</div>
 
