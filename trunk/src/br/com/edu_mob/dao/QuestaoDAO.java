@@ -16,7 +16,7 @@ public interface QuestaoDAO extends GenericDAO, PesquisaDAO<Questao> {
 	 * @return List<QuestaoDTO> listaQuestoes
 	 * @throws DAOException
 	 */
-	List<QuestaoDTO> pesquisarPorFiltroDTO(Filter filtro) throws DAOException;
+	List<Questao> pesquisarPorFiltroDTO(Filter filtro) throws DAOException;
 
 	/**
 	 * Metodo responsavel por pesquisar a quantidade total de Questoes por filtro

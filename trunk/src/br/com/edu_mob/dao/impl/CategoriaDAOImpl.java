@@ -170,7 +170,7 @@ public class CategoriaDAOImpl extends GenericDAOImpl implements CategoriaDAO, Se
 		StringBuilder sb = new StringBuilder();
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		try {
-			sb.append("select new br.com.edu_mob.services.CategoriaDTO(c.id, c.nome, c.ativo, c.pai.id, c.qtdQuestoes, c.titulo, c.descricao, ");
+			sb.append("select new br.com.edu_mob.services.CategoriaDTO(c.id, c.nome, c.ativo, c.pai.id, c.titulo, c.descricao, ");
 			sb.append(" c.curso, c.dataAtualizacao) from Categoria c where c.ativo = true and c.dataAtualizacao >= :dataAtualizacao ");
 			listaCategoriaDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<CategoriaDTO>>() {
 				@SuppressWarnings("unchecked")

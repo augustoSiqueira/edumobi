@@ -2,6 +2,8 @@ package br.com.edu_mob.services;
 
 import java.io.Serializable;
 
+import br.com.edu_mob.entity.enuns.Letra;
+
 public class AlternativaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -12,18 +14,19 @@ public class AlternativaDTO implements Serializable {
 
 	private boolean correta;
 
-	private Long idQuestao;
+	private Letra letra;
+	
 
 	public AlternativaDTO() {
 		super();
 	}
 
-	public AlternativaDTO(Long id, String resposta, boolean correta, Long idQuestao) {
+	public AlternativaDTO(Long id, String resposta, boolean correta, Letra letra) {
 		super();
 		this.id = id;
 		this.resposta = resposta;
 		this.correta = correta;
-		this.idQuestao = idQuestao;
+		this.letra = letra;
 	}
 
 	public Long getId() {
@@ -50,12 +53,14 @@ public class AlternativaDTO implements Serializable {
 		this.correta = correta;
 	}
 
-	public Long getIdQuestao() {
-		return this.idQuestao;
+	public Letra getLetra() {
+		return letra;
 	}
 
-	public void setIdQuestao(Long idQuestao) {
-		this.idQuestao = idQuestao;
+	public void setLetra(Letra letra) {
+		this.letra = letra;
 	}
+
+	
 
 }

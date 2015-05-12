@@ -65,6 +65,7 @@ public class Categoria implements Serializable {
 	@Fetch(FetchMode.SUBSELECT)
 	private List<AreaConhecimento> listaAreasConhecimento;
 
+	@JsonBackReference
 	@OneToMany(mappedBy="pai", fetch=FetchType.EAGER)
 	private List<Categoria> subCategorias;
 

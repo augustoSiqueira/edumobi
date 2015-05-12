@@ -16,6 +16,7 @@ import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.controller.QuestaoController;
 import br.com.edu_mob.controller.SimuladoDescricaoController;
 import br.com.edu_mob.entity.Aluno;
+import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.util.Filter;

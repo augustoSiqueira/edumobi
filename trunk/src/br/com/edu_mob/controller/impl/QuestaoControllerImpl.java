@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,6 +25,7 @@ import br.com.edu_mob.entity.enuns.Letra;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
+import br.com.edu_mob.services.AlternativaDTO;
 import br.com.edu_mob.services.QuestaoDTO;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.InicializaApp;
@@ -159,17 +161,18 @@ public class QuestaoControllerImpl implements QuestaoController{
 
 	@Override
 	public List<QuestaoDTO> pesquisarPorFiltroDTO(Filter filtro) throws RNException {
+		List<Questao> listaQuestoes = null;
 		List<QuestaoDTO> listaQuestoesDTO = null;
+		listaQuestoesDTO = new ArrayList<QuestaoDTO>();
 		try {
-			listaQuestoesDTO = this.questaoDAO.pesquisarPorFiltroDTO(filtro);
-			if((listaQuestoesDTO != null) && !listaQuestoesDTO.isEmpty()) {
-				Filter filtroAlternativa = new Filter();
-				for (QuestaoDTO questaoDTO : listaQuestoesDTO) {
-					filtroAlternativa.put("idQuestao", questaoDTO.getId().toString());
-					questaoDTO.setListaAlternativasDTO(this.alternativaDAO.pesquisarPorFiltroDTO(filtroAlternativa));
+			listaQuestoes = this.questaoDAO.pesquisarPorFiltroDTO(filtro);
+				for (Questao q : listaQuestoes) {
+					QuestaoDTO questao = new QuestaoDTO(q.getId(), q.getEnunciado(), q.getObservacao(), q.getCaminhoImagem(), q.getAreaConhecimento().getId(),q.getDataAtualizacao());  
+					if(q.getListaAlternativas()!= null && !q.getListaAlternativas().isEmpty()){
+						questao.setListaAlternativasDTO(q.getListaAlternativas());
+					}
+					listaQuestoesDTO.add(questao);
 				}
-			}
-
 		} catch (DAOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());

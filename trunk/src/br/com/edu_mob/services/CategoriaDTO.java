@@ -15,8 +15,6 @@ public class CategoriaDTO implements Serializable {
 
 	private Long idPai;
 
-	private Integer qtdQuestoes;
-
 	private String titulo;
 
 	private String descricao;
@@ -29,14 +27,13 @@ public class CategoriaDTO implements Serializable {
 		super();
 	}
 
-	public CategoriaDTO(Long id, String nome, boolean ativo, Long idPai, Integer qtdQuestoes, String titulo,
+	public CategoriaDTO(Long id, String nome, boolean ativo, Long idPai, String titulo,
 			String descricao, boolean curso, Date dataAtualizacao) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.ativo = ativo;
 		this.idPai = idPai;
-		this.qtdQuestoes = qtdQuestoes;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.curso = curso;
@@ -73,14 +70,6 @@ public class CategoriaDTO implements Serializable {
 
 	public void setIdPai(Long idPai) {
 		this.idPai = idPai;
-	}
-
-	public Integer getQtdQuestoes() {
-		return this.qtdQuestoes;
-	}
-
-	public void setQtdQuestoes(Integer qtdQuestoes) {
-		this.qtdQuestoes = qtdQuestoes;
 	}
 
 	public String getTitulo() {

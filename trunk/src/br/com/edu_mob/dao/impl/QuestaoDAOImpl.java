@@ -225,18 +225,18 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 	}
 
 	@Override
-	public List<QuestaoDTO> pesquisarPorFiltroDTO(Filter filtro) throws DAOException {
-		List<QuestaoDTO> listaQuestoesDTO = null;
+	public List<Questao> pesquisarPorFiltroDTO(Filter filtro) throws DAOException {
+		List<Questao> listaQuestoesDTO = null;
 		StringBuilder sb = new StringBuilder();
 		String idCategoria = (String) filtro.get("idCategoria");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		try {
-			sb.append("select new br.com.edu_mob.services.QuestaoDTO(q.id, q.enunciado, q.observacao, q.caminhoImagem, q.areaConhecimento.id, ");
-			sb.append(" q.dataAtualizacao) from Questao q where q.dataAtualizacao >= :dataAtualizacao and q.areaConhecimento.categoria.id = " + Long.parseLong(idCategoria) + " ");
-			listaQuestoesDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<QuestaoDTO>>() {
+			sb.append("select q ");
+			sb.append("from Questao q where q.dataAtualizacao >= :dataAtualizacao and q.areaConhecimento.categoria.id = " + Long.parseLong(idCategoria) + " ");
+			listaQuestoesDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<Questao>>() {
 				@SuppressWarnings("unchecked")
 				@Override
-				public List<QuestaoDTO> doInHibernate(Session session) throws HibernateException {
+				public List<Questao> doInHibernate(Session session) throws HibernateException {
 					Query query = session.createQuery(sb.toString());
 					query.setParameter("dataAtualizacao", dataAtualizacao);
 					return query.list();

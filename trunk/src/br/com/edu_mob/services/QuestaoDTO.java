@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import br.com.edu_mob.entity.Alternativa;
+
 public class QuestaoDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -20,7 +22,7 @@ public class QuestaoDTO implements Serializable {
 
 	private Date dataAtualizacao;
 
-	private List<AlternativaDTO> listaAlternativasDTO;
+	private List<Alternativa> listaAlternativasDTO;
 
 	public QuestaoDTO() {
 		super();
@@ -85,11 +87,11 @@ public class QuestaoDTO implements Serializable {
 		this.dataAtualizacao = dataAtualizacao;
 	}
 
-	public List<AlternativaDTO> getListaAlternativasDTO() {
+	public List<Alternativa> getListaAlternativasDTO() {
 		return this.listaAlternativasDTO;
 	}
 
-	public void setListaAlternativasDTO(List<AlternativaDTO> listaAlternativasDTO) {
+	public void setListaAlternativasDTO(List<Alternativa> listaAlternativasDTO) {
 		this.listaAlternativasDTO = listaAlternativasDTO;
 	}
 
