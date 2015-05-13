@@ -29,7 +29,7 @@
 									paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 									{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" >
 									<p:column headerText="#{msg.resultado_simulado_label_qtd_questoes}" style="text-align:center">
-										#{resultadoSimulado.qtdQuestoes}
+										#{resultadoSimulado.qtdAcertos + resultadoSimulado.qtdErros}
 									</p:column>	
 									<p:column headerText="#{msg.resultado_simulado_label_qtd_acertos}" style="text-align:center">
 										#{resultadoSimulado.qtdAcertos}
