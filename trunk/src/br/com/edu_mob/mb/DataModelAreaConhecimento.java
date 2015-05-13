@@ -16,8 +16,10 @@ import org.springframework.web.jsf.FacesContextUtils;
 
 import br.com.edu_mob.controller.AreaConhecimentoController;
 import br.com.edu_mob.entity.AreaConhecimento;
+import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.util.Filter;
+import br.com.edu_mob.util.UtilSession;
 
 @ManagedBean
 @ViewScoped
@@ -54,6 +56,7 @@ public class DataModelAreaConhecimento extends LazyDataModel<AreaConhecimento>{
 		this.areaConhecimentoController = webAppContext.getBean("areaConhecimentoController", AreaConhecimentoController.class);
 		Filter filtro = new Filter();
 		try {
+			filtro.put("idCategoria", ((Categoria) UtilSession.getHttpSessionObject("categoriaSelecionada")).getId().toString());
 			filtro.putAll(filters);
 			this.listaAreaConhecimento = this.areaConhecimentoController.pesquisarPorFiltroPaginada(filtro, first, pageSize);
 			this.setRowCount(this.areaConhecimentoController.pesquisarPorFiltroCount(filtro));

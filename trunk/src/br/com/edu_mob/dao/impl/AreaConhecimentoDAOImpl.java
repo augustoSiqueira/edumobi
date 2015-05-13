@@ -103,10 +103,16 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 		List<AreaConhecimento> listaAreaConhecimento = null;
 		String descricao = filtro.getAsString("descricao");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
+		String categoria = filtro.getAsString("idCategoria");
+		
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(AreaConhecimento.class);
 			if ((descricao != null) && !descricao.isEmpty()) {
 				detachedCriteria.add(Restrictions.ilike("descricao", descricao, MatchMode.ANYWHERE));
+			}
+			
+			if((categoria != null) && !categoria.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("categoria.id", Long.parseLong(categoria)));
 			}
 
 			if(dataAtualizacao != null) {
