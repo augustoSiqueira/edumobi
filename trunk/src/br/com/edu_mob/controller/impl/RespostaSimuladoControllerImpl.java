@@ -88,7 +88,6 @@ public class RespostaSimuladoControllerImpl implements RespostaSimuladoControlle
 				}
 				resultadoSimulado.setQtdAcertos(qtdCorretas);
 				resultadoSimulado.setQtdErros(listaQuestoes.size() - qtdCorretas);
-				resultadoSimulado.setQtdQuestoes(listaQuestoes.size());
 				this.resultadoSimuladoDAO.save(resultadoSimulado);
 			}
 		}  catch (DataAccessException e) {

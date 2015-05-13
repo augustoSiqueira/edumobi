@@ -34,9 +34,6 @@ public class ResultadoSimulado implements Serializable {
 	@Column(name="data_hora_fim")
 	private Date dataHoraFim;
 
-	@Column(name="qtd_questoes")
-	private Integer qtdQuestoes;
-
 	@Column(name="qtd_acertos")
 	private Integer qtdAcertos;
 
@@ -55,12 +52,11 @@ public class ResultadoSimulado implements Serializable {
 		super();
 	}
 
-	public ResultadoSimulado(Date dataHoraInicio, Date dataHoraFim, Integer qtdQuestoes, Integer qtdAcertos,
+	public ResultadoSimulado(Date dataHoraInicio, Date dataHoraFim, Integer qtdAcertos,
 			Integer qtdErros, Usuario usuario, Simulado simulado) {
 		super();
 		this.dataHoraInicio = dataHoraInicio;
 		this.dataHoraFim = dataHoraFim;
-		this.qtdQuestoes = qtdQuestoes;
 		this.qtdAcertos = qtdAcertos;
 		this.qtdErros = qtdErros;
 		this.usuario = usuario;
@@ -105,14 +101,6 @@ public class ResultadoSimulado implements Serializable {
 
 	public void setSimulado(Simulado simulado) {
 		this.simulado = simulado;
-	}
-
-	public Integer getQtdQuestoes() {
-		return this.qtdQuestoes;
-	}
-
-	public void setQtdQuestoes(Integer qtdQuestoes) {
-		this.qtdQuestoes = qtdQuestoes;
 	}
 
 	public Integer getQtdAcertos() {
