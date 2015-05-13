@@ -38,8 +38,7 @@
 			<p:dataTable id="tabelaQuestoes" value="#{respostaSimuladoBean.listaQuestoes}"
 					var="questao" rows="1" paginator="true" emptyMessage="#{msg.app_label_nenhum_registro_encontrado}"
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
-									{NextPageLink} {LastPageLink}"
-					rowsPerPageTemplate="5, 10, 15" lazy="true">
+									{NextPageLink} {LastPageLink}" lazy="true">
 					<p:column>
 						<p:dataTable id="tabelaAlternativas" selectionMode="single" selection="#{respostaSimuladoBean.alternativa}" 
 							rowKey="#{alternativa.id}" value="#{questao.listaAlternativas}" var="alternativa" style="border:none !important">
@@ -69,7 +68,7 @@
 			    		</p:dataTable>
 		    		</p:column>
 				</p:dataTable>
-				<p:commandButton id="btnQuestao" action="#{respostaSimuladoBean.finalizarSimulado}" style="font-weight:bold;font-size:14px;color:green" 
+				<p:commandButton id="btnQuestao" action="#{respostaSimuladoBean.finalizarSimulado}"	style="font-weight:bold;font-size:14px;color:green" 
 					process="@this" ajax="false" value="#{msg.resposta_simulado_label_finalizar_simulado}" update=":listaQuestoes:tabelaQuestoes">
 				</p:commandButton>
 		</h:form>
