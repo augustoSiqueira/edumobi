@@ -11,11 +11,13 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.jsf.FacesContextUtils;
 
 import br.com.edu_mob.controller.ResultadoSimuladoController;
 import br.com.edu_mob.entity.ResultadoSimulado;
+import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.util.Filter;
 
@@ -51,8 +53,10 @@ public class DataModelResultadoSimulado extends LazyDataModel<ResultadoSimulado>
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		WebApplicationContext webAppContext = FacesContextUtils.getRequiredWebApplicationContext(facesContext);
 		this.resultadoSimuladoController = webAppContext.getBean("resultadoSimuladoController", ResultadoSimuladoController.class);
+		Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Filter filtro = new Filter();
-		filtro.put("idSimulado", 	facesContext.getExternalContext().getSessionMap().get("idSimulado").toString());
+		filtro.put("idUsuario", usuario.getId().toString());
+		filtro.put("idSimulado", facesContext.getExternalContext().getSessionMap().get("idSimulado").toString());
 		try {
 			filtro.putAll(filters);
 			this.listaResultadosSimulados = this.resultadoSimuladoController.pesquisarPorFiltroPaginada(filtro, first, pageSize);

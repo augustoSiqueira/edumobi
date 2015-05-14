@@ -51,6 +51,10 @@ public class RespostaSimulado implements Serializable {
 	@JoinColumn(name="id_simulado")
 	private Simulado simulado;
 
+	@ManyToOne
+	@JoinColumn(name="id_resultado_simulado")
+	private ResultadoSimulado resultadoSimulado;
+
 	@Column(nullable=false)
 	private boolean correta;
 
@@ -138,6 +142,14 @@ public class RespostaSimulado implements Serializable {
 
 	public void setSimulado(Simulado simulado) {
 		this.simulado = simulado;
+	}
+
+	public ResultadoSimulado getResultadoSimulado() {
+		return this.resultadoSimulado;
+	}
+
+	public void setResultadoSimulado(ResultadoSimulado resultadoSimulado) {
+		this.resultadoSimulado = resultadoSimulado;
 	}
 
 	@Override

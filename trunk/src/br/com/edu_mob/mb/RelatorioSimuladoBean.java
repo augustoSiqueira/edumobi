@@ -19,11 +19,13 @@ import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.HorizontalBarChartModel;
 import org.primefaces.model.chart.LineChartModel;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.edu_mob.controller.ResultadoSimuladoController;
 import br.com.edu_mob.controller.SimuladoDescricaoController;
 import br.com.edu_mob.entity.ResultadoSimulado;
 import br.com.edu_mob.entity.Simulado;
+import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.util.Filter;
@@ -61,6 +63,8 @@ public class RelatorioSimuladoBean extends GenericBean implements Serializable {
 		try {
 			this.simulado = this.simuladoDescricaoController.pesquisarPorId(Long.parseLong(context.getExternalContext().getRequestParameterMap().get("idSimulado").toString()));
 			filtro.put("idSimulado", this.simulado.getId().toString());
+			Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			filtro.put("idUsuario", usuario.getId().toString());
 			this.listaResultadosSimulado = this.resultadoSimuladoController.pesquisarPorFiltro(filtro);
 		}  catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);

@@ -65,6 +65,7 @@ public class RespostaSimuladoControllerImpl implements RespostaSimuladoControlle
 		int qtdCorretas = 0;
 		try {
 			if((listaQuestoes != null) && !listaQuestoes.isEmpty()) {
+				this.resultadoSimuladoDAO.save(resultadoSimulado);
 				for (Questao questao : listaQuestoes) {
 					RespostaSimulado respostaSimulado = new RespostaSimulado();
 					respostaSimulado.setCategoria(questao.getAreaConhecimento().getCategoria());
@@ -84,11 +85,12 @@ public class RespostaSimuladoControllerImpl implements RespostaSimuladoControlle
 						qtdCorretas++;
 					}
 					respostaSimulado.setSimulado(simulado);
+					respostaSimulado.setResultadoSimulado(resultadoSimulado);
 					this.incluir(respostaSimulado);
 				}
 				resultadoSimulado.setQtdAcertos(qtdCorretas);
 				resultadoSimulado.setQtdErros(listaQuestoes.size() - qtdCorretas);
-				this.resultadoSimuladoDAO.save(resultadoSimulado);
+				this.resultadoSimuladoDAO.update(resultadoSimulado);
 			}
 		}  catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);

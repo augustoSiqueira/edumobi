@@ -12,10 +12,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.ItemSelectEvent;
-import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
-import br.com.edu_mob.controller.RespostaSimuladoController;
 import br.com.edu_mob.controller.ResultadoSimuladoController;
 import br.com.edu_mob.entity.RespostaSimulado;
 import br.com.edu_mob.entity.ResultadoSimulado;
@@ -31,8 +29,6 @@ public class GabaritoSimuladoBean extends GenericBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private RespostaSimuladoController respostaSimuladoController;
-
 	private ResultadoSimuladoController resultadoSimuladoController;
 
 	private List<RespostaSimulado> listaRespostaSimulado = null;
@@ -41,15 +37,10 @@ public class GabaritoSimuladoBean extends GenericBean implements Serializable {
 
 	private PieChartModel pieChartModel;
 
-	private LineChartModel lineChartModel;
-
 	@PostConstruct
 	public void init() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		this.pieChartModel = new PieChartModel();
-		this.lineChartModel = new LineChartModel();
-		//Filter filtro = new Filter();
-		this.respostaSimuladoController = (RespostaSimuladoController) this.getBean("respostaSimuladoController", RespostaSimuladoController.class);
 		this.resultadoSimuladoController = (ResultadoSimuladoController) this.getBean("resultadoSimuladoController", ResultadoSimuladoController.class);
 		try {
 			this.resultadoSimulado = this.resultadoSimuladoController.pesquisarPorId(Long.parseLong(context.getExternalContext().getRequestParameterMap().get("idResultadoSimulado").toString()));
@@ -61,7 +52,7 @@ public class GabaritoSimuladoBean extends GenericBean implements Serializable {
 	}
 
 	public void createPieModel() {
-		this.pieChartModel.setTitle("Análise Estudo");
+		this.pieChartModel.setTitle("Análise Simulado");
 		this.pieChartModel.setLegendPosition("e");
 		this.pieChartModel.set("ACERTOS", this.resultadoSimulado.getQtdAcertos());
 		this.pieChartModel.set("ERROS", this.resultadoSimulado.getQtdErros());

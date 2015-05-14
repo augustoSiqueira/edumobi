@@ -45,7 +45,7 @@ public class ResultadoSimuladoDAOImpl extends GenericDAOImpl implements Resultad
 			if((idSimulado != null) && !idSimulado.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("simulado.id", Long.parseLong(idSimulado)));
 			}
-			detachedCriteria.addOrder(Order.asc("id"));
+			detachedCriteria.addOrder(Order.desc("id"));
 			listaResultadoSimulado = this.findByCriteria(detachedCriteria);
 		} catch(DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -91,6 +91,7 @@ public class ResultadoSimuladoDAOImpl extends GenericDAOImpl implements Resultad
 			if((idSimulado != null) && !idSimulado.isEmpty()) {
 				detachedCriteria.add(Restrictions.eq("simulado.id", Long.parseLong(idSimulado)));
 			}
+			detachedCriteria.addOrder(Order.desc("id"));
 			listaResultadoSimulado = this.buscarPaginada(detachedCriteria, primeiroReg, paginaSize);
 		} catch(DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
