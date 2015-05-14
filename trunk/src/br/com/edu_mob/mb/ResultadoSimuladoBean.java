@@ -11,8 +11,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import br.com.edu_mob.controller.RespostaSimuladoController;
-import br.com.edu_mob.controller.ResultadoSimuladoController;
 import br.com.edu_mob.controller.SimuladoDescricaoController;
 import br.com.edu_mob.entity.RespostaSimulado;
 import br.com.edu_mob.entity.ResultadoSimulado;
@@ -34,10 +32,6 @@ public class ResultadoSimuladoBean extends GenericBean implements Serializable {
 
 	private List<RespostaSimulado> listaRespostaSimulado;
 
-	private ResultadoSimuladoController resultadoSimuladoController;
-
-	private RespostaSimuladoController respostaSimuladoController;
-
 	private SimuladoDescricaoController simuladoDescricaoController;
 
 	private List<ResultadoSimulado> listaResultadoSimulado;
@@ -49,8 +43,6 @@ public class ResultadoSimuladoBean extends GenericBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		this.resultadoSimuladoController = (ResultadoSimuladoController) this.getBean("resultadoSimuladoController", ResultadoSimuladoController.class);
-		this.respostaSimuladoController = (RespostaSimuladoController) this.getBean("respostaSimuladoController", RespostaSimuladoController.class);
 		this.simuladoDescricaoController = (SimuladoDescricaoController) this.getBean("simuladoDescricaoController", SimuladoDescricaoController.class);
 		try {
 			this.simulado = this.simuladoDescricaoController.pesquisarPorId(Long.parseLong(context.getExternalContext().getRequestParameterMap().get("idSimulado").toString()));
