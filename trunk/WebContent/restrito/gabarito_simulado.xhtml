@@ -34,8 +34,8 @@
 						<h:outputText value="#{respostaSimulado.alternativaSelecionada.letra}" />
 					</p:column>
 					<p:column headerText="Correta" width="10%" style="text-align:center">
-						<h:outputText value="SIM" rendered="#{!respostaSimulado.correta}" />
-						<h:outputText value="NÃO" rendered="#{respostaSimulado.correta}" />
+						<h:outputText value="SIM" rendered="#{respostaSimulado.correta}" />
+						<h:outputText value="NÃO" rendered="#{!respostaSimulado.correta}" />
 					</p:column>
 				</p:dataTable>
 			</h:panelGrid>
