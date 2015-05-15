@@ -41,6 +41,10 @@ public class ResultadoSimulado implements Serializable {
 	@Column(name="data_hora_fim")
 	private Date dataHoraFim;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="tempo_total")
+	private Date tempoTotal;
+
 	@Column(name="qtd_acertos")
 	private Integer qtdAcertos;
 
@@ -96,6 +100,14 @@ public class ResultadoSimulado implements Serializable {
 
 	public void setDataHoraFim(Date dataHoraFim) {
 		this.dataHoraFim = dataHoraFim;
+	}
+
+	public Date getTempoTotal() {
+		return this.tempoTotal;
+	}
+
+	public void setTempoTotal(Date tempoTotal) {
+		this.tempoTotal = tempoTotal;
 	}
 
 	public Usuario getUsuario() {

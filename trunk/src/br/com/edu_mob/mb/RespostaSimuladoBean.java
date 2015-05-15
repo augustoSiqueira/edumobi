@@ -123,6 +123,7 @@ public class RespostaSimuladoBean extends GenericBean implements Serializable {
 		ResultadoSimulado resultadoSimulado = new ResultadoSimulado();
 		resultadoSimulado.setDataHoraInicio(this.dataInicio);
 		resultadoSimulado.setDataHoraFim(new Date());
+		resultadoSimulado.setTempoTotal(Util.calcularDiferencaEntreDatas(resultadoSimulado.getDataHoraInicio(), resultadoSimulado.getDataHoraFim()));
 		resultadoSimulado.setUsuario(usuario);
 		resultadoSimulado.setSimulado(this.simulado);
 		try {

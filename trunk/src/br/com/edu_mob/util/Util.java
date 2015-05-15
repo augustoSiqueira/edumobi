@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -250,6 +251,23 @@ public class Util {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Metodo responsavel por calcular intervalo de tempo entre datas
+	 * @param Date dataInicial
+	 * @param Date dataFinal
+	 * @return Date tempo
+	 */
+
+	public static Date calcularDiferencaEntreDatas(Date dataInicial, Date dataFinal) {
+		Calendar tempoTotal = Calendar.getInstance();
+		long diferenca = dataFinal.getTime() - dataInicial.getTime();
+		tempoTotal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(String.valueOf(((diferenca / (60 * 60 * 100)) % 24))));
+		tempoTotal.set(Calendar.MINUTE, Integer.parseInt(String.valueOf(((diferenca / (60 * 1000)) % 60))));
+		tempoTotal.set(Calendar.SECOND, Integer.parseInt(String.valueOf(((diferenca / 1000) % 60))));
+		tempoTotal.set(Calendar.MILLISECOND, 0);
+		return tempoTotal.getTime();
 	}
 
 }

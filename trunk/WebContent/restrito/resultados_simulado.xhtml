@@ -37,14 +37,14 @@
 									<p:column headerText="#{msg.resultado_simulado_label_qtd_erros}" style="text-align:center">
 										#{resultadoSimulado.qtdErros}
 									</p:column>
-									<p:column headerText="#{msg.resultado_simulado_label_data_hora_inicio}" style="text-align:center">
+									<p:column headerText="Data/Hora Inicio" style="text-align:center">
 										<h:outputText value="#{resultadoSimulado.dataHoraInicio}">
-											<f:convertDateTime pattern="dd/MM/yy HH:MM:ss"/>
+											<f:convertDateTime pattern="dd/MM/yy HH:mm"/>
 										</h:outputText>
 									</p:column>	
-									<p:column headerText="#{msg.resultado_simulado_label_data_hora_fim}" style="text-align:center">
-										<h:outputText value="#{resultadoSimulado.dataHoraFim}">
-											<f:convertDateTime pattern="dd/MM/yy HH:MM:ss"/>
+									<p:column headerText="Duração" style="text-align:center">
+										<h:outputText value="#{resultadoSimulado.tempoTotal}">
+											<f:convertDateTime pattern="HH:mm:ss"/>
 										</h:outputText>
 									</p:column>
 									<p:column headerText="#{msg.app_label_acoes}" style="width: 10%;" >
