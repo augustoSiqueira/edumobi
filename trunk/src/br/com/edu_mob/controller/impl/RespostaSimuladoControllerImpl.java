@@ -1,5 +1,6 @@
 package br.com.edu_mob.controller.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,36 +64,40 @@ public class RespostaSimuladoControllerImpl implements RespostaSimuladoControlle
 	@Override
 	public void salvar(List<Questao> listaQuestoes, Simulado simulado, ResultadoSimulado resultadoSimulado, Usuario usuario) throws RNException {
 		int qtdCorretas = 0;
+		List<RespostaSimulado> listaRespostasSimulado = new ArrayList<RespostaSimulado>();
 		try {
 			if((listaQuestoes != null) && !listaQuestoes.isEmpty()) {
-				this.resultadoSimuladoDAO.save(resultadoSimulado);
-				for (Questao questao : listaQuestoes) {
+				for (int i = 0; i < listaQuestoes.size(); i++) {
 					RespostaSimulado respostaSimulado = new RespostaSimulado();
-					respostaSimulado.setCategoria(questao.getAreaConhecimento().getCategoria());
-					respostaSimulado.setAreaConhecimento(questao.getAreaConhecimento());
-					respostaSimulado.setQuestao(questao);
-					if((questao.getAlternativa() != null) && (questao.getAlternativa().getId() != null)) {
-						respostaSimulado.setAlternativaSelecionada(questao.getAlternativa());
+					respostaSimulado.setCategoria(listaQuestoes.get(i).getAreaConhecimento().getCategoria());
+					respostaSimulado.setAreaConhecimento(listaQuestoes.get(i).getAreaConhecimento());
+					respostaSimulado.setQuestao(listaQuestoes.get(i));
+					if((listaQuestoes.get(i).getAlternativa() != null) && (listaQuestoes.get(i).getAlternativa().getId() != null)) {
+						respostaSimulado.setAlternativaSelecionada(listaQuestoes.get(i).getAlternativa());
 					}
-					respostaSimulado.setAlternativaCorreta(retornarAlternativaCorreta(questao.getListaAlternativas()));
+					respostaSimulado.setAlternativaCorreta(retornarAlternativaCorreta(listaQuestoes.get(i).getListaAlternativas()));
 					respostaSimulado.setUsuario(usuario);
-					if(questao.getCorreta() != null) {
-						respostaSimulado.setCorreta(questao.getCorreta());
+					if(listaQuestoes.get(i).getCorreta() != null) {
+						respostaSimulado.setCorreta(listaQuestoes.get(i).getCorreta());
 					} else {
 						respostaSimulado.setCorreta(Boolean.FALSE);
 					}
-					if((questao.getCorreta() != null) && questao.getCorreta()) {
+					if((listaQuestoes.get(i).getCorreta() != null) && listaQuestoes.get(i).getCorreta()) {
 						qtdCorretas++;
 					}
 					respostaSimulado.setSimulado(simulado);
 					respostaSimulado.setResultadoSimulado(resultadoSimulado);
-					this.incluir(respostaSimulado);
+					listaRespostasSimulado.add(respostaSimulado);
+					listaQuestoes.remove(listaQuestoes.get(i));
 				}
 				resultadoSimulado.setQtdAcertos(qtdCorretas);
 				resultadoSimulado.setQtdErros(listaQuestoes.size() - qtdCorretas);
-				this.resultadoSimuladoDAO.update(resultadoSimulado);
+				this.respostaSimuladoDAO.salvar(listaRespostasSimulado, resultadoSimulado);
 			}
 		}  catch (DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}  catch (DAOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}

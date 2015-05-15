@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.edu_mob.dao.RespostaSimuladoDAO;
 import br.com.edu_mob.entity.RespostaSimulado;
+import br.com.edu_mob.entity.ResultadoSimulado;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.util.Filter;
@@ -28,6 +30,29 @@ public class RespostaSimuladoDAOImpl extends GenericDAOImpl implements RespostaS
 	@Autowired
 	public RespostaSimuladoDAOImpl(SessionFactory factory) {
 		super(factory);
+	}
+
+	@Override
+	public void salvar(List<RespostaSimulado> listaRespostaSimulado, ResultadoSimulado resultadoSimulado) throws DAOException {
+		Session session = this.getHibernateTemplate().getSessionFactory().openSession();
+		try {
+			session.getTransaction().begin();
+			session.save(resultadoSimulado);
+			for (RespostaSimulado respostaSimulado : listaRespostaSimulado) {
+				respostaSimulado.setResultadoSimulado(resultadoSimulado);
+				session.save(respostaSimulado);
+			}
+			session.getTransaction().commit();
+		} catch(DataAccessException e) {
+			session.getTransaction().rollback();
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+
 	}
 
 	@Override
