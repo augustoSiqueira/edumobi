@@ -33,28 +33,28 @@
 					       	<div class="form-group">
 		                        <label for="cpf">#{msg.aluno_label_cpf}*:</label>
 		                        <p:inputMask id="cpf" mask="999.999.999-99" label="#{msg.aluno_label_cpf}" alt="#{msg.aluno_label_cpf}" title="#{msg.aluno_label_cpf}" required="true" 
-		                        	value="#{alunoBean.aluno.cpf}" styleClass="form-control" requiredMessage="#{msg.erro_campo_cpf_vazio}" />
+		                        	value="#{cadastroPrevioAlunoBean.aluno.cpf}" styleClass="form-control" requiredMessage="#{msg.erro_campo_cpf_vazio}" />
 		                    </div>
 		                    <div class="form-group">
 		                        <label for="nome">#{msg.aluno_label_nome}*:</label>
 		                        <p:inputText id="aluno" label="#{msg.aluno_label_nome}" alt="#{msg.aluno_label_nome}" title="#{msg.aluno_label_nome}" required="true" 
-		                        	value="#{alunoBean.aluno.nome}" styleClass="form-control" requiredMessage="#{msg.erro_campo_nome_vazio}" validator="removeEmBranco" validatorMessage="#{msg.erro_campo_nome_vazio}" />
+		                        	value="#{cadastroPrevioAlunoBean.aluno.nome}" styleClass="form-control" requiredMessage="#{msg.erro_campo_nome_vazio}" validator="removeEmBranco" validatorMessage="#{msg.erro_campo_nome_vazio}" />
 		                    </div>
 		                    <div class="form-group">
 		                        <label for="email">#{msg.aluno_label_email}*:</label>
 		                        <p:inputText id="senha" label="#{msg.aluno_label_email}" alt="#{msg.aluno_label_email}" title="#{msg.aluno_label_email}" required="true" 
-		                        	value="#{alunoBean.aluno.email}" styleClass="form-control" requiredMessage="#{msg.erro_campo_email_vazio}" validator="removeEmBranco" validatorMessage="#{msg.erro_campo_email_vazio}"/>
+		                        	value="#{cadastroPrevioAlunoBean.aluno.email}" styleClass="form-control" requiredMessage="#{msg.erro_campo_email_vazio}" validator="removeEmBranco" validatorMessage="#{msg.erro_campo_email_vazio}"/>
 		                    </div>
 		                    <div class="form-group">
 		                    	<h:outputLabel value="#{msg.aluno_label_curso}" for="" /><br/>
-								<h:selectOneMenu value="#{alunoBean.curso}" converter="converterCategoria" required="true" requiredMessage="#{msg.erro_aluno_curso}" class="form-control">
+								<h:selectOneMenu value="#{cadastroPrevioAlunoBean.curso}" converter="converterCategoria" required="true" requiredMessage="#{msg.erro_aluno_curso}" class="form-control">
 									<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
-									<f:selectItems value="#{alunoBean.listaCursos}" var="curso" itemLabel="#{curso.nome}" itemValue="#{curso}" />
+									<f:selectItems value="#{cadastroPrevioAlunoBean.listaCursos}" var="curso" itemLabel="#{curso.nome}" itemValue="#{curso}" />
 								</h:selectOneMenu>
 		                    
 		                    </div>
 		                    
-							<p:commandButton id="btCadastrar" type="submit" action="#{alunoBean.cadastrarPreviamente}" value="#{msg.app_label_cadastrar}" 
+							<p:commandButton id="btCadastrar" type="submit" action="#{cadastroPrevioAlunoBean.cadastrarPreviamente}" value="#{msg.app_label_cadastrar}" 
 								styleClass="btn btn-default pull-right " update=":mensagem :cadastrarAluno"  />
 							
 							

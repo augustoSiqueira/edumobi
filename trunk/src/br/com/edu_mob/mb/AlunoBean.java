@@ -1,7 +1,6 @@
 package br.com.edu_mob.mb;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,11 +17,9 @@ import javax.faces.model.SelectItem;
 import org.primefaces.context.RequestContext;
 
 import br.com.edu_mob.controller.AlunoController;
-import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.controller.MunicipioController;
 import br.com.edu_mob.controller.UFController;
 import br.com.edu_mob.entity.Aluno;
-import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Municipio;
 import br.com.edu_mob.entity.UF;
 import br.com.edu_mob.entity.enuns.Sexo;
@@ -30,7 +27,6 @@ import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.message.SucessMessage;
-import br.com.edu_mob.util.AliasNavigation;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 
@@ -64,34 +60,22 @@ public class AlunoBean extends GenericBean implements Serializable {
 	private UF uf;
 
 	private int aba;
-	
-	private List<Categoria> listaCursos = new ArrayList<Categoria>();
 
-	private Categoria curso = new Categoria();
-	
-	private CategoriaController categoriaController;
-	
 	@PostConstruct
 	public void init() {
 		Filter filtroMunicipio = new Filter();
 		filtroMunicipio.put("idUF", ID_UF);
-		
-		Filter filtroCategoria = new Filter();
-		filtroCategoria.put("ativo", Boolean.TRUE);
-		filtroCategoria.put("curso", Boolean.TRUE);
-		
+
 		this.aluno = new Aluno();
 		this.uf = new UF();
 		this.alunoController = (AlunoController) this.getBean("alunoController", AlunoController.class);
 		this.municipioController = (MunicipioController) this.getBean("municipioController", MunicipioController.class);
 		this.ufController = (UFController) this.getBean("uFController", UFController.class);
-		this.categoriaController = (CategoriaController) this.getBean("categoriaController", CategoriaController.class);
 		this.dataModelAluno = new DataModelAluno();
 		try {
 			this.listaAlunos = this.alunoController.pesquisarPorFiltro(new Filter());
 			this.listaUF = this.ufController.pesquisarPorFiltro(new Filter());
 			this.listaMunicipios = this.municipioController.pesquisarPorFiltro(filtroMunicipio);
-			this.listaCursos = this.categoriaController.pesquisarPorFiltro(filtroCategoria);
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -123,13 +107,6 @@ public class AlunoBean extends GenericBean implements Serializable {
 		}
 	}
 
-	public String cadastrarPreviamente() {
-		if ((this.aluno != null) && (this.aluno.getId() == null)) {
-			this.incluirPreviamente();
-		}
-		return AliasNavigation.PAGINA_CADASTRO_ALUNO;
-	}
-
 	public void limparCampos() {
 		this.aluno = new Aluno();
 		this.uf = new UF();
@@ -139,23 +116,6 @@ public class AlunoBean extends GenericBean implements Serializable {
 		try {
 			this.limparCampos();
 			this.listaAlunos = this.alunoController.pesquisarPorFiltro(new Filter());
-		} catch (RNException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
-		}
-	}
-
-	public void incluirPreviamente() {
-		try {
-			this.aluno.setNome(this.aluno.getNome().trim());
-			this.aluno.setEmail(this.aluno.getEmail().trim());
-			List<Categoria> cursosGratuito = new ArrayList<Categoria>();
-			cursosGratuito.add(curso);
-			this.aluno.setCursos( cursosGratuito);
-			this.alunoController.incluirPreviamente(this.aluno);
-			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.ALUNO.getValor());
-			this.atualizarGrid();
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
@@ -277,29 +237,11 @@ public class AlunoBean extends GenericBean implements Serializable {
 	}
 
 	public int getAba() {
-		return aba;
+		return this.aba;
 	}
 
 	public void setAba(int aba) {
 		this.aba = aba;
 	}
-
-	public List<Categoria> getListaCursos() {
-		return listaCursos;
-	}
-
-	public void setListaCursos(List<Categoria> listaCursos) {
-		this.listaCursos = listaCursos;
-	}
-
-	public Categoria getCurso() {
-		return curso;
-	}
-
-	public void setCurso(Categoria curso) {
-		this.curso = curso;
-	}
-	
-	
 
 }
