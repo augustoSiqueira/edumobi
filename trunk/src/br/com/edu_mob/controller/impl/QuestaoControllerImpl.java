@@ -72,7 +72,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 		try {
 			questao.setDataAtualizacao(new Date());
 
-			this.questaoDAO.save(this.atribuirLetra(questao));
+			this.questaoDAO.save(questao);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
@@ -129,7 +129,7 @@ public class QuestaoControllerImpl implements QuestaoController{
 	public void alterar(Questao questao) throws RNException {
 		try {
 			questao.setDataAtualizacao(new Date());
-			this.questaoDAO.update(this.atribuirLetra(questao));
+			this.questaoDAO.update(questao);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
