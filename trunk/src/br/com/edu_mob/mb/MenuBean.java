@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import br.com.edu_mob.entity.Aluno;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.util.AliasNavigation;
@@ -20,6 +21,8 @@ public class MenuBean implements Serializable {
 
 	private final static long ID_ALUNO = 2L;
 
+	private boolean alunoLogado;
+	
 	public String pagePrincipal() {
 		return AliasNavigation.PAGINA_PRINCIPAL;
 	}
@@ -88,4 +91,12 @@ public class MenuBean implements Serializable {
 	public String pageRelatorioEstudo() {
 		return AliasNavigation.PAGINA_RELATORIO_ESTUDO;
 	}
+	public boolean isAlunoLogado() {
+		Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(usuario instanceof Aluno)
+			return true;
+		return false;
+	}
+	
+	
 }

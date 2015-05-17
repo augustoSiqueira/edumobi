@@ -16,6 +16,7 @@ import br.com.edu_mob.dao.AreaConhecimentoDAO;
 import br.com.edu_mob.dao.CategoriaDAO;
 import br.com.edu_mob.dao.impl.CategoriaDAOImpl;
 import br.com.edu_mob.entity.Categoria;
+import br.com.edu_mob.entity.model.AreaConhecimentoModel;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
@@ -197,6 +198,19 @@ public class CategoriaControllerImpl implements CategoriaController, Serializabl
 		}
 
 
+	}
+	
+	public List<AreaConhecimentoModel> pesquisarAreaConhecimentoModels(Filter filtro) throws RNException{
+		List<AreaConhecimentoModel> listaAreaConhecimentoModel = null;
+		
+		try {
+			listaAreaConhecimentoModel = areaConhecimentoDAO.pesquisarAreaConhecimentoModels(filtro);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return listaAreaConhecimentoModel;
 	}
 
 }

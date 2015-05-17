@@ -25,7 +25,7 @@
 					</p:link>
 					<p:commandLink onclick="PF('dlg1').show();"
 						rendered="#{cursoBean.cursoVinculado == false and cursoBean.categoria.id != null}"
-						value="Adquira este curso !"  styleClass="menuLink"/>
+						value="Adquira este curso !" styleClass="menuLink" />
 				</p>
 				<div class="clear"></div>
 				<p>
@@ -37,13 +37,15 @@
 				<p:outputPanel rendered="#{cursoBean.cursoVinculado}">
 					<div class="col-md-8">
 						<p>
-							<p:dataList value="#{cursoBean.categoria.listaAreasConhecimento}"
+							<p:dataList value="#{cursoBean.listaAreaConhecimento}"
 								var="areaConhecimento">
 								<f:facet name="header">
 						            #{msg.curso_label_label_areas_conhecimento}
 						        </f:facet>
 								<p:link outcome="resposta_estudo.jsf?faces-redirect=true"
-									value="#{areaConhecimento.descricao}" style="font-size:15px !important;margin:5px !important;">
+									value="#{areaConhecimento.descricao}"
+									style="font-size:15px !important;margin:5px !important;"
+									rendered="#{areaConhecimento.qntQuestoes > 0}">
 									<f:param name="idAreaConhecimento"
 										value="#{areaConhecimento.id}" />
 								</p:link>
@@ -77,7 +79,7 @@
 				<p:outputPanel rendered="#{cursoBean.cursoVinculado == false}">
 					<div class="col-md-12">
 						<p>
-							<p:dataList value="#{cursoBean.categoria.listaAreasConhecimento}"
+							<p:dataList value="#{cursoBean.listaAreaConhecimento}"
 								var="areaConhecimento" type="definition" styleClass="menuLink">
 								<f:facet name="header">
 						            #{msg.curso_label_label_areas_conhecimento}
@@ -137,25 +139,35 @@
 			</div>
 		</div>
 		<p:dialog header="#{cursoBean.categoria.nome}" widgetVar="dlg1"
-			modal="true" width="50%" miheight="500px" closable="false" >
+			modal="true" width="50%" miheight="500px" closable="false">
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<h3 align="center">Atenção</h3>
-					<p align="justify">O modulo de efetuar compra de curso encontra-se em desenvolvimento. Mas como a EDUMOBI é parceira da UNIBRATEC estaremos disponibilizando este curso inteiramente grátis, para que seus alunos possam aproveitar e estudar da melhor forma possível.</p>
-					<hr/>
+					<p align="justify">O modulo de efetuar compra de curso
+						encontra-se em desenvolvimento. Mas como a EDUMOBI é parceira da
+						UNIBRATEC estaremos disponibilizando este curso inteiramente
+						grátis, para que seus alunos possam aproveitar e estudar da melhor
+						forma possível.</p>
+					<hr />
 					<div style="float: right;">
-						<p:commandLink value="Comprar" action="#{cursoBean.comprarCurso}" styleClass="btn btn-success" style="margin-right:5px;" /> 
-						<p:commandLink value="Cancelar" action="#{cursoBean.cancelarCompra}" styleClass="btn btn-default" />
+						<p:commandLink value="Comprar" action="#{cursoBean.comprarCurso}"
+							styleClass="btn btn-success" style="margin-right:5px;" />
+						<p:commandLink value="Cancelar"
+							action="#{cursoBean.cancelarCompra}" styleClass="btn btn-default" />
 					</div>
 				</div>
 			</div>
 		</p:dialog>
 		<p:dialog header="#{cursoBean.categoria.nome}" widgetVar="dlg2"
 			modal="true" width="50%" miheight="500px" closable="false">
-			<p:outputLabel value=" Obrigado por adquirir o curso de #{cursoBean.categoria.nome}" style="size:18px;"/>
-			<hr/>
-			<p:commandLink value="Confirmar" action="#{cursoBean.comprarCursoConfirmado}" styleClass="btn btn-success"  style="float: right;"></p:commandLink>
-			</p:dialog>
+			<p:outputLabel
+				value=" Obrigado por adquirir o curso de #{cursoBean.categoria.nome}"
+				style="size:18px;" />
+			<hr />
+			<p:commandLink value="Confirmar"
+				action="#{cursoBean.comprarCursoConfirmado}"
+				styleClass="btn btn-success" style="float: right;"></p:commandLink>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>

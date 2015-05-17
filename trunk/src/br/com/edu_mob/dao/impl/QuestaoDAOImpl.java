@@ -206,10 +206,17 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 	public int pesquisarQtdTotalQuestoes(Filter filtro) throws DAOException {
 		int qtdTotalCategoria = 0;
 		String idCategoria = filtro.getAsString("idCategoria");
+		String idAreaConhecimento = filtro.getAsString("idAreaConhecimento");
 		StringBuilder sb = new StringBuilder();
 		try {
 			sb.append("select count(q.id) from Questao q ");
-			sb.append(" where q.areaConhecimento.categoria.id = " + Long.parseLong(idCategoria) + " ");
+			
+			if(idCategoria != null)
+				sb.append(" where q.areaConhecimento.categoria.id = " + Long.parseLong(idCategoria) + " ");
+			
+			if(idAreaConhecimento != null)
+				sb.append(" where q.areaConhecimento.id = " + Long.parseLong(idAreaConhecimento) + " ");
+			
 			qtdTotalCategoria = this.getHibernateTemplate().execute(new HibernateCallback<Integer>() {
 				@Override
 				public Integer doInHibernate(Session session) throws HibernateException {

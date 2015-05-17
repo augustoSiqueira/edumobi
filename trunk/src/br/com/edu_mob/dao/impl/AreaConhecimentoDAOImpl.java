@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.edu_mob.dao.AreaConhecimentoDAO;
 import br.com.edu_mob.entity.AreaConhecimento;
+import br.com.edu_mob.entity.model.AreaConhecimentoModel;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.services.AreaConhecimentoDTO;
@@ -192,5 +193,33 @@ public class AreaConhecimentoDAOImpl extends GenericDAOImpl implements AreaConhe
 		lista.remove(areaConhecimento);
 		return lista;
 	}
+	
+	@Override
+	public List<AreaConhecimentoModel> pesquisarAreaConhecimentoModels(Filter filtro) throws DAOException{
+		List<AreaConhecimentoModel> listaAreaConhecimentoModel = null;
+		StringBuilder sb = new StringBuilder();
+		String idCategoria = filtro.getAsString("idCategoria");
+		try{
+		sb.append("select new br.com.edu_mob.entity.model.AreaConhecimentoModel(q.areaConhecimento.id, q.areaConhecimento.descricao, cast(COUNT(q.areaConhecimento.id) as int)  ) ");
+		sb.append("from Questao q ");
+		sb.append("where "); 
+		sb.append("q.areaConhecimento.categoria.id = " + Long.parseLong(idCategoria) + " "); 
+		sb.append("group by q.areaConhecimento.id, q.areaConhecimento.descricao"); 
+		
+		listaAreaConhecimentoModel = this.getHibernateTemplate().execute(new HibernateCallback<List<AreaConhecimentoModel>>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public List<AreaConhecimentoModel> doInHibernate(Session session) throws HibernateException {
+				Query query = session.createQuery(sb.toString());
+				return query.list();
+			}
+		});
+	} catch(DataAccessException e) {
+		logger.log(Level.SEVERE, e.getMessage(), e);
+		throw new DAOException(ErrorMessage.DAO.getChave());
+	}		
+		return listaAreaConhecimentoModel;
+	}
+
 
 }

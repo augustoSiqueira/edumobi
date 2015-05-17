@@ -1,6 +1,8 @@
 package br.com.edu_mob.mb;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +27,7 @@ import br.com.edu_mob.controller.RespostaEstudoController;
 import br.com.edu_mob.entity.Aluno;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Usuario;
+import br.com.edu_mob.entity.model.AreaConhecimentoModel;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
@@ -67,6 +70,7 @@ public class CursoBean extends GenericBean implements Serializable{
 	
 	private AlunoController alunoController;
 	
+	private List<AreaConhecimentoModel> listaAreaConhecimento;
 	@ManagedProperty(value = "#{menuBean}")
 	private MenuBean menuBean;
 	
@@ -98,6 +102,11 @@ public class CursoBean extends GenericBean implements Serializable{
 				this.qtdErradas = this.respostaEstudoController.pesquisarPorFiltroCountHQLRelatorio(filtroResposta);
 				this.createPieModel();
 				context.getExternalContext().getSessionMap().remove("cursoId");
+				
+				Filter filtroAreaModel = new Filter();
+				filtroAreaModel.put("idCategoria", this.categoria.getId().toString());
+				listaAreaConhecimento =  categoriaController.pesquisarAreaConhecimentoModels(filtroAreaModel);
+				
 			}
 		}catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -224,6 +233,15 @@ public class CursoBean extends GenericBean implements Serializable{
 
 	public void setMenuBean(MenuBean menuBean) {
 		this.menuBean = menuBean;
+	}
+
+	public List<AreaConhecimentoModel> getListaAreaConhecimento() {
+		return listaAreaConhecimento;
+	}
+
+	public void setListaAreaConhecimento(
+			List<AreaConhecimentoModel> listaAreaConhecimento) {
+		this.listaAreaConhecimento = listaAreaConhecimento;
 	}
 	
 	
