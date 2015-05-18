@@ -63,6 +63,7 @@ public class SimuladoDescricaoControllerImpl implements SimuladoDescricaoControl
 	@Override
 	public void incluir(Simulado simulado) throws RNException {
 		try {
+			validarQntQuestao(simulado);
 			this.simuladoDescricaoDAO.save(simulado);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -74,6 +75,7 @@ public class SimuladoDescricaoControllerImpl implements SimuladoDescricaoControl
 	@Override
 	public void alterar(Simulado simulado) throws RNException {
 		try {
+			validarQntQuestao(simulado);
 			this.simuladoDescricaoDAO.update(simulado);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -85,7 +87,7 @@ public class SimuladoDescricaoControllerImpl implements SimuladoDescricaoControl
 	//valida se existe um outro simulado com o mesmo titulo e mesma categoria
 	//pode ter titulos iguais, contanto que a categoria seja diferente
 	//Esta incompleta.
-	private void validarTitulo(Simulado simulado){
+	private void validarTitulo(Simulado simulado) throws RNException{
 		List<Simulado> listaSimulado = null;
 		Filter filtro = new Filter();
 		filtro.put("", simulado.getTitulo());
@@ -97,10 +99,29 @@ public class SimuladoDescricaoControllerImpl implements SimuladoDescricaoControl
 
 			}
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DAO
+					.getChave()));
 		}
 
+	}
+	
+	private void validarQntQuestao(Simulado simulado) throws RNException{
+		
+		try {
+			if(simulado.getQntQuestao() <=0){
+				throw new RNException(ErrorMessage.CAMPO_QNT_QUESTAO_MAIOR_ZERO.getChave());
+			}
+			
+			int qntCadastrada = simuladoDescricaoDAO.qntQuestaoCadastradas(simulado.getAreasConhecimento());
+			if(simulado.getQntQuestao() > qntCadastrada ){
+				throw new RNException(ErrorMessage.CAMPO_QNT_QUESTAO_MAX.getChave());
+			}			
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(MensagemUtil.getMensagem(ErrorMessage.DAO
+					.getChave()));
+		}
 	}
 
 	@Override

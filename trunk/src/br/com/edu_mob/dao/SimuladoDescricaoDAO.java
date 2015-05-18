@@ -2,6 +2,7 @@ package br.com.edu_mob.dao;
 
 import java.util.List;
 
+import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.services.SimuladoDTO;
@@ -16,5 +17,5 @@ public interface SimuladoDescricaoDAO  extends GenericDAO, PesquisaDAO<Simulado>
 	 * @throws DAOException
 	 */
 	List<SimuladoDTO> pesquisarPorFiltroDTO(Filter filtro) throws DAOException;
-
+	 int qntQuestaoCadastradas(List<AreaConhecimento> areasConhecimento) throws DAOException;
 }

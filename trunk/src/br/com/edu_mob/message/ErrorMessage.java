@@ -37,7 +37,9 @@ public enum ErrorMessage {
 	RUNTIMEEXCEPTION("erro_tempo_excedido"),
 	ERRO_GERAR_LIVRO_WEB("erro_obter_json_livro"),
 	ERRO_SALVAR_IMAGEM_WEB("erro_salvar_imagem_web"),
-	ERRO_CAMPO_PESQUISA_VAZIO("erro_campo_pesquisa_obrigatorio")
+	ERRO_CAMPO_PESQUISA_VAZIO("erro_campo_pesquisa_obrigatorio"),
+	CAMPO_QNT_QUESTAO_MAIOR_ZERO("erro_campo_qnt_questao_maior_zero"),
+	CAMPO_QNT_QUESTAO_MAX("erro_campo_qnt_questao_max")
 	;
 
 	private ErrorMessage(String chave) {

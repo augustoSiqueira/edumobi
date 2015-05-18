@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.edu_mob.dao.SimuladoDescricaoDAO;
+import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.message.ErrorMessage;
@@ -32,12 +33,12 @@ import br.com.edu_mob.util.Filter;
 @Repository("simuladoDescricaoDAO")
 @Transactional(propagation = Propagation.REQUIRED)
 public class SimuladoDescricaoDAOImpl extends GenericDAOImpl implements
-SimuladoDescricaoDAO, Serializable {
+		SimuladoDescricaoDAO, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger logger = Logger.getLogger(SimuladoDescricaoDAOImpl.class
-			.getName());
+	private static final Logger logger = Logger
+			.getLogger(SimuladoDescricaoDAOImpl.class.getName());
 
 	@Autowired
 	public SimuladoDescricaoDAOImpl(SessionFactory factory) {
@@ -45,8 +46,7 @@ SimuladoDescricaoDAO, Serializable {
 	}
 
 	@Override
-	public List<Simulado> pesquisarPorFiltro(Filter filtro)
-			throws DAOException {
+	public List<Simulado> pesquisarPorFiltro(Filter filtro) throws DAOException {
 		String titulo = filtro.getAsString("titulo");
 		String descricao = filtro.getAsString("descricao");
 		Date tempo = (Date) filtro.get("tempo");
@@ -69,10 +69,10 @@ SimuladoDescricaoDAO, Serializable {
 				detachedCriteria.add(Restrictions.eq("tempo", tempo));
 			}
 
-			if((categoria != null) && !categoria.isEmpty()) {
-				detachedCriteria.add(Restrictions.eq("categoria.id", Long.parseLong(categoria)));
+			if ((categoria != null) && !categoria.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("categoria.id",
+						Long.parseLong(categoria)));
 			}
-
 
 			detachedCriteria.addOrder(Order.asc("titulo"));
 			listaSimulado = this.findByCriteria(detachedCriteria);
@@ -107,8 +107,9 @@ SimuladoDescricaoDAO, Serializable {
 				detachedCriteria.add(Restrictions.eq("tempo", tempo));
 			}
 
-			if((categoria != null) && !categoria.isEmpty()) {
-				detachedCriteria.add(Restrictions.eq("categoria.id", Long.parseLong(categoria)));
+			if ((categoria != null) && !categoria.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("categoria.id",
+						Long.parseLong(categoria)));
 			}
 
 			retorno = this.getDataCount(detachedCriteria);
@@ -144,13 +145,14 @@ SimuladoDescricaoDAO, Serializable {
 				detachedCriteria.add(Restrictions.eq("tempo", tempo));
 			}
 
-			if((categoria != null) && !categoria.isEmpty()) {
-				detachedCriteria.add(Restrictions.eq("categoria.id", Long.parseLong(categoria)));
+			if ((categoria != null) && !categoria.isEmpty()) {
+				detachedCriteria.add(Restrictions.eq("categoria.id",
+						Long.parseLong(categoria)));
 			}
 
-
 			detachedCriteria.addOrder(Order.asc("titulo"));
-			listaSimulado = this.buscarPaginada(detachedCriteria, primeiroReg, paginaSize);
+			listaSimulado = this.buscarPaginada(detachedCriteria, primeiroReg,
+					paginaSize);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new DAOException(ErrorMessage.DAO.getChave());
@@ -163,9 +165,12 @@ SimuladoDescricaoDAO, Serializable {
 			throws DAOException {
 		boolean existe = false;
 		try {
-			if (((campo != null) && !campo.isEmpty()) && ((valor != null) && !valor.isEmpty())) {
-				DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Simulado.class);
-				detachedCriteria.add(Restrictions.eq(campo, valor).ignoreCase());
+			if (((campo != null) && !campo.isEmpty())
+					&& ((valor != null) && !valor.isEmpty())) {
+				DetachedCriteria detachedCriteria = DetachedCriteria
+						.forClass(Simulado.class);
+				detachedCriteria
+						.add(Restrictions.eq(campo, valor).ignoreCase());
 				if (id != null) {
 					detachedCriteria.add(Restrictions.ne("id", id));
 				}
@@ -179,37 +184,83 @@ SimuladoDescricaoDAO, Serializable {
 	}
 
 	@Override
-	public List<SimuladoDTO> pesquisarPorFiltroDTO(Filter filtro) throws DAOException {
+	public List<SimuladoDTO> pesquisarPorFiltroDTO(Filter filtro)
+			throws DAOException {
 		List<SimuladoDTO> listaSimuladoDTO = new ArrayList<SimuladoDTO>();
 		List<Simulado> listaSimulado = null;
 		StringBuilder sb = new StringBuilder();
 		String idCategoria = filtro.getAsString("idCategoria");
 		Date dataAtualizacao = (Date) filtro.get("dataAtualizacao");
 		try {
-			sb.append("select s from Simulado s where s.dataAtualizacao >= :dataAtualizacao and s.categoria.id = " + Long.parseLong(idCategoria) + " ");
-			listaSimulado = this.getHibernateTemplate().execute(new HibernateCallback<List<Simulado>>() {
-				@SuppressWarnings("unchecked")
-				@Override
-				public List<Simulado> doInHibernate(Session session) throws HibernateException {
-					Query query = session.createQuery(sb.toString());
-					query.setParameter("dataAtualizacao", dataAtualizacao);
-					return query.list();
-				}
-			});
-			if((listaSimulado != null) && !listaSimulado.isEmpty()) {
+			sb.append("select s from Simulado s where s.dataAtualizacao >= :dataAtualizacao and s.categoria.id = "
+					+ Long.parseLong(idCategoria) + " ");
+			listaSimulado = this.getHibernateTemplate().execute(
+					new HibernateCallback<List<Simulado>>() {
+						@SuppressWarnings("unchecked")
+						@Override
+						public List<Simulado> doInHibernate(Session session)
+								throws HibernateException {
+							Query query = session.createQuery(sb.toString());
+							query.setParameter("dataAtualizacao",
+									dataAtualizacao);
+							return query.list();
+						}
+					});
+			if ((listaSimulado != null) && !listaSimulado.isEmpty()) {
 				for (int i = 0; i < listaSimulado.size(); i++) {
-					SimuladoDTO simuladoDTO = new SimuladoDTO(listaSimulado.get(i).getId(), listaSimulado.get(i).getTitulo(),
-							listaSimulado.get(i).getDescricao(), listaSimulado.get(i).getDuracao(), listaSimulado.get(i).getQntQuestao(),
-							listaSimulado.get(i).getCategoria(), listaSimulado.get(i).getAreasConhecimento());
+					SimuladoDTO simuladoDTO = new SimuladoDTO(listaSimulado
+							.get(i).getId(), listaSimulado.get(i).getTitulo(),
+							listaSimulado.get(i).getDescricao(), listaSimulado
+									.get(i).getDuracao(), listaSimulado.get(i)
+									.getQntQuestao(), listaSimulado.get(i)
+									.getCategoria(), listaSimulado.get(i)
+									.getAreasConhecimento());
 					listaSimulado.remove(listaSimulado.get(i));
 					listaSimuladoDTO.add(simuladoDTO);
 				}
 			}
-		} catch(DataAccessException e) {
+		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new DAOException(ErrorMessage.DAO.getChave());
 		}
 		return listaSimuladoDTO;
+	}
+	@Override
+	public int qntQuestaoCadastradas(List<AreaConhecimento> areasConhecimento)
+			throws DAOException {
+
+		Integer qtdTotal = 0;
+		try {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("select count(q.id) from Questao q ");
+
+			String ids = "";
+			for (int i = 0; i < areasConhecimento.size(); i++) {
+				if (i != areasConhecimento.size() - 1) {
+					ids += areasConhecimento.get(i).getId() + ",";
+				} else {
+					ids += areasConhecimento.get(i).getId();
+				}
+			}
+			if (areasConhecimento.size() > 0)
+				sb.append(" where q.areaConhecimento.id in (" + ids + ") ");
+
+			qtdTotal = this.getHibernateTemplate().execute(
+					new HibernateCallback<Integer>() {
+						@Override
+						public Integer doInHibernate(Session session)
+								throws HibernateException {
+							Query query = session.createQuery(sb.toString());
+							return Integer.parseInt(query.uniqueResult()
+									.toString());
+						}
+					});
+		} catch (DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+		return qtdTotal;
 	}
 
 }
