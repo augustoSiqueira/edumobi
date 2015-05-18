@@ -91,7 +91,7 @@ public class RespostaSimuladoControllerImpl implements RespostaSimuladoControlle
 					listaQuestoes.remove(listaQuestoes.get(i));
 				}
 				resultadoSimulado.setQtdAcertos(qtdCorretas);
-				resultadoSimulado.setQtdErros(listaQuestoes.size() - qtdCorretas);
+				resultadoSimulado.setQtdErros(simulado.getQntQuestao() - qtdCorretas);
 				this.respostaSimuladoDAO.salvar(listaRespostasSimulado, resultadoSimulado);
 			}
 		}  catch (DataAccessException e) {
