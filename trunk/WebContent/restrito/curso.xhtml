@@ -40,7 +40,7 @@
 							<p:dataList value="#{cursoBean.listaAreaConhecimento}"
 								var="areaConhecimento">
 								<f:facet name="header">
-						            #{msg.curso_label_label_areas_conhecimento}
+						           <p:outputLabel value="#{msg.curso_label_label_areas_conhecimento}"/>
 						        </f:facet>
 								<p:link outcome="resposta_estudo.jsf?faces-redirect=true"
 									value="#{areaConhecimento.descricao}"
@@ -63,6 +63,28 @@
 								styleClass="marginLeft, menuLink" style="padding-right:20px" />
 						</p>
 
+						<p>
+							<p:dataTable id="listaLivros" value="#{cursoBean.dataModelLivro}"
+								var="livro" rows="3" paginator="true"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+							{NextPageLink} {LastPageLink}"
+								rowsPerPageTemplate="1,3,5" lazy="true"
+								paginatorPosition="bottom" emptyMessage="No momento não temos sugestões de livros para este curso">
+								<p:column>
+									<f:facet name="header">
+										<p:outputLabel value="Sugestões de livros para estudo" />
+									</f:facet>
+									<p:commandLink onclick="PF('dlg3').show();"
+										update=":detalheLivro">
+										<p:outputLabel value="#{livro.nome}"></p:outputLabel>
+										<f:setPropertyActionListener value="#{livro}"
+											target="#{cursoBean.livroSelecionado}" />
+
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+						</p>
+
 					</div>
 
 					<div class="col-md-4">
@@ -77,65 +99,42 @@
 				</p:outputPanel>
 
 				<p:outputPanel rendered="#{cursoBean.cursoVinculado == false}">
-					<div class="col-md-12">
+					<div class="col-md-8">
 						<p>
 							<p:dataList value="#{cursoBean.listaAreaConhecimento}"
-								var="areaConhecimento" type="definition" styleClass="menuLink">
+								var="areaConhecimento" styleClass="menuLink">
 								<f:facet name="header">
-						            #{msg.curso_label_label_areas_conhecimento}
+						           <p:outputLabel value="#{msg.curso_label_label_areas_conhecimento}"/>
 						        </f:facet>
-								<p:outputLabel value="- #{areaConhecimento.descricao}"
-									styleClass="menuLink">
+								<p:outputLabel value="#{areaConhecimento.descricao}"
+									style="font-size:15px !important;margin:5px !important;">
 								</p:outputLabel>
 							</p:dataList>
 						</p>
-					</div>
-
-				</p:outputPanel>
-
-				<div class="col-md-12">
-
-					<p:dataTable id="tabelaLivros" value="#{cursoBean.dataModelLivro}"
-						var="livros" rows="3" paginator="true"
-						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+						
+						<p>
+							<p:dataTable value="#{cursoBean.dataModelLivro}"
+								var="livro" rows="3" paginator="true"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 							{NextPageLink} {LastPageLink}"
-						rowsPerPageTemplate="1,3,5" lazy="true" paginatorPosition="bottom">
-						<f:facet name="header">
-				            Sugestões de livros para estudo
-				        </f:facet>
-						<p:column headerText="Titulo" width="120">
-							<p:graphicImage value="../imagens/#{livros.capa}" id="img"
-								cache="false" width="95" height="120" />
+								rowsPerPageTemplate="1,3,5" lazy="true"
+								paginatorPosition="bottom" emptyMessage="No momento não temos sugestões de livros para este curso">
+								<p:column>
+									<f:facet name="header">
+										<p:outputLabel value="Sugestões de livros para estudo" />
+									</f:facet>
+									<p:commandLink onclick="PF('dlg3').show();"
+										update=":detalheLivro">
+										<p:outputLabel value="#{livro.nome}"></p:outputLabel>
+										<f:setPropertyActionListener value="#{livro}"
+											target="#{cursoBean.livroSelecionado}" />
 
-						</p:column>
-						<p:column>
-							<div class="col-md-12">
-								<h:outputLabel value="Titulo: " />
-								<p:outputLabel value=" #{livros.nome}" />
-								<br />
-								<p:outputLabel value="Autor: " />
-								<p:outputLabel value=" #{livros.autor}" />
-								<br />
-								<p:outputLabel value="Edição: " />
-								<p:outputLabel value=" #{livros.edicao}" />
-								<br />
-								<p:outputLabel value="Paginas: " />
-								<p:outputLabel value=" #{livros.qnt_paginas}"
-									style="margin-right:30px;" />
-
-								<p:outputLabel value=" #{livros.isbn}" />
-								<br />
-								<p:outputLabel value="Descrição: " />
-								<p:outputLabel value=" #{livros.descricao}"
-									styleClass="descricaoLivro" />
-
-							</div>
-
-						</p:column>
-					</p:dataTable>
-				</div>
-
-
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+						</p>
+					</div>
+				</p:outputPanel>
 			</div>
 		</div>
 		<p:dialog header="#{cursoBean.categoria.nome}" widgetVar="dlg1"
@@ -158,6 +157,9 @@
 				</div>
 			</div>
 		</p:dialog>
+
+
+
 		<p:dialog header="#{cursoBean.categoria.nome}" widgetVar="dlg2"
 			modal="true" width="50%" miheight="500px" closable="false">
 			<p:outputLabel
@@ -167,6 +169,44 @@
 			<p:commandLink value="Confirmar"
 				action="#{cursoBean.comprarCursoConfirmado}"
 				styleClass="btn btn-success" style="float: right;"></p:commandLink>
+		</p:dialog>
+
+
+
+
+		<p:dialog header="Sugestão de Livros" widgetVar="dlg3" modal="true"
+			width="80%">
+
+			<p:outputPanel id="detalheLivro">
+				<div class="row">
+					<div class="col-md-1"></div>
+
+					<div class="col-md-10">
+						<p:graphicImage
+							value="../imagens/#{cursoBean.livroSelecionado.capa}" id="img"
+							cache="false" width="120" height="160"
+							style="float: left; margin: 0 20px 20px 0" rendered="#{cursoBean.exibirImagemLivro}"/>
+						<h4>
+							<h:outputLabel value="#{cursoBean.livroSelecionado.nome}" />
+						</h4>
+						<hr />
+						Autor(es):
+						<p:outputLabel value="#{cursoBean.livroSelecionado.autor}" />
+						<br /> Edição:
+						<p:outputLabel value="#{cursoBean.livroSelecionado.edicao}" />
+						<br /> Paginas:
+						<p:outputLabel value=" #{cursoBean.livroSelecionado.qnt_paginas} " />
+						<br /> Registro:
+						<p:outputLabel value=" #{cursoBean.livroSelecionado.isbn}" />
+						<hr />
+						<p:outputLabel value="#{cursoBean.livroSelecionado.descricao}"
+							style="text-align:justify;" />
+					</div>
+
+				</div>
+			</p:outputPanel>
+
+
 		</p:dialog>
 	</ui:define>
 </ui:composition>

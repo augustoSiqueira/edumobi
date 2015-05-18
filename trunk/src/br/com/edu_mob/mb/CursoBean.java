@@ -26,6 +26,7 @@ import br.com.edu_mob.controller.QuestaoController;
 import br.com.edu_mob.controller.RespostaEstudoController;
 import br.com.edu_mob.entity.Aluno;
 import br.com.edu_mob.entity.Categoria;
+import br.com.edu_mob.entity.Livro;
 import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.entity.model.AreaConhecimentoModel;
 import br.com.edu_mob.exception.RNException;
@@ -68,14 +69,19 @@ public class CursoBean extends GenericBean implements Serializable{
 	
 	private boolean cursoVinculado;
 	
+	private boolean exibirImagemLivro;
+	
 	private AlunoController alunoController;
 	
 	private List<AreaConhecimentoModel> listaAreaConhecimento;
 	@ManagedProperty(value = "#{menuBean}")
 	private MenuBean menuBean;
 	
+	private Livro livroSelecionado;
+	
 	@PostConstruct
 	public void init() {
+		livroSelecionado = new Livro();
 		usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FacesContext context = FacesContext.getCurrentInstance();
 		Filter filtroQuestao = new Filter();
@@ -137,6 +143,12 @@ public class CursoBean extends GenericBean implements Serializable{
 		return false;
 	}
 	
+	public boolean isExibirImagemLivro() {
+		if(livroSelecionado.getCapa() != null && !livroSelecionado.getCapa().isEmpty())
+			return true;
+		return false;
+	}
+
 	public void comprarCurso(){
 		
 		if(usuario instanceof Aluno){
@@ -242,6 +254,14 @@ public class CursoBean extends GenericBean implements Serializable{
 	public void setListaAreaConhecimento(
 			List<AreaConhecimentoModel> listaAreaConhecimento) {
 		this.listaAreaConhecimento = listaAreaConhecimento;
+	}
+
+	public Livro getLivroSelecionado() {
+		return livroSelecionado;
+	}
+
+	public void setLivroSelecionado(Livro livroSelecionado) {
+		this.livroSelecionado = livroSelecionado;
 	}
 	
 	
