@@ -270,19 +270,16 @@ public class QuestaoBean extends GenericBean implements Serializable {
 		try {
 			this.alternativaController
 					.validarAlternativas(this.listaAlternativa);
+			
+
+			this.questao.setNivel(this.nivel);
+			this.questaoController.alterar(this.questao);
 			this.listaAlternativaExcluir = this.alternativaController
 					.pesquisarPorFiltro(this.filtro);
 
 			for (Alternativa altExcluir : this.listaAlternativaExcluir) {
 				this.alternativaController.excluir(altExcluir);
 			}
-
-			this.questao.setNivel(this.nivel);
-			this.questaoController.alterar(this.questao);
-			this.addMessage(
-					MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-					SucessMessage.ATUALIZADA_SUCESSO.getValor(),
-					Entidades.QUESTAO.getValor());
 			
 			int posLetra =0;
 			for (Alternativa alt : this.listaAlternativa) {
@@ -292,6 +289,12 @@ public class QuestaoBean extends GenericBean implements Serializable {
 				posLetra++;
 			}
 
+			this.addMessage(
+					MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
+					SucessMessage.ATUALIZADA_SUCESSO.getValor(),
+					Entidades.QUESTAO.getValor());
+			
+			
 			this.atualizarGrid();
 			this.limparForm();
 			this.listaAlternativaExcluir = new ArrayList<Alternativa>();

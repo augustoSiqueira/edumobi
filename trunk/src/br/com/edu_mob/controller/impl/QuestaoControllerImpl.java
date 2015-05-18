@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
 import org.primefaces.event.FileUploadEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -96,12 +99,16 @@ public class QuestaoControllerImpl implements QuestaoController{
 		//String nomeDoArquivo = event.getFile().getFileName();
 		String nomeDoArquivo = Util.criptografar(Util.converteData(new Date(), "yyyy-MM-dd HH:mm:ss.SSSXXX"))+event.getFile().getFileName();
 		try {
-			File diretorio = new File(InicializaApp.CAMINHO_SERVIDOR +"/imagens/");
+			ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+	                .getExternalContext().getContext();
+	        String servidor = ctx.getRealPath("/");
+			File diretorio = new File(servidor +"/imagens/");
+			
 			if (!diretorio.exists()) {
 				diretorio.mkdirs();
 			}
-
-			String arquivo = InicializaApp.CAMINHO_SERVIDOR +"/imagens/"+ nomeDoArquivo;
+			System.out.println(diretorio);
+			String arquivo = diretorio +"/"+ nomeDoArquivo;
 			InputStream inputStream = event.getFile().getInputstream();
 			OutputStream outputStream = new FileOutputStream(arquivo);
 			System.out.println(arquivo);

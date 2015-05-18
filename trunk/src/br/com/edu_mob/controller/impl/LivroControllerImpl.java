@@ -38,6 +38,10 @@ import java.util.logging.Logger;
 
 
 
+
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONException;
@@ -323,13 +327,16 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 	public String salvarImagemWeb(String urlImagem) throws RNException{
 		
 		String nomeDoArquivo = Util.criptografar(Util.converteData(new Date(), "yyyy-MM-dd HH:mm:ss.SSSXXX"))+".jpg";
-		String arquivo = InicializaApp.CAMINHO_SERVIDOR +"/imagens/"+ nomeDoArquivo;
-		System.out.println(arquivo);
+		ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                .getExternalContext().getContext();
+        String servidor = ctx.getRealPath("/");
+		File diretorio = new File(servidor +"/imagens/");
 		
-		File diretorio = new File(InicializaApp.CAMINHO_SERVIDOR +"/imagens/");
-		if (!diretorio.exists()) {  
-		   diretorio.mkdirs(); 
-		} 
+		if (!diretorio.exists()) {
+			diretorio.mkdirs();
+		}
+		System.out.println(diretorio);
+		String arquivo = diretorio +"/"+ nomeDoArquivo;
 		
 		URL url;
 		try {
