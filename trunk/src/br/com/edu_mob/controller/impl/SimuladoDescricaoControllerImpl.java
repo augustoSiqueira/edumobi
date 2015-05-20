@@ -14,6 +14,7 @@ import br.com.edu_mob.dao.SimuladoDescricaoDAO;
 import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
+import br.com.edu_mob.exception.RNGenericException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.services.SimuladoDTO;
 import br.com.edu_mob.util.Filter;
@@ -109,13 +110,17 @@ public class SimuladoDescricaoControllerImpl implements SimuladoDescricaoControl
 	private void validarQntQuestao(Simulado simulado) throws RNException{
 		
 		try {
+			
+			if(simulado.getAreasConhecimento() != null && simulado.getAreasConhecimento().isEmpty() == true){
+				throw new RNException(ErrorMessage.CAMPO_SELECIONAR_NO_MIN_UMA_AREA.getChave());
+			}
 			if(simulado.getQntQuestao() <=0){
 				throw new RNException(ErrorMessage.CAMPO_QNT_QUESTAO_MAIOR_ZERO.getChave());
 			}
 			
 			int qntCadastrada = simuladoDescricaoDAO.qntQuestaoCadastradas(simulado.getAreasConhecimento());
 			if(simulado.getQntQuestao() > qntCadastrada ){
-				throw new RNException(ErrorMessage.CAMPO_QNT_QUESTAO_MAX.getChave());
+				throw new RNGenericException(MensagemUtil.getMensagem(ErrorMessage.CAMPO_QNT_QUESTAO_MAX.getChave(),qntCadastrada) );
 			}			
 		} catch (DAOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);

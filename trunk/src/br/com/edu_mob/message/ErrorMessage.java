@@ -39,7 +39,8 @@ public enum ErrorMessage {
 	ERRO_SALVAR_IMAGEM_WEB("erro_salvar_imagem_web"),
 	ERRO_CAMPO_PESQUISA_VAZIO("erro_campo_pesquisa_obrigatorio"),
 	CAMPO_QNT_QUESTAO_MAIOR_ZERO("erro_campo_qnt_questao_maior_zero"),
-	CAMPO_QNT_QUESTAO_MAX("erro_campo_qnt_questao_max")
+	CAMPO_QNT_QUESTAO_MAX("erro_campo_qnt_questao_max"),
+	CAMPO_SELECIONAR_NO_MIN_UMA_AREA("erro_campo_selecionar_no_min_uma_area")
 	;
 
 	private ErrorMessage(String chave) {
