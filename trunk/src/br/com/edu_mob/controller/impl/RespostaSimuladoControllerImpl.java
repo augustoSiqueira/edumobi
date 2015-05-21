@@ -67,7 +67,7 @@ public class RespostaSimuladoControllerImpl implements RespostaSimuladoControlle
 		List<RespostaSimulado> listaRespostasSimulado = new ArrayList<RespostaSimulado>();
 		try {
 			if((listaQuestoes != null) && !listaQuestoes.isEmpty()) {
-				for (int i = 0; i < simulado.getQntQuestao(); i++) {
+				for (int i = 0; i < listaQuestoes.size();) {
 					RespostaSimulado respostaSimulado = new RespostaSimulado();
 					respostaSimulado.setCategoria(listaQuestoes.get(i).getAreaConhecimento().getCategoria());
 					respostaSimulado.setAreaConhecimento(listaQuestoes.get(i).getAreaConhecimento());
