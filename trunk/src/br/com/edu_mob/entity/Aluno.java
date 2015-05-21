@@ -68,6 +68,8 @@ public class Aluno extends Usuario implements Serializable {
 	private Municipio municipio;
 
 	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="aluno_categoria", joinColumns={@JoinColumn(name = "id_aluno")},
+			inverseJoinColumns = @JoinColumn(name = "id_categoria"))
 	private List<Categoria> cursos;
 	
 	public String getMatricula() {

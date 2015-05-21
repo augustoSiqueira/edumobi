@@ -50,7 +50,7 @@ public class Simulado implements Serializable {
 	@JoinColumn(name="id_categoria")
 	private Categoria categoria;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="simulado")
 	@Fetch(FetchMode.SUBSELECT)
 	private List<AreaConhecimento> areasConhecimento;
 

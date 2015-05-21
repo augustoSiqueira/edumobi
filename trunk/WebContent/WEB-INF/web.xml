@@ -30,9 +30,6 @@
   <listener>
 	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
-  <listener>
-        <listener-class>br.com.edu_mob.util.InicializaApp</listener-class>
-    </listener>
   <context-param>
     <param-name>com.sun.faces.expressionFactory</param-name>
     <param-value>com.sun.el.ExpressionFactoryImpl</param-value>

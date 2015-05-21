@@ -31,6 +31,7 @@ public class Livro {
 	private String capa;
 	private String isbn;
 	private String edicao;
+	@Column(name="quantidade_paginas")
 	private int qnt_paginas;
 	private String autor;
 	

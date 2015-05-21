@@ -39,7 +39,6 @@
 					<prop key="hibernate.c3p0.max_statement">50</prop>
 					<prop key="hibernate.generate_statistics">true</prop>
 					<prop key="hibernate.hbm2ddl.auto">validate</prop>
-					<prop key="hibernate.hbm2ddl.auto">update</prop>
 				</props>
 			</property>
 			<property name="annotatedClasses">
