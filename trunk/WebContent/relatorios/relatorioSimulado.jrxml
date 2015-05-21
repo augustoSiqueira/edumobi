@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioSimulado" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3a01766-012f-4095-97fa-bee88cdbfa9b">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="1097"/>
+	<property name="ireport.y" value="322"/>
+	<parameter name="simulado" class="java.lang.String"/>
+	<field name="nomeAluno" class="java.lang.String"/>
+	<field name="qtdAcertos" class="java.lang.Integer"/>
+	<field name="qtdErros" class="java.lang.Integer"/>
+	<field name="percentual" class="java.lang.Double"/>
+	<group name="Group1">
+		<groupHeader>
+			<band height="23">
+				<line>
+					<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="246ea903-c075-4cac-b0fc-0cc6405a772b"/>
+				</line>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="321" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="411d4c9a-1cb8-4e07-aaa9-32b8892d96f6"/>
+					<textElement textAlignment="Left">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Aluno:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="477" y="0" width="78" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="2c7c9d0f-f607-4238-babc-dbbf9d510a80"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Percentual]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="399" y="0" width="78" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="c73822b5-1453-42b1-bdd6-efe2c28e0506"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Erros]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="321" y="0" width="78" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="757f7eb3-557c-4059-9bf6-bed3c0135bae"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Acertos]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="3d0e549b-cfa4-45c0-9b82-b84121a538c4"/>
+				<staticText>
+					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="58636796-b813-4346-9c0d-d02ecfd05495"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[EDU MOBI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="94b26b30-9514-4569-bf7a-5405389d19f7"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[RANKING SIMULADO]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="183" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="fee43a72-fb0d-41e2-8d12-99092c647790"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Simulado:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="ba9f3989-84f7-476c-98bd-0678f1d39947"/>
+			</line>
+			<textField>
+				<reportElement x="183" y="1" width="372" height="20" uuid="e3b2463c-e7f3-4d6c-aac1-d143c7e48fb8"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{simulado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="4934ecfa-d368-4e8d-ac00-10455d569d22"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="321" height="20" uuid="dd5743d9-ca0a-431b-af7c-c0965f7f5214"/>
+				<textFieldExpression><![CDATA[$F{nomeAluno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="0" width="78" height="20" uuid="90495bd2-e7b5-44a2-b230-26df9597b231"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{qtdAcertos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="0" width="78" height="20" uuid="8bd8bca4-1d17-4d8e-966c-0d4310052146"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{qtdErros}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00 %">
+				<reportElement x="477" y="0" width="78" height="20" uuid="dcfac497-68e6-4569-b3d8-8ddf69ba90fc"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{percentual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="d246b1a5-facc-4a4e-bd2c-d59a25332301"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="cd636768-3962-45f2-9e2b-475ae7f34682"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement x="0" y="4" width="169" height="13" uuid="03b585a6-cdab-4bae-8a50-7bb702353c07"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

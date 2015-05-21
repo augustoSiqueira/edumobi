@@ -32,7 +32,19 @@
 						</p:commandLink>
 
 						<div class="clear"></div>
+						
+						<script type="text/javascript">
+							function start() {
+							    PF('statusDialog').show();
+							}
+							 
+							function stop() {
+							    PF('statusDialog').hide();
+							}
+						</script>
+						
 						<h:form id="listagem">
+							
 							<p:dataTable id="tabelaSimulado"
 								value="#{simuladoDescricaoBean.dataModelSimuladoDescricao}"
 								var="simulado" rows="5" paginator="true"
@@ -68,6 +80,12 @@
 										<f:setPropertyActionListener value="#{simulado}"
 											target="#{simuladoDescricaoBean.simulado}" />
 									</p:commandLink>
+								</p:column>
+								<p:column>
+									<p:commandButton value="Emitir Relatorio" onclick="PrimeFaces.monitorDownload(start, stop);" ajax="false" icon="ui-icon-arrowthick-1-s">
+										<f:setPropertyActionListener value="#{simulado}" target="#{simuladoDescricaoBean.simulado}" />
+										<p:fileDownload value="#{simuladoDescricaoBean.emitirRelatorio}" />
+									</p:commandButton>
 								</p:column>
 								<p:column>
 									<p:link value="Iniciar" outcome="resposta_simulado.jsf">

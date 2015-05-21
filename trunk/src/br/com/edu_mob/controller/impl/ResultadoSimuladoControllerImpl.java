@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.edu_mob.controller.ResultadoSimuladoController;
 import br.com.edu_mob.dao.ResultadoSimuladoDAO;
 import br.com.edu_mob.entity.ResultadoSimulado;
+import br.com.edu_mob.entity.infra.ResultadoSimuladoDTO;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.ErrorMessage;
@@ -117,6 +118,30 @@ public class ResultadoSimuladoControllerImpl implements ResultadoSimuladoControl
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 		return listaResultadoSimulado;
+	}
+
+	@Override
+	public List<ResultadoSimuladoDTO> pesquisarRelatorioDesempenhoAlunos(Filter filtro) throws RNException {
+		List<ResultadoSimuladoDTO> listaResultadoSimuladoDTO = null;
+		try {
+			listaResultadoSimuladoDTO = this.resultadoSimuladoDAO.pesquisarRelatorioDesempenhoAlunos(filtro);
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+		return listaResultadoSimuladoDTO;
+	}
+
+	@Override
+	public List<ResultadoSimuladoDTO> pesquisarRelatorioRankingAlunos(Filter filtro) throws RNException {
+		List<ResultadoSimuladoDTO> listaResultadoSimuladoDTO = null;
+		try {
+			listaResultadoSimuladoDTO = this.resultadoSimuladoDAO.pesquisarRelatorioRankingAlunos(filtro);
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+		return listaResultadoSimuladoDTO;
 	}
 
 }
