@@ -24,9 +24,11 @@ import br.com.edu_mob.controller.AlunoController;
 import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.controller.QuestaoController;
 import br.com.edu_mob.controller.RespostaEstudoController;
+import br.com.edu_mob.controller.SimuladoDescricaoController;
 import br.com.edu_mob.entity.Aluno;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Livro;
+import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.entity.model.AreaConhecimentoModel;
 import br.com.edu_mob.exception.RNException;
@@ -79,6 +81,8 @@ public class CursoBean extends GenericBean implements Serializable{
 	
 	private Livro livroSelecionado;
 	
+	private DataModelSimuladoDescricao dataModelSimuladoDescricao;
+	
 	@PostConstruct
 	public void init() {
 		livroSelecionado = new Livro();
@@ -92,6 +96,7 @@ public class CursoBean extends GenericBean implements Serializable{
 		this.questaoController = (QuestaoController) this.getBean("questaoController", QuestaoController.class);
 		this.respostaEstudoController = (RespostaEstudoController) this.getBean("respostaEstudoController", RespostaEstudoController.class);
 		this.alunoController = (AlunoController) this.getBean("alunoController", AlunoController.class);
+		this.dataModelSimuladoDescricao = new DataModelSimuladoDescricao();
 		try {
 			if(context.getExternalContext().getSessionMap().get("cursoId") != null) {
 				String idCategoria = String.valueOf(context.getExternalContext().getSessionMap().get("cursoId"));
@@ -107,7 +112,7 @@ public class CursoBean extends GenericBean implements Serializable{
 				filtroResposta.put("correta", Boolean.FALSE);
 				this.qtdErradas = this.respostaEstudoController.pesquisarPorFiltroCountHQLRelatorio(filtroResposta);
 				this.createPieModel();
-				context.getExternalContext().getSessionMap().remove("cursoId");
+				//context.getExternalContext().getSessionMap().remove("cursoId");
 				
 				Filter filtroAreaModel = new Filter();
 				filtroAreaModel.put("idCategoria", this.categoria.getId().toString());
@@ -177,6 +182,16 @@ public class CursoBean extends GenericBean implements Serializable{
 		context.execute("PF('dlg1').hide();");
 	}
 
+	public String paginaRespostaSimulado(){
+		return "resposta_simulado.jsf";
+	}
+	public String paginaResultados(){
+		return "resultados_simulado.jsf";
+	}
+	public String paginaDesempenho(){
+		return "relatorio_simulado.jsf";
+	}
+	
 	public Categoria getCategoria() {
 		return this.categoria;
 	}
@@ -262,6 +277,15 @@ public class CursoBean extends GenericBean implements Serializable{
 
 	public void setLivroSelecionado(Livro livroSelecionado) {
 		this.livroSelecionado = livroSelecionado;
+	}
+
+	public DataModelSimuladoDescricao getDataModelSimuladoDescricao() {
+		return dataModelSimuladoDescricao;
+	}
+
+	public void setDataModelSimuladoDescricao(
+			DataModelSimuladoDescricao dataModelSimuladoDescricao) {
+		this.dataModelSimuladoDescricao = dataModelSimuladoDescricao;
 	}
 	
 	

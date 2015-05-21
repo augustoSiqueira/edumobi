@@ -18,11 +18,17 @@
 					<h:outputLabel value="#{cursoBean.categoria.nome}" />
 				</h3>
 				<p style="float: right">
+
+					<p:commandLink value="Simulados" styleClass="menuLink"
+						rendered="#{cursoBean.cursoVinculado}" style="margin-right: 15px;"
+						onclick="PF('dlg4').show();" />
+
 					<p:link outcome="relatorio_estudo.jsf?faces-redirect=true"
 						value="#{msg.curso_label_label_analise_desempenho}"
 						styleClass="menuLink" rendered="#{cursoBean.cursoVinculado}">
 						<f:param name="idCategoria" value="#{cursoBean.categoria.id}" />
 					</p:link>
+
 					<p:commandLink onclick="PF('dlg1').show();"
 						rendered="#{cursoBean.cursoVinculado == false and cursoBean.categoria.id != null}"
 						value="Adquira este curso !" styleClass="menuLink" />
@@ -40,8 +46,9 @@
 							<p:dataList value="#{cursoBean.listaAreaConhecimento}"
 								var="areaConhecimento">
 								<f:facet name="header">
-						           <p:outputLabel value="#{msg.curso_label_label_areas_conhecimento}"/>
-						        </f:facet>
+									<p:outputLabel
+										value="#{msg.curso_label_label_areas_conhecimento}" />
+								</f:facet>
 								<p:link outcome="resposta_estudo.jsf?faces-redirect=true"
 									value="#{areaConhecimento.descricao}"
 									style="font-size:15px !important;margin:5px !important;"
@@ -69,7 +76,8 @@
 								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 							{NextPageLink} {LastPageLink}"
 								rowsPerPageTemplate="1,3,5" lazy="true"
-								paginatorPosition="bottom" emptyMessage="No momento não temos sugestões de livros para este curso">
+								paginatorPosition="bottom"
+								emptyMessage="No momento não temos sugestões de livros para este curso">
 								<p:column>
 									<f:facet name="header">
 										<p:outputLabel value="Sugestões de livros para estudo" />
@@ -104,21 +112,23 @@
 							<p:dataList value="#{cursoBean.listaAreaConhecimento}"
 								var="areaConhecimento" styleClass="menuLink">
 								<f:facet name="header">
-						           <p:outputLabel value="#{msg.curso_label_label_areas_conhecimento}"/>
-						        </f:facet>
+									<p:outputLabel
+										value="#{msg.curso_label_label_areas_conhecimento}" />
+								</f:facet>
 								<p:outputLabel value="#{areaConhecimento.descricao}"
 									style="font-size:15px !important;margin:5px !important;">
 								</p:outputLabel>
 							</p:dataList>
 						</p>
-						
+
 						<p>
-							<p:dataTable value="#{cursoBean.dataModelLivro}"
-								var="livro" rows="3" paginator="true"
+							<p:dataTable value="#{cursoBean.dataModelLivro}" var="livro"
+								rows="3" paginator="true"
 								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 							{NextPageLink} {LastPageLink}"
 								rowsPerPageTemplate="1,3,5" lazy="true"
-								paginatorPosition="bottom" emptyMessage="No momento não temos sugestões de livros para este curso">
+								paginatorPosition="bottom"
+								emptyMessage="No momento não temos sugestões de livros para este curso">
 								<p:column>
 									<f:facet name="header">
 										<p:outputLabel value="Sugestões de livros para estudo" />
@@ -185,7 +195,8 @@
 						<p:graphicImage
 							value="../imagens/#{cursoBean.livroSelecionado.capa}" id="img"
 							cache="false" width="120" height="160"
-							style="float: left; margin: 0 20px 20px 0" rendered="#{cursoBean.exibirImagemLivro}"/>
+							style="float: left; margin: 0 20px 20px 0"
+							rendered="#{cursoBean.exibirImagemLivro}" />
 						<h4>
 							<h:outputLabel value="#{cursoBean.livroSelecionado.nome}" />
 						</h4>
@@ -208,6 +219,92 @@
 
 
 		</p:dialog>
+
+
+		<p:dialog header="Simulados" widgetVar="dlg4" modal="true" width="80%">
+			<p:dataTable id="tabelaSimulado"
+				value="#{cursoBean.dataModelSimuladoDescricao}" var="simulado"
+				rows="5" paginator="true"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+							{NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true">
+				<p:column headerText="Simulado">
+					<p:outputLabel value="#{simulado.titulo}" />
+				</p:column>
+				<p:column headerText="Duração" width="70">
+					<center>
+						<p:outputLabel value="#{simulado.duracao}">
+							<f:convertDateTime pattern="HH:mm" />
+						</p:outputLabel>
+					</center>
+				</p:column>
+				<p:column headerText="Qnt. Questões" width="90">
+					<center>
+						<p:outputLabel value="#{simulado.qntQuestao}" />
+					</center>
+				</p:column>
+
+				<p:column headerText="Conteudo" width="100">
+					<center>
+						<p:outputLabel value="Visualizar" id="visualizarConteudo" />
+					</center>
+					<p:overlayPanel for="visualizarConteudo" hideEffect="fade"
+						showEvent="mouseover" hideEvent="mouseout">
+						<p:dataList value="#{simulado.areasConhecimento}" var="areas">
+							<f:facet name="header">
+								<p:outputLabel
+									value="#{msg.curso_label_label_areas_conhecimento}" />
+							</f:facet>
+							<p:outputLabel value="#{areas.descricao}" />
+						</p:dataList>
+					</p:overlayPanel>
+				</p:column>
+				<p:column headerText="Iniciar" width="60">
+					<p:commandLink action="#{cursoBean.paginaRespostaSimulado}">
+						<p:confirm
+							message="Deseja iniciar o simulado agora ?"
+							icon="ui-icon-alert" />
+						<center>
+							<p:graphicImage library="imagens" name="iniciar.png" width="40" />
+						</center>
+						<f:param name="idSimulado" value="#{simulado.id}" />
+					</p:commandLink>
+				</p:column>
+				<p:column headerText="Resultados" width="90">
+					<p:commandLink action="#{cursoBean.paginaResultados}">
+						<center>
+							<p:graphicImage library="imagens" name="resultados.png"
+								width="40" />
+						</center>
+						<f:param name="idSimulado" value="#{simulado.id}" />
+					</p:commandLink>
+
+				</p:column>
+				<p:column headerText="Desempenho" width="95">
+					<p:commandLink action="#{cursoBean.paginaDesempenho}">
+						<center>
+							<p:graphicImage library="imagens" name="desempenho.png"
+								width="40" />
+						</center>
+						<f:param name="idSimulado" value="#{simulado.id}" />
+					</p:commandLink>
+
+				</p:column>
+
+			</p:dataTable>
+
+		</p:dialog>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+				style="float:right" />
+			<p:commandButton value="Yes" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+				style="float:right" />
+		</p:confirmDialog>
+
 	</ui:define>
 </ui:composition>
 </html>

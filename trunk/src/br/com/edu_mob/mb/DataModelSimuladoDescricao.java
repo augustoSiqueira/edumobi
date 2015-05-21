@@ -53,9 +53,13 @@ public class DataModelSimuladoDescricao extends LazyDataModel<Simulado> {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		WebApplicationContext webAppContext = FacesContextUtils.getRequiredWebApplicationContext(facesContext);
 		this.simuladoDescricaoController = webAppContext.getBean("simuladoDescricaoController", SimuladoDescricaoController.class);
-		
+		FacesContext context = FacesContext.getCurrentInstance();
 		Filter filtro = new Filter();
 		try {
+			if(context.getExternalContext().getSessionMap().get("cursoId") != null) {
+				String idCategoria = String.valueOf(context.getExternalContext().getSessionMap().get("cursoId"));
+				filtro.put("idCategoria", idCategoria);
+			}
 			filtro.putAll(filters);
 			this.listaSimulado = this.simuladoDescricaoController.pesquisarPorFiltroPaginada(filtro, first, pageSize);
 			this.setRowCount(this.simuladoDescricaoController.pesquisarPorFiltroCount(filtro));
