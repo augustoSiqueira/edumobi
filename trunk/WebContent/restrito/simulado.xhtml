@@ -82,23 +82,10 @@
 									</p:commandLink>
 								</p:column>
 								<p:column>
-									<p:commandButton value="Emitir Relatorio" onclick="PrimeFaces.monitorDownload(start, stop);" ajax="false" icon="ui-icon-arrowthick-1-s">
+									<p:commandButton value="Relatorio Ranking Alunos" onclick="PrimeFaces.monitorDownload(start, stop);" ajax="false" icon="ui-icon-arrowthick-1-s">
 										<f:setPropertyActionListener value="#{simulado}" target="#{simuladoDescricaoBean.simulado}" />
 										<p:fileDownload value="#{simuladoDescricaoBean.emitirRelatorio}" />
 									</p:commandButton>
-								</p:column>
-								<p:column>
-									<p:link value="Iniciar" outcome="resposta_simulado.jsf">
-										<f:param name="idSimulado" value="#{simulado.id}" />
-									</p:link>
-									<br />
-									<p:link value="Resultados" outcome="resultados_simulado.jsf">
-										<f:param name="idSimulado" value="#{simulado.id}" />
-									</p:link>
-									<br />
-									<p:link value="Análise Geral" outcome="relatorio_simulado.jsf">
-										<f:param name="idSimulado" value="#{simulado.id}" />
-									</p:link>
 								</p:column>
 							</p:dataTable>
 						</h:form>
