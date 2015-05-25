@@ -1,0 +1,50 @@
+body{
+	background-color: rgba(28, 17, 0, 0.2);
+}
+
+
+#btnSubmit{
+	
+	margin-top: 10px;
+	}
+	
+.ui-growl {
+	top:70px !important; 
+}
+
+.panel {	
+	border: 1px solid #0A8CBF;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    background-color: white;	
+	border-radius: 10px;
+	width:450px; 
+	margin: 130px auto;
+}
+.panel .panel-body{	
+	padding: 30px;
+	
+}
+.panel .panel-heading{
+	background-color: #0A8CBF;
+	color:white;
+	padding: 8px 3px 5px 20px;	
+	font-size: 12px;
+	border-radius: 9px 9px 0 0;
+	
+}
+
+#form_login{
+	
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    background-color: white;	
+	border-radius: 10px;
+	width:450px; 
+	margin: 130px auto;
+	padding: 30px;
+	
+}
+
+.tab-content{
+	padding: 20px;
+	
+}

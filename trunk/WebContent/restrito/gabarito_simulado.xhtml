@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/interna.xhtml">
+	<ui:define name="corpo">
+	
+		<h:form id="listagem">
+			
+			<h:panelGrid style="float:left">
+				<h:outputText value="Simulado: #{gabaritoSimuladoBean.resultadoSimulado.simulado.titulo}" style="font-size:16px; font-weight:bold" />
+			</h:panelGrid>
+			
+			
+			<h:panelGrid style="float:left">
+				<p:dataTable id="respostasSimulado" var="respostaSimulado" value="#{gabaritoSimuladoBean.resultadoSimulado.listaRespostaSimulado}" 
+					emptyMessage="#{msg.app_label_nenhum_registro_encontrado}" >
+					<f:facet name="header">
+						#{msg.gabarito_label_titulo}
+					</f:facet>
+					<p:column headerText="#{msg.gabarito_label_questao}" width="50%">
+						<h:outputText value="#{respostaSimulado.questao.enunciado}" />
+					</p:column>
+					<p:column headerText="Alternativa Correta" width="20%" style="text-align:center">
+						<h:outputText value="#{respostaSimulado.alternativaCorreta.letra}" />
+					</p:column>
+					<p:column headerText="Alternativa Selecionada" width="20%" style="text-align:center">
+						<h:outputText value="#{respostaSimulado.alternativaSelecionada.letra}" />
+					</p:column>
+					<p:column headerText="Correta" width="10%" style="text-align:center">
+						<h:outputText value="SIM" rendered="#{respostaSimulado.correta}" />
+						<h:outputText value="NÃO" rendered="#{!respostaSimulado.correta}" />
+					</p:column>
+				</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

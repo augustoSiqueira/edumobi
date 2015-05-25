@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:util="http://java.sun.com/jsf/composite/components/util"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+
+	<ui:define name="corpo">
+
+		<div class="row">
+
+			<p:outputPanel rendered="#{menuBean.alunoLogado == true}">
+				<div class="col-md-5">
+					<div class="panel panel-default">
+						<div class="panel-heading"></div>
+						<div class="panel-body">
+							<h4>EduMobi</h4>
+							<p align="justify">Lorem Ipsum é simplesmente uma simulação
+								de texto da indústria tipográfica e de impressos, e vem sendo
+								utilizado desde o século XVI, quando um impressor desconhecido
+								pegou uma bandeja de tipos e os embaralhou para fazer um livro
+								de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco
+								séculos, como também ao salto para a editoração eletrônica,
+								permanecendo essencialmente inalterado. Se popularizou na década
+								de 60, quando a Letraset lançou decalques contendo passagens de
+								Lorem Ipsum, e mais recentemente quando passou a ser integrado a
+								softwares de editoração eletrônica como Aldus PageMaker.</p>
+							<p align="justify">Ao contrário do que se acredita, Lorem
+								Ipsum não é simplesmente um texto randômico. Com mais de 2000
+								anos, suas raízes podem ser encontradas em uma obra de
+								literatura latina clássica datada de 45 AC. Richard McClintock,
+								um professor de latim do Hampden-Sydney College na Virginia,
+								pesquisou uma das mais obscuras palavras em latim, consectetur,
+								oriunda de uma passagem de Lorem Ipsum</p>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="col-md-7">
+					<div class="panel panel-default">
+						<div class="panel-heading"></div>
+						<div class="panel-body">
+							<h4>Meus Cursos</h4>
+
+							<p:dataList var="curso"
+								value="#{paginaPrincipalBean.aluno.cursos}" columns="3"
+								layout="grid" rows="10" id="curso" paginator="true"
+								paginatorPosition="top"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="6,12,16">
+
+								<p:commandLink action="#{menuBean.pageCurso}"
+									styleClass="link_cursos" value="#{curso.titulo}">
+									<f:param name="id" value="#{curso.id}" />
+								</p:commandLink>
+
+							</p:dataList>
+						</div>
+					</div>
+				</div>
+			</p:outputPanel>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

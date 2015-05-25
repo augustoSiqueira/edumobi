@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/interna.xhtml">	
+		<ui:define name="titulo">
+			#{msg.resultado_simulado_label_titulo}
+		</ui:define>
+		<ui:define name="corpo">
+			<div class="row">
+				
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading"><h:outputLabel value="#{msg.resultado_simulado_lista}"/></div>
+							<div class="panel-body">
+							<div class="clear"></div>
+							<h:outputText value="Simulado: " style="font-weight:bold" />
+							<h:outputText value="#{resultadoSimuladoBean.simulado.descricao}" style="font-weight:bold" />
+							<br />
+							<br />
+							<h:form id="listagem">
+								<p:dataTable id="tabelaResultadosSimulado" value="#{resultadoSimuladoBean.dataModelResultadoSimulado}" var="resultadoSimulado" rows="10" 
+									paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+									{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" >
+									<p:column headerText="#{msg.resultado_simulado_label_qtd_questoes}" style="text-align:center">
+										#{resultadoSimulado.qtdAcertos + resultadoSimulado.qtdErros}
+									</p:column>	
+									<p:column headerText="#{msg.resultado_simulado_label_qtd_acertos}" style="text-align:center">
+										#{resultadoSimulado.qtdAcertos}
+									</p:column>
+									<p:column headerText="#{msg.resultado_simulado_label_qtd_erros}" style="text-align:center">
+										#{resultadoSimulado.qtdErros}
+									</p:column>
+									<p:column headerText="Data/Hora Inicio" style="text-align:center">
+										<h:outputText value="#{resultadoSimulado.dataHoraInicio}">
+											<f:convertDateTime pattern="dd/MM/yy HH:mm"/>
+										</h:outputText>
+									</p:column>	
+									<p:column headerText="Duração" style="text-align:center">
+										<h:outputText value="#{resultadoSimulado.tempoTotal}">
+											<f:convertDateTime pattern="HH:mm:ss"/>
+										</h:outputText>
+									</p:column>
+									<p:column headerText="#{msg.app_label_acoes}" style="width: 10%;" >
+										<p:link outcome="gabarito_simulado.jsf?faces-redirect=true" value="#{msg.resultado_simulado_label_gabarito}" styleClass="menuLink">
+								        	<f:param name="idResultadoSimulado" value="#{resultadoSimulado.id}" />
+								        </p:link>
+								    </p:column>
+								</p:dataTable>	
+							</h:form>	
+					  </div>					  
+					</div>
+						
+				</div>					
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</html>

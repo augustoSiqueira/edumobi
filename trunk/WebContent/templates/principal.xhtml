@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+
+<h:head>
+ 	<h:outputStylesheet library="css" name="bootstrap.min.css"/> 
+	<h:outputStylesheet library="css" name="estilo1.css"/>
+	<h:outputScript library="js" name="bootstrap.min.js" />	
+	<h:outputScript library="js" name="locales.js" />	
+	<title>EDUMOBI V1.0</title>	
+</h:head>
+
+
+<h:body>
+<script>
+	  $(document).ready(function () {
+		  var tamanho = $(document).height();		 
+		  $(".menu_lateral").css("height",tamanho);
+		 
+	  });
+	
+	</script>
+	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+    <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+      <p:graphicImage url="../resources/imagens/status.gif"/>
+    </p:dialog>
+	<p:growl autoUpdate="true" life="3000" showDetail="true" showSummary="false" />
+
+	<ui:insert name="barra_menu">
+		<ui:include src="/restrito/menu_sistema.xhtml" />
+	</ui:insert>
+
+	<div class="container-fluid">
+
+		<div class="starter-template">
+			<div class="row">
+				<div class="col-md-2 menu_lateral">
+					<h:form>
+						<h3>Administrativo</h3>
+						<hr style="" />
+						<p:commandLink value="#{msg.app_label_principal}"
+							action="#{menuBean.pagePrincipal}" styleClass="menu_link_lateral" />
+
+						<p:commandLink value="#{msg.usuario_label_menu}"
+							action="#{menuBean.pageUsuarios}"
+							rendered="#{sec:areAnyGranted('ROLE_USUARIO')}"
+							styleClass="menu_link_lateral" />
+
+						<p:commandLink value="#{msg.perfil_label_menu}"
+							action="#{menuBean.pagePerfis}"
+							rendered="#{sec:areAnyGranted('ROLE_PERFIL')}"
+							styleClass="menu_link_lateral" />
+
+						<p:commandLink value="#{msg.categoria_label_menu}"
+							action="#{menuBean.pageCategorias}"
+							rendered="#{sec:areAnyGranted('ROLE_CATEGORIA')}"
+							styleClass="menu_link_lateral" />
+
+						<p:commandLink value="#{msg.questao_label_menu}"
+							action="#{menuBean.pageQuestao}"
+							rendered="#{sec:areAnyGranted('ROLE_QUESTAO')}"
+							styleClass="menu_link_lateral" />
+
+						<p:commandLink value="#{msg.aluno_label_menu}"
+							action="#{menuBean.pageAlunos}"
+							rendered="#{sec:areAnyGranted('ROLE_ALUNO')}"
+							styleClass="menu_link_lateral" />
+
+						<p:commandLink value="#{msg.simulado_label_menu}"
+							action="#{menuBean.pageSimuladoDescricao}"
+							rendered="#{sec:areAnyGranted('ROLE_SIMULADO')}"
+							styleClass="menu_link_lateral" />
+
+						<p:commandLink value="#{msg.dados_pessoais_label_titulo}"
+							action="#{menuBean.pageDadosPessoais}"
+							styleClass="menu_link_lateral" />
+
+
+
+						<br />
+						<p:outputPanel rendered="#{menuBean.alunoLogado == true}">
+						<h3>Cursos</h3>
+						<hr />
+
+						<p:tree value="#{menuCategoriaBean.root}" var="categoria"
+							styleClass="menuTree">
+							<p:treeNode>
+								<p:commandLink value="#{categoria.nome}" ajax="false"
+									action="#{menuBean.pageCurso}" styleClass="menuLink"
+									style="color:white;" rendered="#{categoria.curso == true}">
+									<f:param name="id" value="#{categoria.id}" />
+								</p:commandLink>
+								<h:outputText value="#{categoria.nome}" styleClass="menuSimples"
+									rendered="#{categoria.curso == false}" style="color:white;" />
+
+							</p:treeNode>
+						</p:tree>
+						</p:outputPanel>
+					</h:form>
+
+
+				</div>
+				<div class="col-md-10 conteudo">
+					<ui:insert name="corpo" />
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	
+</h:body>
+</html>

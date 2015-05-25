@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/interna.xhtml">	
+		<ui:define name="titulo">
+			#{msg.questao_titulo}
+		</ui:define>
+		<ui:define name="corpo">
+		
+			<div class="row" id="body1">
+				
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading"><h:outputLabel value="#{msg.questao_lista}"/></div>
+					<div class="panel-body">
+					  <p:commandLink onclick="PF('dlg1').show();" class="pull-right btnAdicionar" action="#{questaoBean.limparForm}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_INCLUIR')}">
+					  	<p:graphicImage library="imagens" name="add_32x32.png" title="Adicionar"/> 
+					  	<p:outputLabel value="Adicionar"  style="margin-left: 5px;"/>
+					  </p:commandLink>
+						<div class="clear"></div>
+					<h:form id="listagem">
+						<p:dataTable id="tabelaQuestao" value="#{questaoBean.dataModelQuestao}" var="questao" rows="10" 
+							paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+							{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" lazy="true" emptyMessage="Não existe questões!!" >
+								
+							<p:column headerText="#{msg.questao_label_enunciado}" filterBy="#{questao.enunciado}">
+								#{questao.enunciado}
+							</p:column>	
+							<p:column headerText="#{msg.questao_label_comentario}" filterBy="#{questao.observacao}">
+								#{questao.observacao}
+							</p:column>	
+							
+							<p:column headerText="#{msg.questao_label_categoria}" filterBy="#{questao.areaConhecimento.categoria.nome}" style="width: 15%;">
+								#{questao.areaConhecimento.categoria.nome}
+							</p:column>	
+							
+							<p:column headerText="#{msg.area_conhecimento_label_menu}" filterBy="#{questao.areaConhecimento.descricao}" style="width: 15%;">
+								#{questao.areaConhecimento.descricao}
+							</p:column>	
+							
+							<p:column headerText="#{msg.app_label_acoes}"  style="width: 10%;">
+								<p:commandLink process="@this" action="#{questaoBean.carregarEditar}" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" styleClass="btnEdit">
+									<p:graphicImage library="imagens" name="edit_32x32.png" title="Editar" onclick="PF('dlg1').show();"/>
+									<f:setPropertyActionListener value="#{questao}" target="#{questaoBean.questao}" />
+									<f:setPropertyActionListener value="#{questao.areaConhecimento.categoria}" target="#{questaoBean.categoria}" />
+										
+								</p:commandLink>
+								<p:commandLink process="@this" action="#{questaoBean.excluir}" update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
+									<p:graphicImage library="imagens" name="delete_32x32.png" title="Excluir"/>
+									<f:setPropertyActionListener value="#{questao}" target="#{questaoBean.questao}" />
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>	
+					</h:form>	
+					
+				
+					
+						
+			  </div>					  
+			</div>
+				
+		</div>	
+				
+	</div>
+	
+		<p:dialog header="#{msg.questao_titulo}" widgetVar="dlg1" modal="true" width="60%" height="500px" style="margin-top: 60px;">
+    		<div class="panel panel-default">
+					 
+					  <div class="panel-body" style="overflow: auto">
+					    
+					    <h:form id="edicao" enctype="multipart/form-data">
+					    
+					    <p:tabView orientation="left" activeIndex="#{questaoBean.aba}" id="abas">
+					    <p:tab title="Enunciado">
+							<div class="form-group">
+					        	<h:outputLabel value="#{msg.questao_label_enunciado}: " for="enunciado" />
+								<p:inputTextarea  id="enunciado" value="#{questaoBean.questao.enunciado}"  validator="removeEmBranco" styleClass="form-control" />
+							</div>
+							
+							<div class="form-group">
+					        	<h:outputLabel value="#{msg.questao_label_comentario}: " for="comentario" />
+								<p:inputTextarea  id="comentario" value="#{questaoBean.questao.observacao}"  validator="removeEmBranco" styleClass="form-control" />
+							</div>
+							
+							<div class="form-group col-md-6">
+	                  		<h:outputLabel value="#{msg.categoria_label_menu}:" for="categoria" /><br/>
+							<h:selectOneMenu id="categoria" value="#{questaoBean.categoria}" valueChangeListener="#{questaoBean.carregarAreaConhecimento}"
+								converter="converterCategoria" styleClass="form-control">
+								<f:selectItem itemLabel="#{msg.app_label_selecione}" itemValue="#{null}" />
+								<f:selectItems value="#{questaoBean.listaCategoria}" var="categoria" itemLabel="#{categoria.nome}" 
+									itemValue="#{categoria}" />
+								<f:ajax event="change" render="areaConhecimento" />	
+							</h:selectOneMenu>								
+	                  		</div>
+	                  		
+	                  		<div class="form-group col-md-6">
+	                  		<h:outputLabel value="#{msg.area_conhecimento_label_menu}:" for="areaConhecimento"  /><br/>
+							<h:selectOneMenu id="areaConhecimento" value="#{questaoBean.questao.areaConhecimento}" disabled="#{questaoBean.categoria.id == null}" converter="converterAreaConhecimento" required="true" styleClass="form-control" >
+								<f:selectItems value="#{questaoBean.listaAreaConhecimento}" var="areaConhecimento" itemLabel="#{areaConhecimento.descricao}" itemValue="#{areaConhecimento}" />
+							</h:selectOneMenu>								
+	                  		</div>
+	                  		
+	                  		<div class="form-group col-md-6">
+							<h:panelGrid columns="2" cellpadding="5">
+        							<h:outputLabel value="#{msg.questao_label_nivel} " for="nivel" />
+       									 <p:rating value="#{questaoBean.nivel}" cancel="false" />
+       						</h:panelGrid> 
+							</div>
+							
+	                  		<p:outputPanel id="imagem">
+							<div class="form-group col-md-8">
+					        	<h:outputLabel value="#{msg.questao_label_imagem}: " for="upload" />
+								<p:fileUpload id="upload" label="Upload..."  fileUploadListener="#{questaoBean.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" update="imagem" />
+							</div>
+							
+							
+							
+							<div class="form-group">
+							<p:graphicImage value="../imagens/#{questaoBean.questao.caminhoImagem}" id="img" cache="false" width="100" height="100" rendered="#{!empty(questaoBean.questao.caminhoImagem)}"/>
+							</div>
+							</p:outputPanel>
+							
+							
+							
+						</p:tab>
+						<p:tab title="Alternativas">
+												
+								<label style="margin-bottom: 3px;">#{msg.questao_check_alternativa_correta} </label>
+									
+							  <div class="form-group">
+								  	   <p:selectBooleanCheckbox id="correta" value="#{questaoBean.alternativa.correta}"  />
+								       <p:inputTextarea  id="resposta" value="#{questaoBean.alternativa.resposta}"  styleClass="form-control noprocess" />
+						
+								    </div>
+								   
+						
+							<p:commandLink value="Adicionar" action="#{questaoBean.add}" process="@this,resposta, correta" update="tabelaAlternativa, resposta" styleClass="btn btn-default pull-right"  style="margin-bottom:10px;"  />				
+						<div class="clear"></div>								
+						<p:dataTable id="tabelaAlternativa"  value="#{questaoBean.listaAlternativa}" var="alternativa" emptyMessage="Não existe alternativas!!" >
+							<p:column headerText="Alternativas">
+      						  <h:outputText value="#{alternativa.resposta}" />
+    						</p:column>
+    						
+    						<p:column>
+    						<h:outputText value="Correta" rendered="#{alternativa.correta == true}" />
+    						<h:outputText value="Errada" rendered="#{alternativa.correta == false}" />
+      						 	
+    						</p:column>
+		
+    						<p:column headerText="#{msg.app_label_acoes}" style="width:60px;">
+								<p:commandLink process="@this"  rendered="#{sec:areAnyGranted('ROLE_QUESTAO_ALTERAR')}" update=":edicao:abas:resposta :edicao:abas:correta">
+									<p:graphicImage library="imagens" name="editar16.png" />
+									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
+									<f:setPropertyActionListener value="1" target="#{questaoBean.aba}" />
+									
+								</p:commandLink>
+								<p:commandLink process="@this" action="#{questaoBean.remove}" update=":edicao:abas:tabelaAlternativa" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_EXCLUIR')}"  >
+									<p:graphicImage library="imagens" name="excluir16.png" />
+									<f:setPropertyActionListener value="#{alternativa}" target="#{questaoBean.alternativa}" />
+									<f:setPropertyActionListener value="1" target="#{questaoBean.aba}" />
+								</p:commandLink>
+							</p:column>
+							
+						</p:dataTable>
+		
+  						</p:tab>
+  						</p:tabView>
+  						<hr/>
+						<p:commandLink value="#{msg.app_label_salvar}" action="#{questaoBean.salvar}"  process="@this,@(form:not(.noprocess))"  update=":edicao :listagem" rendered="#{sec:areAnyGranted('ROLE_QUESTAO_INCLUIR')}" styleClass="btn btn-success pull-right" style="margin-left: 10px;" />
+						<p:commandLink value="#{msg.app_label_limpar}" action="#{questaoBean.limparForm}" process="@this" update=":edicao" rendered="#{questaoBean.questao.id == null}" styleClass="btn btn-success pull-right" />
+						<p:commandLink value="Cancelar" action="#{questaoBean.limparForm}" ajax="false" update="@form" rendered="#{questaoBean.questao.id != null}" styleClass="btn btn-default pull-right"/>
+					</h:form>
+				</div>	<!--Fim Painel body  -->			
+			</div><!--Fim Painel  -->
+    
+    	</p:dialog>
+		</ui:define>
+	</ui:composition>
+</html>
