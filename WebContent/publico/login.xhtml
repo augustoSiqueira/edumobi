@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="login.css" />
+	<h:outputScript library="js" name="bootstrap.min.js" />
+</h:head>
+<h:body>
+	<p:growl autoUpdate="true" life="3000" showDetail="true" showSummary="false"/>
+	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+    <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+      <p:graphicImage url="../resources/imagens/status.gif"/>
+    </p:dialog>
+
+
+	<div id="form_login">
+		<center>
+			<img src="../resources/imagens/logo2.png" width="130" />
+		</center>
+		<hr />
+		<div role="tabpanel">
+
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist" style="text-align: center;">
+				<li role="presentation" class="active" style="width: 50%"><a
+					href="#home" aria-controls="home" role="tab" data-toggle="tab">Login</a></li>
+				<li role="presentation" style="width: 50%"><a href="#profile"
+					aria-controls="profile" role="tab" data-toggle="tab">Esqueci a
+						Senha</a></li>
+			</ul>
+
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="home">
+					<h:form id="login">
+						<div class="form-group">
+							<label for="username-email">#{msg.login_label_email}</label>
+							<p:inputText id="login" label="#{msg.login_label_email}"
+								alt="#{msg.login_label_email}" title="#{msg.login_label_email}"
+								required="true" value="#{loginBean.email}"
+								styleClass="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="password">#{msg.login_label_senha}:</label>
+							<p:password id="senha" label="#{msg.login_label_senha}"
+								alt="#{msg.login_label_senha}" title="#{msg.login_label_senha}"
+								required="true" value="#{loginBean.senha}"
+								styleClass="form-control" />
+						</div>
+
+
+						<p:commandButton id="btLogin" type="submit"
+							action="#{loginBean.login}" value="Entrar" ajax="false"
+							styleClass="btn btn-default pull-right" style="width:100px;" />
+
+
+					</h:form>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="profile">
+					<h:form id="senha">
+						<div class="form-group">
+							<label for="username-email">#{msg.esqueci_senha_label_email}</label>
+							<p:inputText id="rec_email" label="#{msg.login_label_email}"
+								required="true" value="#{loginBean.emailRecuperar}"
+								styleClass="form-control" />
+						</div>
+
+						<p:commandButton id="btRecuperarSenha" type="submit"
+							action="#{loginBean.recuperarSenha}" 
+							value="#{msg.esqueci_senha_label_btn}"
+							styleClass="btn btn-default pull-right" style="width:100px;" 
+							update="rec_email"/>
+
+					</h:form>
+
+
+
+				</div>
+
+			</div>
+		</div>
+		<hr />
+		<center>
+			<p:link id="cadastrarAluno" value="#{msg.app_label_cadastrar}" outcome="cadastrarAluno.jsf?faces-redirect=true" />
+		</center>
+	</div>
+
+</h:body>
+</html>

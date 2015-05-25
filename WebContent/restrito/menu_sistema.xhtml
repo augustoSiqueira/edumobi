@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+
+	<h:form id="menu">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<p:commandLink action="#{menuBean.pagePrincipal}" ajax="false" styleClass="navbar-brand">
+					<p:graphicImage library="imagens" name="logo3.png" width="130" style="margin-top:-5px;"></p:graphicImage>
+				</p:commandLink>
+				</div>
+			<div id="navbar" class="collapse navbar-collapse">
+					
+				<ul class="nav navbar-nav pull-right">
+					<li><p:outputLabel value="Seja bem vindo" style="color:black; margin-top:10px;font-size: 14px !important;"/>
+						<br/><p:outputLabel value=" #{menuBean.nomeUsuarioLogado} " style="color:white;font-size: 14px !important; float: right;"/>
+					</li>										
+						
+					<li><p:commandLink onclick="document.location='#{request.contextPath}/j_spring_security_logout'" style="margin-top:-5px;" title="Sair">
+						<p:graphicImage library="imagens" name="sair.png" width="40"/>
+					</p:commandLink></li>										
+				</ul>
+				
+			
+			</div>
+		</div>
+		</nav>
+	</h:form>
+
+</ui:composition>
+</html>

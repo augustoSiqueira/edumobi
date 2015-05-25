@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/interna.xhtml">
+	<ui:define name="corpo">
+	
+		<h:form id="listagem">
+			
+			<h:panelGrid columns="2" columnClasses="left, right" style="width:100%">
+				<p:chart type="bar" model="#{relatorioEstudoBean.horizontalBarChartModel}" style="height:300px">
+					<p:ajax event="itemSelect" listener="#{relatorioEstudoBean.itemSelect}" />
+				</p:chart>
+			</h:panelGrid>
+		
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
