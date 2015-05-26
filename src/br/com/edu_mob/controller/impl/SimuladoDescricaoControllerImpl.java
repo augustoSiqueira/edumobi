@@ -1,6 +1,7 @@
 package br.com.edu_mob.controller.impl;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,6 +66,7 @@ public class SimuladoDescricaoControllerImpl implements SimuladoDescricaoControl
 	public void incluir(Simulado simulado) throws RNException {
 		try {
 			validarQntQuestao(simulado);
+			simulado.setDataAtualizacao(new Date());
 			this.simuladoDescricaoDAO.save(simulado);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -77,6 +79,7 @@ public class SimuladoDescricaoControllerImpl implements SimuladoDescricaoControl
 	public void alterar(Simulado simulado) throws RNException {
 		try {
 			validarQntQuestao(simulado);
+			simulado.setDataAtualizacao(new Date());
 			this.simuladoDescricaoDAO.update(simulado);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
