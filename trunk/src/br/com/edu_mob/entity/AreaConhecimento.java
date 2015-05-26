@@ -43,10 +43,6 @@ public class AreaConhecimento implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_atualizacao")
 	private Date dataAtualizacao;
-	
-	@ManyToOne
-	@JoinColumn(name="id_simulado")
-	private Simulado simulado;
 
 	public AreaConhecimento() {
 		super();

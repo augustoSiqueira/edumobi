@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -50,8 +52,10 @@ public class Simulado implements Serializable {
 	@JoinColumn(name="id_categoria")
 	private Categoria categoria;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="simulado")
+	@ManyToMany(fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SUBSELECT)
+	@JoinTable(name = "simulado_area_conhecimento", joinColumns = {@JoinColumn(name = "id_simulado")},
+	inverseJoinColumns = @JoinColumn(name = "id_area_conhecimento"))
 	private List<AreaConhecimento> areasConhecimento;
 
 	@Temporal(TemporalType.TIMESTAMP)
