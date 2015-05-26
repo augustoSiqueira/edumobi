@@ -1,7 +1,6 @@
 package br.com.edu_mob.mb;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,23 +17,17 @@ import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.chart.PieChartModel;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.sun.glass.ui.Menu;
-
 import br.com.edu_mob.controller.AlunoController;
 import br.com.edu_mob.controller.CategoriaController;
 import br.com.edu_mob.controller.QuestaoController;
 import br.com.edu_mob.controller.RespostaEstudoController;
-import br.com.edu_mob.controller.SimuladoDescricaoController;
 import br.com.edu_mob.entity.Aluno;
 import br.com.edu_mob.entity.Categoria;
 import br.com.edu_mob.entity.Livro;
-import br.com.edu_mob.entity.Simulado;
 import br.com.edu_mob.entity.Usuario;
 import br.com.edu_mob.entity.model.AreaConhecimentoModel;
 import br.com.edu_mob.exception.RNException;
-import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
-import br.com.edu_mob.message.SucessMessage;
 import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 
