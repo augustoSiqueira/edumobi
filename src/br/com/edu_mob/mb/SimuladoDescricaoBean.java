@@ -255,7 +255,8 @@ public class SimuladoDescricaoBean extends GenericBean implements Serializable {
 
 			if((listaResultadoSimuladoDTO == null) || listaResultadoSimuladoDTO.isEmpty()) {
 				facesContext.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN, "A busca retornou uma lista vazia", ""));
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "", "A busca retornou uma lista vazia"));
+				return null;
 			}
 
 			Map<String, String> parametros = new HashMap<String, String>();
