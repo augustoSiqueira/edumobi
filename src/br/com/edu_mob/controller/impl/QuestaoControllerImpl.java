@@ -23,6 +23,7 @@ import br.com.edu_mob.controller.QuestaoController;
 import br.com.edu_mob.dao.AlternativaDAO;
 import br.com.edu_mob.dao.QuestaoDAO;
 import br.com.edu_mob.dao.impl.QuestaoDAOImpl;
+import br.com.edu_mob.entity.Alternativa;
 import br.com.edu_mob.entity.Questao;
 import br.com.edu_mob.entity.enuns.Letra;
 import br.com.edu_mob.exception.DAOException;
@@ -173,13 +174,18 @@ public class QuestaoControllerImpl implements QuestaoController{
 		listaQuestoesDTO = new ArrayList<QuestaoDTO>();
 		try {
 			listaQuestoes = this.questaoDAO.pesquisarPorFiltroDTO(filtro);
+			if(listaQuestoes != null && !listaQuestoes.isEmpty()) {
 				for (Questao q : listaQuestoes) {
-					QuestaoDTO questao = new QuestaoDTO(q.getId(), q.getEnunciado(), q.getObservacao(), q.getCaminhoImagem(), q.getAreaConhecimento().getId(),q.getDataAtualizacao());  
+					QuestaoDTO questaoDTO = new QuestaoDTO(q.getId(), q.getEnunciado(), q.getObservacao(), q.getCaminhoImagem(), q.getAreaConhecimento().getId(),q.getDataAtualizacao());  
 					if(q.getListaAlternativas()!= null && !q.getListaAlternativas().isEmpty()){
-						questao.setListaAlternativasDTO(q.getListaAlternativas());
+						for (Alternativa  alternativa : q.getListaAlternativas()) {
+							AlternativaDTO alternativaDTO = new AlternativaDTO(alternativa.getId(), alternativa.getResposta(), alternativa.getCorreta(), alternativa.getLetra());
+							questaoDTO.getListaAlternativasDTO().add(alternativaDTO);
+						}
 					}
-					listaQuestoesDTO.add(questao);
+					listaQuestoesDTO.add(questaoDTO);
 				}
+			}
 		} catch (DAOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
