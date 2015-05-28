@@ -1,10 +1,9 @@
 package br.com.edu_mob.services;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import br.com.edu_mob.entity.Alternativa;
 
 public class QuestaoDTO implements Serializable {
 
@@ -22,7 +21,7 @@ public class QuestaoDTO implements Serializable {
 
 	private Date dataAtualizacao;
 
-	private List<Alternativa> listaAlternativasDTO;
+	private List<AlternativaDTO> listaAlternativasDTO;
 
 	public QuestaoDTO() {
 		super();
@@ -37,6 +36,7 @@ public class QuestaoDTO implements Serializable {
 		this.caminhoImagem = caminhoImagem;
 		this.idAreaConhecimento = idAreaConhecimento;
 		this.dataAtualizacao = dataAtualizacao;
+		this.listaAlternativasDTO = new ArrayList<AlternativaDTO>();
 	}
 
 	public Long getId() {
@@ -87,11 +87,11 @@ public class QuestaoDTO implements Serializable {
 		this.dataAtualizacao = dataAtualizacao;
 	}
 
-	public List<Alternativa> getListaAlternativasDTO() {
-		return this.listaAlternativasDTO;
+	public List<AlternativaDTO> getListaAlternativasDTO() {
+		return listaAlternativasDTO;
 	}
 
-	public void setListaAlternativasDTO(List<Alternativa> listaAlternativasDTO) {
+	public void setListaAlternativasDTO(List<AlternativaDTO> listaAlternativasDTO) {
 		this.listaAlternativasDTO = listaAlternativasDTO;
 	}
 
