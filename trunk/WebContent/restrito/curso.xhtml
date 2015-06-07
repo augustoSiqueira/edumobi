@@ -271,24 +271,23 @@
 					</p:commandLink>
 				</p:column>
 				<p:column headerText="Resultados" width="90">
-					<p:commandLink action="#{cursoBean.paginaResultados}">
+					<p:link outcome="resultados_simulado.jsf?faces-redirect=true">
 						<center>
 							<p:graphicImage library="imagens" name="resultados.png"
 								width="40" />
 						</center>
 						<f:param name="idSimulado" value="#{simulado.id}" />
-					</p:commandLink>
-
+					</p:link>
+					
 				</p:column>
 				<p:column headerText="Desempenho" width="95">
-					<p:commandLink action="#{cursoBean.paginaDesempenho}">
+				<p:link outcome="relatorio_simulado.jsf?faces-redirect=true">
 						<center>
 							<p:graphicImage library="imagens" name="desempenho.png"
 								width="40" />
 						</center>
 						<f:param name="idSimulado" value="#{simulado.id}" />
-					</p:commandLink>
-
+					</p:link>					
 				</p:column>
 
 			</p:dataTable>

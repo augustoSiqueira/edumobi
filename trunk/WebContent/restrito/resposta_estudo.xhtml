@@ -12,10 +12,10 @@
 	<ui:define name="corpo">
 		<h:form id="listagem">
 			<p:dataTable id="tabelaQuestoes" value="#{respostaEstudoBean.dataModelRespostaEstudo}"
-				var="questao" rows="2" paginator="true" emptyMessage="#{msg.app_label_nenhum_registro_encontrado}"
+				var="questao" rows="1" paginator="true" emptyMessage="#{msg.app_label_nenhum_registro_encontrado}"
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 								{NextPageLink} {LastPageLink}"
-				rowsPerPageTemplate="5, 10, 15" lazy="true">
+				rowsPerPageTemplate="1, 5, 10, 15" lazy="true">
 				<p:column>
 					<p:dataTable id="tabelaAlternativas" selectionMode="single" selection="#{respostaEstudoBean.alternativa}" rowKey="#{alternativa.id}" 
 			            	value="#{questao.listaAlternativas}" var="alternativa" style="border:none !important">
@@ -32,7 +32,7 @@
 					            </div>
 					            <div align="left">
 					        		<p:graphicImage value="../imagens/#{questao.caminhoImagem}" id="img"
-											cache="false" width="95" height="120" />
+											cache="false" style="max-height: 250px;"/>
 					            </div>
 					        </f:facet>
 			            	<p:column style="border-style:none">
@@ -54,6 +54,7 @@
 			                			rendered="#{questao.exibirComentario != null and questao.exibirComentario == true}" />
 		    					 </div>
 			                </f:facet>
+			                <hr/>
 		    		</p:dataTable>
 		    	</p:column>
 			</p:dataTable>
