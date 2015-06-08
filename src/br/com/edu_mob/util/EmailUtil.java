@@ -38,7 +38,7 @@ public class EmailUtil {
 	private static Session getSession() {
 		javax.mail.Authenticator authenticator = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("systemedumobi@gmail.com", "edumobi10");
+				return new PasswordAuthentication("systemedumobi@gmail.com", "edumobi100");
 			}
 		};
 		Properties properties = new Properties();
