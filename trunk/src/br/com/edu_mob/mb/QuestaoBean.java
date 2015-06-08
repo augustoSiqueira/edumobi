@@ -138,6 +138,7 @@ public class QuestaoBean extends GenericBean implements Serializable {
 
 	public void limparCamposAlternativa() {
 		this.alternativa = new Alternativa();
+		this.alternativa.setCorreta(false);
 	}
 
 	public void atualizarGrid() {
@@ -220,7 +221,7 @@ public class QuestaoBean extends GenericBean implements Serializable {
 			}
 
 			this.limparCamposAlternativa();
-
+			
 		} catch (RNException e) {
 			this.alternativa.setCorreta(false);
 			logger.log(Level.SEVERE, e.getMessage(), e);

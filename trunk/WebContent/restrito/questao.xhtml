@@ -70,7 +70,7 @@
 				
 	</div>
 	
-		<p:dialog header="#{msg.questao_titulo}" widgetVar="dlg1" modal="true" width="60%" height="500px" style="margin-top: 60px;">
+		<p:dialog header="#{msg.questao_titulo}" widgetVar="dlg1" modal="true" width="60%" height="500px" style="margin-top: 70px;">
     		<div class="panel panel-default">
 					 
 					  <div class="panel-body" style="overflow: auto">
@@ -81,12 +81,12 @@
 					    <p:tab title="Enunciado">
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.questao_label_enunciado}: " for="enunciado" />
-								<p:inputTextarea  id="enunciado" value="#{questaoBean.questao.enunciado}"  validator="removeEmBranco" styleClass="form-control" />
+								<p:inputTextarea  id="enunciado" value="#{questaoBean.questao.enunciado}" rows="4" autoResize="false" validator="removeEmBranco" styleClass="form-control" />
 							</div>
 							
 							<div class="form-group">
 					        	<h:outputLabel value="#{msg.questao_label_comentario}: " for="comentario" />
-								<p:inputTextarea  id="comentario" value="#{questaoBean.questao.observacao}"  validator="removeEmBranco" styleClass="form-control" />
+								<p:inputTextarea  id="comentario" value="#{questaoBean.questao.observacao}"  rows="4" autoResize="false" validator="removeEmBranco" styleClass="form-control" />
 							</div>
 							
 							<div class="form-group col-md-6">
@@ -132,16 +132,16 @@
 						</p:tab>
 						<p:tab title="Alternativas">
 												
-								<label style="margin-bottom: 3px;">#{msg.questao_check_alternativa_correta} </label>
-									
-							  <div class="form-group">
-								  	   <p:selectBooleanCheckbox id="correta" value="#{questaoBean.alternativa.correta}"  />
+							 
+								<br/>
+							  <div class="form-group">						  			
+								  	   
 								       <p:inputTextarea  id="resposta" value="#{questaoBean.alternativa.resposta}"  styleClass="form-control noprocess" />
 						
 								    </div>
 								   
-						
-							<p:commandLink value="Adicionar" action="#{questaoBean.add}" process="@this,resposta, correta" update="tabelaAlternativa, resposta" styleClass="btn btn-default pull-right"  style="margin-bottom:10px;"  />				
+							<p:selectBooleanButton id="correta" value="#{questaoBean.alternativa.correta}" onLabel="Esta alternativa esta Correta" offLabel="Esta alternativa esta Errada" onIcon="ui-icon-check" offIcon="ui-icon-close" />
+							<p:commandLink value="Adicionar" action="#{questaoBean.add}" process="@this,resposta, correta" update="tabelaAlternativa, resposta,correta" styleClass="btn btn-default pull-right"  style="margin-bottom:10px;"  />				
 						<div class="clear"></div>								
 						<p:dataTable id="tabelaAlternativa"  value="#{questaoBean.listaAlternativa}" var="alternativa" emptyMessage="Não existe alternativas!!" >
 							<p:column headerText="Alternativas">
@@ -149,6 +149,7 @@
     						</p:column>
     						
     						<p:column>
+    						 
     						<h:outputText value="Correta" rendered="#{alternativa.correta == true}" />
     						<h:outputText value="Errada" rendered="#{alternativa.correta == false}" />
       						 	

@@ -65,6 +65,8 @@ public class RespostaSimuladoBean extends GenericBean implements Serializable {
 	private Date dataInicio;
 
 	private String horario;
+	
+	private Integer qnt_questoes;
 
 	@PostConstruct
 	public void init() {
@@ -224,5 +226,19 @@ public class RespostaSimuladoBean extends GenericBean implements Serializable {
 	public void setDuracao(Calendar duracao) {
 		this.duracao = duracao;
 	}
+
+	public Integer getQnt_questoes() {
+		if(getListaQuestoes() != null){
+			int num =  getListaQuestoes().size();
+			return num;
+		}
+		return 0;
+	}
+
+	public void setQnt_questoes(Integer qnt_questões) {
+		this.qnt_questoes = qnt_questões;
+	}
+	
+	
 
 }
