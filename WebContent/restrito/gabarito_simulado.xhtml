@@ -10,36 +10,71 @@
 
 <ui:composition template="/templates/interna.xhtml">
 	<ui:define name="corpo">
-	
-		<h:form id="listagem">
-			
-			<h:panelGrid style="float:left">
-				<h:outputText value="Simulado: #{gabaritoSimuladoBean.resultadoSimulado.simulado.titulo}" style="font-size:16px; font-weight:bold" />
-			</h:panelGrid>
-			
-			
-			<h:panelGrid style="float:left">
-				<p:dataTable id="respostasSimulado" var="respostaSimulado" value="#{gabaritoSimuladoBean.resultadoSimulado.listaRespostaSimulado}" 
-					emptyMessage="#{msg.app_label_nenhum_registro_encontrado}" >
-					<f:facet name="header">
+
+		<div class="panel panel-default">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<h:form>
+					<h3 style="float: left; margin-top: 2px;">
+
+						<h:commandLink value="#{cursoBean.categoria.nome}"
+							action="#{menuBean.pageCurso}">
+							<f:param name="id" value="#{cursoBean.categoria.id}" />
+						</h:commandLink>
+					</h3>
+				</h:form>
+				<p style="float: right">
+
+					<p:link outcome="relatorio_estudo.jsf?faces-redirect=true"
+						value="#{msg.curso_label_label_analise_desempenho}"
+						styleClass="menuLink" rendered="#{cursoBean.cursoVinculado}">
+						<f:param name="idCategoria" value="#{cursoBean.categoria.id}" />
+					</p:link>
+
+				</p>
+				<div class="clear"></div>
+				<hr />
+
+				<h:form id="listagem">
+
+					<h:panelGrid style="float:left">
+						<h:outputText
+							value="Simulado: #{gabaritoSimuladoBean.resultadoSimulado.simulado.titulo}"
+							style="font-size:16px; font-weight:bold" />
+					</h:panelGrid>
+
+
+					<h:panelGrid style="float:left">
+						<p:dataTable id="respostasSimulado" var="respostaSimulado"
+							value="#{gabaritoSimuladoBean.resultadoSimulado.listaRespostaSimulado}"
+							emptyMessage="#{msg.app_label_nenhum_registro_encontrado}">
+							<f:facet name="header">
 						#{msg.gabarito_label_titulo}
 					</f:facet>
-					<p:column headerText="#{msg.gabarito_label_questao}" width="50%">
-						<h:outputText value="#{respostaSimulado.questao.enunciado}" />
-					</p:column>
-					<p:column headerText="Alternativa Correta" width="20%" style="text-align:center">
-						<h:outputText value="#{respostaSimulado.alternativaCorreta.letra}" />
-					</p:column>
-					<p:column headerText="Alternativa Selecionada" width="20%" style="text-align:center">
-						<h:outputText value="#{respostaSimulado.alternativaSelecionada.letra}" />
-					</p:column>
-					<p:column headerText="Correta" width="10%" style="text-align:center">
-						<h:outputText value="SIM" rendered="#{respostaSimulado.correta}" />
-						<h:outputText value="NÃO" rendered="#{!respostaSimulado.correta}" />
-					</p:column>
-				</p:dataTable>
-			</h:panelGrid>
-		</h:form>
+							<p:column headerText="#{msg.gabarito_label_questao}" width="50%">
+								<h:outputText value="#{respostaSimulado.questao.enunciado}" />
+							</p:column>
+							<p:column headerText="Alternativa Correta" width="20%"
+								style="text-align:center">
+								<h:outputText
+									value="#{respostaSimulado.alternativaCorreta.letra}" />
+							</p:column>
+							<p:column headerText="Alternativa Selecionada" width="20%"
+								style="text-align:center">
+								<h:outputText
+									value="#{respostaSimulado.alternativaSelecionada.letra}" />
+							</p:column>
+							<p:column headerText="Correta" width="10%"
+								style="text-align:center">
+								<h:outputText value="SIM" rendered="#{respostaSimulado.correta}" />
+								<h:outputText value="NÃO"
+									rendered="#{!respostaSimulado.correta}" />
+							</p:column>
+						</p:dataTable>
+					</h:panelGrid>
+				</h:form>
+			</div>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

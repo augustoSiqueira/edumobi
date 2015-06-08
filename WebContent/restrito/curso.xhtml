@@ -14,9 +14,15 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"></div>
 			<div class="panel-body">
+				<h:form>
 				<h3 style="float: left; margin-top: 2px;">
-					<h:outputLabel value="#{cursoBean.categoria.nome}" />
+				
+					<h:commandLink value="#{cursoBean.categoria.nome}" 
+						action="#{menuBean.pageCurso}">
+						<f:param name="id" value="#{cursoBean.categoria.id}" />
+					</h:commandLink>
 				</h3>
+			</h:form>
 				<p style="float: right">
 
 					<p:commandLink value="Simulados" styleClass="menuLink"
@@ -261,8 +267,7 @@
 				</p:column>
 				<p:column headerText="Iniciar" width="60">
 					<p:commandLink action="#{cursoBean.paginaRespostaSimulado}">
-						<p:confirm
-							message="Deseja iniciar o simulado agora ?"
+						<p:confirm message="Deseja iniciar o simulado agora ?"
 							icon="ui-icon-alert" />
 						<center>
 							<p:graphicImage library="imagens" name="iniciar.png" width="40" />
@@ -278,16 +283,16 @@
 						</center>
 						<f:param name="idSimulado" value="#{simulado.id}" />
 					</p:link>
-					
+
 				</p:column>
 				<p:column headerText="Desempenho" width="95">
-				<p:link outcome="relatorio_simulado.jsf?faces-redirect=true">
+					<p:link outcome="relatorio_simulado.jsf?faces-redirect=true">
 						<center>
 							<p:graphicImage library="imagens" name="desempenho.png"
 								width="40" />
 						</center>
 						<f:param name="idSimulado" value="#{simulado.id}" />
-					</p:link>					
+					</p:link>
 				</p:column>
 
 			</p:dataTable>

@@ -10,16 +10,46 @@
 
 <ui:composition template="/templates/interna.xhtml">
 	<ui:define name="corpo">
-	
-		<h:form id="listagem">
-			
-			<h:panelGrid columns="2" columnClasses="left, right" style="width:100%">
-				<p:chart type="bar" model="#{relatorioEstudoBean.horizontalBarChartModel}" style="height:300px">
-					<p:ajax event="itemSelect" listener="#{relatorioEstudoBean.itemSelect}" />
-				</p:chart>
-			</h:panelGrid>
-		
-		</h:form>
+
+		<div class="panel panel-default">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<h:form>
+					<h3 style="float: left; margin-top: 2px;">
+
+						<h:commandLink value="#{cursoBean.categoria.nome}"
+							action="#{menuBean.pageCurso}">
+							<f:param name="id" value="#{cursoBean.categoria.id}" />
+						</h:commandLink>
+					</h3>
+				</h:form>
+				<p style="float: right">
+
+					<p:link outcome="relatorio_estudo.jsf?faces-redirect=true"
+						value="#{msg.curso_label_label_analise_desempenho}"
+						styleClass="menuLink" rendered="#{cursoBean.cursoVinculado}">
+						<f:param name="idCategoria" value="#{cursoBean.categoria.id}" />
+					</p:link>
+
+				</p>
+				<div class="clear"></div>
+				<hr />
+				<h:form id="listagem">
+
+					<h:panelGrid columns="2" columnClasses="left, right"
+						style="width:100%">
+						<p:chart type="bar"
+							model="#{relatorioEstudoBean.horizontalBarChartModel}"
+							style="height:300px">
+							<p:ajax event="itemSelect"
+								listener="#{relatorioEstudoBean.itemSelect}" />
+						</p:chart>
+					</h:panelGrid>
+
+				</h:form>
+			</div>
+		</div>
+
 	</ui:define>
 </ui:composition>
 </html>

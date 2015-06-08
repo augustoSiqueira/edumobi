@@ -104,7 +104,8 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 		try {
 			this.areaConhecimento.setCategoria(this.categoria);
 			this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
-			boolean existe = this.areaConhecimentoController.verificarExistencia(this.areaConhecimento);
+			//boolean existe = this.areaConhecimentoController.verificarExistencia(this.areaConhecimento);
+			boolean existe = validarSeExisteLocal(this.areaConhecimento);
 			if(existe){
 				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave()),
 				ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave(), Entidades.AREA_CONHECIMENTO.getValor());
@@ -128,7 +129,9 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 		try {
 			this.areaConhecimento.setCategoria(this.categoria);
 			this.areaConhecimento.setDescricao(this.areaConhecimento.getDescricao().trim());
-			boolean existe = this.areaConhecimentoController.verificarExistencia(this.areaConhecimento);
+			//boolean existe = this.areaConhecimentoController.verificarExistencia(this.areaConhecimento);
+			boolean existe = validarSeExisteLocal(this.areaConhecimento);
+						
 			if(existe){
 				this.addMessage(MensagemUtil.getMensagem(ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave()),
 				ErrorMessage.AREA_CONHECIMENTO_DESC_EXISTENTE.getChave(), Entidades.AREA_CONHECIMENTO.getValor());
@@ -189,6 +192,22 @@ public class AreaConhecimentoBean extends GenericBean implements Serializable{
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), msg));
 			}
 		}
+	}
+	
+	private boolean validarSeExisteLocal(AreaConhecimento area){
+		
+		for (AreaConhecimento ac : dataModelAreaConhecimento) {
+			if(area.getId() == null){
+				if(area.getDescricao().equals(ac.getDescricao())){
+					return true;
+				}
+			}else{
+				if(area.getDescricao().equals(ac.getDescricao()) && area.getId()!= ac.getId()){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public DataModelAreaConhecimento getDataModelAreaConhecimento() {

@@ -10,55 +10,110 @@
 
 <ui:composition template="/templates/interna.xhtml">
 	<ui:define name="corpo">
-		<h:form id="listagem">
-			<p:dataTable id="tabelaQuestoes" value="#{respostaEstudoBean.dataModelRespostaEstudo}"
-				var="questao" rows="1" paginator="true" emptyMessage="#{msg.app_label_nenhum_registro_encontrado}"
-				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
+
+		<div class="panel panel-default">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+			<h:form>
+				<h3 style="float: left; margin-top: 2px;">
+				
+					<h:commandLink value="#{cursoBean.categoria.nome}" 
+						action="#{menuBean.pageCurso}">
+						<f:param name="id" value="#{cursoBean.categoria.id}" />
+					</h:commandLink>
+				</h3>
+			</h:form>
+				<p style="float: right">
+
+					<p:link outcome="relatorio_estudo.jsf?faces-redirect=true"
+						value="#{msg.curso_label_label_analise_desempenho}"
+						styleClass="menuLink" rendered="#{cursoBean.cursoVinculado}">
+						<f:param name="idCategoria" value="#{cursoBean.categoria.id}" />
+					</p:link>
+
+				</p>
+				<div class="clear"></div>
+				<hr/>
+
+				<h:form id="listagem">
+					<p:dataTable id="tabelaQuestoes"
+						value="#{respostaEstudoBean.dataModelRespostaEstudo}"
+						var="questao" rows="1" paginator="true"
+						emptyMessage="#{msg.app_label_nenhum_registro_encontrado}"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 								{NextPageLink} {LastPageLink}"
-				rowsPerPageTemplate="1, 5, 10, 15" lazy="true">
-				<p:column>
-					<p:dataTable id="tabelaAlternativas" selectionMode="single" selection="#{respostaEstudoBean.alternativa}" rowKey="#{alternativa.id}" 
-			            	value="#{questao.listaAlternativas}" var="alternativa" style="border:none !important">
-			            	<f:facet name="header">
-			            		<i class="icon-ok" /><h:outputText value="#{msg.resposta_estudo_label_acerto}" escape="true" class="alert alert-success" style="color:green" 
-			            			rendered="#{(questao.correta != null) and (questao.correta == true)}" />
-								<i class="icon-remove" /><h:outputText value="#{msg.resposta_estudo_label_erro}" escape="true" class="alert alert-danger" style="color:red" rendered="#{(questao.correta != null) and (questao.correta == false)}" />
-						        <br />
-					        	<div align="left">
-					            	<h:outputText value="#{msg.resposta_estudo_label_questao} - #{questao.numero}" style="text-align:left" />
-					            </div>
-					            <div align="left">
-					            	<h:outputText value="#{questao.enunciado}" style="text-align:left" />
-					            </div>
-					            <div align="left">
-					        		<p:graphicImage value="../imagens/#{questao.caminhoImagem}" id="img"
-											cache="false" style="max-height: 250px;"/>
-					            </div>
-					        </f:facet>
-			            	<p:column style="border-style:none">
+						rowsPerPageTemplate="1, 2, 3, 4" lazy="true">
+						<p:column>
+							<p:dataTable id="tabelaAlternativas" selectionMode="single"
+								selection="#{respostaEstudoBean.alternativa}"
+								rowKey="#{alternativa.id}" value="#{questao.listaAlternativas}"
+								var="alternativa" style="border:none !important">
+								<f:facet name="header">
+									<i class="icon-ok" />
+									<h:outputText value="#{msg.resposta_estudo_label_acerto}"
+										escape="true" class="alert alert-success" style="color:green"
+										rendered="#{(questao.correta != null) and (questao.correta == true)}" />
+									<i class="icon-remove" />
+									<h:outputText value="#{msg.resposta_estudo_label_erro}"
+										escape="true" class="alert alert-danger" style="color:red"
+										rendered="#{(questao.correta != null) and (questao.correta == false)}" />
+									<br />
+									<div align="left">
+										<h:outputText
+											value="#{msg.resposta_estudo_label_questao} - #{questao.numero}"
+											style="text-align:left" />
+									</div>
+									<div align="left">
+										<h:outputText value="#{questao.enunciado}"
+											style="text-align:left" />
+									</div>
+									<div align="left">
+									<p:lightBox rendered="#{questao.caminhoImagem != null}">
+										<h:outputLink value="../imagens/#{questao.caminhoImagem}" >
+											<p:graphicImage value="../imagens/#{questao.caminhoImagem}"
+											id="img" cache="false" style="max-height: 250px;" rendered="#{questao.caminhoImagem != null}" />
+									
+										</h:outputLink>
+									</p:lightBox>
+										</div>
+								</f:facet>
+								<p:column style="border-style:none">
 			            		#{alternativa.resposta}
 			            	</p:column>
-			            	<f:facet name="footer">
-			            		<div>
-						            <p:commandButton id="btnResponder" action="#{respostaEstudoBean.responder}" value="#{msg.resposta_estudo_label_responder}" 
-						            	process="tabelaAlternativas" update=":listagem:tabelaQuestoes:tabelaAlternativas">
-						            	<f:setPropertyActionListener value="#{questao}" target="#{respostaEstudoBean.questao}" />
-						            </p:commandButton>
-						            <p:commandButton id="btnComentario" action="#{respostaEstudoBean.exibirComentario}" value="#{msg.resposta_estudo_label_comentario}"
-						            	 process="tabelaAlternativas" update=":listagem:tabelaQuestoes:tabelaAlternativas">
-				                		<f:setPropertyActionListener value="#{questao}" target="#{respostaEstudoBean.questao}" />
-						            </p:commandButton>
-					           </div> 
-					           <div style="margin-top:15px; text-align: left" >
-			                		<h:outputText id="questaoObs" value="#{questao.observacao}" style="color:blue" 
-			                			rendered="#{questao.exibirComentario != null and questao.exibirComentario == true}" />
-		    					 </div>
-			                </f:facet>
-			                <hr/>
-		    		</p:dataTable>
-		    	</p:column>
-			</p:dataTable>
-		</h:form>
+								<f:facet name="footer">
+									<div>
+										<p:commandButton id="btnResponder"
+											action="#{respostaEstudoBean.responder}"
+											value="#{msg.resposta_estudo_label_responder}"
+											process="tabelaAlternativas"
+											update=":listagem:tabelaQuestoes:tabelaAlternativas">
+											<f:setPropertyActionListener value="#{questao}"
+												target="#{respostaEstudoBean.questao}" />
+										</p:commandButton>
+										<p:commandButton id="btnComentario"
+											action="#{respostaEstudoBean.exibirComentario}"
+											value="#{msg.resposta_estudo_label_comentario}"
+											process="tabelaAlternativas"
+											update=":listagem:tabelaQuestoes:tabelaAlternativas">
+											<f:setPropertyActionListener value="#{questao}"
+												target="#{respostaEstudoBean.questao}" />
+										</p:commandButton>
+									</div>
+									<div style="margin-top: 15px; text-align: left">
+										<h:outputText id="questaoObs" value="#{questao.observacao}"
+											style="color:blue"
+											rendered="#{questao.exibirComentario != null and questao.exibirComentario == true}" />
+									</div>
+								</f:facet>
+								<hr />
+							</p:dataTable>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+
+
 	</ui:define>
 </ui:composition>
 </html>
