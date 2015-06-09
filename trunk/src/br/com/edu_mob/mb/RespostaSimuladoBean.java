@@ -15,6 +15,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.data.PageEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.edu_mob.controller.QuestaoController;
@@ -67,6 +68,8 @@ public class RespostaSimuladoBean extends GenericBean implements Serializable {
 	private String horario;
 	
 	private Integer qnt_questoes;
+	
+	private int paginaCorrente = 0;
 
 	@PostConstruct
 	public void init() {
@@ -157,10 +160,19 @@ public class RespostaSimuladoBean extends GenericBean implements Serializable {
 
 	public void atualizarQuestao() {
 		DataTable dataQuestao = this.obterDataTable();
+		if(this.questaoPainel == null) {
+			this.questaoPainel = this.listaQuestoes.get(this.paginaCorrente);
+		}
 		dataQuestao.setFirst(this.questaoPainel.getNumero() - 1);
 		if((this.questaoPainel.getAlternativa() != null) && (this.questaoPainel.getAlternativa().getId() != null)) {
 			this.alternativa = this.questaoPainel.getAlternativa();
 		}
+	}
+	
+	public void obterPaginaCorrente(PageEvent event) {
+	  this.paginaCorrente =  event.getPage();
+	  this.questaoPainel = null;
+	  this.atualizarQuestao();
 	}
 
 	public List<Questao> getListaQuestoes() {
