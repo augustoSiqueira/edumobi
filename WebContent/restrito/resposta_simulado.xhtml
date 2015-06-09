@@ -68,6 +68,8 @@
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 									{NextPageLink} {LastPageLink}"
 						lazy="true">
+						<p:ajax event="page" listener="#{respostaSimuladoBean.obterPaginaCorrente}" update="tabelaQuestoes" />	
+		
 						<p:column>
 							<p:dataTable id="tabelaAlternativas" selectionMode="single"
 								selection="#{respostaSimuladoBean.alternativa}"
