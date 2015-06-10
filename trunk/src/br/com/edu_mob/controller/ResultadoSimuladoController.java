@@ -27,4 +27,17 @@ public interface ResultadoSimuladoController extends GenericController<Resultado
 
 	List<ResultadoSimuladoDTO> pesquisarRelatorioRankingAlunos(Filter filtro) throws RNException;
 
+	/**
+	 * Metodo responsavel por pesquisar Resultados de Simulados
+	 * 
+	 * @param filtro
+	 * @param primeiroReg
+	 * @param paginaSize
+	 * @return
+	 * @throws RNException
+	 */
+	
+	List<ResultadoSimuladoDTO> pesquisarPorFiltroPaginadaDTO(Filter filtro,
+			int primeiroReg, int paginaSize) throws RNException;
+
 }

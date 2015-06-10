@@ -16,14 +16,14 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.jsf.FacesContextUtils;
 
 import br.com.edu_mob.controller.ResultadoSimuladoController;
-import br.com.edu_mob.entity.ResultadoSimulado;
 import br.com.edu_mob.entity.Usuario;
+import br.com.edu_mob.entity.infra.ResultadoSimuladoDTO;
 import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.util.Filter;
 
 @ManagedBean
 @ViewScoped
-public class DataModelResultadoSimulado extends LazyDataModel<ResultadoSimulado> {
+public class DataModelResultadoSimulado extends LazyDataModel<ResultadoSimuladoDTO> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,11 +31,11 @@ public class DataModelResultadoSimulado extends LazyDataModel<ResultadoSimulado>
 
 	private ResultadoSimuladoController resultadoSimuladoController;
 
-	private List<ResultadoSimulado> listaResultadosSimulados;
+	private List<ResultadoSimuladoDTO> listaResultadosSimuladoDTO;
 
 	@Override
-	public ResultadoSimulado getRowData(String rowKey) {
-		for (ResultadoSimulado resultadoSimulado : this.listaResultadosSimulados) {
+	public ResultadoSimuladoDTO getRowData(String rowKey) {
+		for (ResultadoSimuladoDTO resultadoSimulado : this.listaResultadosSimuladoDTO) {
 			if (resultadoSimulado.getId().equals(rowKey)) {
 				return resultadoSimulado;
 			}
@@ -44,12 +44,12 @@ public class DataModelResultadoSimulado extends LazyDataModel<ResultadoSimulado>
 	}
 
 	@Override
-	public Object getRowKey(ResultadoSimulado resultadoSimulado) {
-		return resultadoSimulado.getId();
+	public Object getRowKey(ResultadoSimuladoDTO resultadoSimuladoDTO) {
+		return resultadoSimuladoDTO.getId();
 	}
 
 	@Override
-	public List<ResultadoSimulado> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+	public List<ResultadoSimuladoDTO> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		WebApplicationContext webAppContext = FacesContextUtils.getRequiredWebApplicationContext(facesContext);
 		this.resultadoSimuladoController = webAppContext.getBean("resultadoSimuladoController", ResultadoSimuladoController.class);
@@ -59,12 +59,12 @@ public class DataModelResultadoSimulado extends LazyDataModel<ResultadoSimulado>
 		filtro.put("idSimulado", facesContext.getExternalContext().getSessionMap().get("idSimulado").toString());
 		try {
 			filtro.putAll(filters);
-			this.listaResultadosSimulados = this.resultadoSimuladoController.pesquisarPorFiltroPaginada(filtro, first, pageSize);
+			this.listaResultadosSimuladoDTO = this.resultadoSimuladoController.pesquisarPorFiltroPaginadaDTO(filtro, first, pageSize);
 			this.setRowCount(this.resultadoSimuladoController.pesquisarPorFiltroCount(filtro));
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		return this.listaResultadosSimulados;
+		return this.listaResultadosSimuladoDTO;
 	}
 
 }
