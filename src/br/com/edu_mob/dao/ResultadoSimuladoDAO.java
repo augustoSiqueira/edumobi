@@ -8,6 +8,13 @@ import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.util.Filter;
 
 public interface ResultadoSimuladoDAO extends GenericDAO, PesquisaDAO<ResultadoSimulado> {
+	
+	/**
+	 * Metodo responsavel por pesquisar Resultados de Simulados
+	 * 
+	 */
+	
+	List<ResultadoSimuladoDTO> pesquisarPorFiltroPaginadaDTO(Filter filtro, int primeiroReg, int paginaSize) throws DAOException;
 
 	/**
 	 * Metodo responsavel por pesquisar Resultados de Simulados para Relatorio

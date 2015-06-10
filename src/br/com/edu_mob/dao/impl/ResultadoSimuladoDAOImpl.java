@@ -108,6 +108,33 @@ public class ResultadoSimuladoDAOImpl extends GenericDAOImpl implements Resultad
 		}
 		return listaResultadoSimulado;
 	}
+	
+	@Override
+	public List<ResultadoSimuladoDTO> pesquisarPorFiltroPaginadaDTO(Filter filtro, int primeiroReg, int paginaSize)
+			throws DAOException {
+		List<ResultadoSimuladoDTO> listaResultadoSimuladoDTO = null;
+		String idUsuario = filtro.getAsString("idUsuario");
+		String idSimulado = filtro.getAsString("idSimulado");
+		StringBuilder sb = new StringBuilder();
+		try {
+			sb.append("select new br.com.edu_mob.entity.infra.ResultadoSimuladoDTO(rs.id, rs.qtdAcertos, rs.qtdErros, rs.dataHoraInicio, rs.tempoTotal) ");
+			sb.append(" from ResultadoSimulado rs where rs.simulado.id = " + Long.parseLong(idSimulado) + " ");
+			sb.append(" and rs.usuario.id = " + Long.parseLong(idUsuario) + " ");
+			sb.append(" order by rs.id desc ");
+			listaResultadoSimuladoDTO = this.getHibernateTemplate().execute(new HibernateCallback<List<ResultadoSimuladoDTO>>() {
+				@SuppressWarnings("unchecked")
+				@Override
+				public List<ResultadoSimuladoDTO> doInHibernate(Session session) throws HibernateException {
+					Query query = session.createQuery(sb.toString());
+					return query.list();
+				}
+			});
+		} catch(DataAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new DAOException(ErrorMessage.DAO.getChave());
+		}
+		return listaResultadoSimuladoDTO;
+	}
 
 	@Override
 	public List<ResultadoSimuladoDTO> pesquisarRelatorioDesempenhoAlunos(Filter filtro) throws DAOException {

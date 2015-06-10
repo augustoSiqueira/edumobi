@@ -107,7 +107,7 @@ public class ResultadoSimuladoControllerImpl implements ResultadoSimuladoControl
 		}
 		return count;
 	}
-
+	
 	@Override
 	public List<ResultadoSimulado> pesquisarPorFiltroPaginada(Filter filtro, int primeiroReg, int paginaSize) throws RNException {
 		List<ResultadoSimulado> listaResultadoSimulado = null;
@@ -118,6 +118,18 @@ public class ResultadoSimuladoControllerImpl implements ResultadoSimuladoControl
 			throw new RNException(ErrorMessage.DAO.getChave());
 		}
 		return listaResultadoSimulado;
+	}
+
+	@Override
+	public List<ResultadoSimuladoDTO> pesquisarPorFiltroPaginadaDTO(Filter filtro, int primeiroReg, int paginaSize) throws RNException {
+		List<ResultadoSimuladoDTO> listaResultadoSimuladoDTO = null;
+		try {
+			listaResultadoSimuladoDTO = this.resultadoSimuladoDAO.pesquisarPorFiltroPaginadaDTO(filtro, primeiroReg, paginaSize);
+		} catch (DAOException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new RNException(ErrorMessage.DAO.getChave());
+		}
+		return listaResultadoSimuladoDTO;
 	}
 
 	@Override
