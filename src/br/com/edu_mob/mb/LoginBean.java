@@ -59,7 +59,7 @@ public class LoginBean extends GenericBean implements Serializable {
 		try {
 			usuarioController.recuperarSenha(emailRecuperar);
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
-					SucessMessage.SENHA_REC.getValor(),"");
+					SucessMessage.SENHA_ENVIADA_SUCESSO.getValor(),"");
 			emailRecuperar = "";
 		} catch (RNException | DAOException e) {
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
