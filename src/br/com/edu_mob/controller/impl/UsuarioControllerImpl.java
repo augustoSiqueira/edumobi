@@ -76,20 +76,15 @@ public class UsuarioControllerImpl implements UsuarioController {
 
 	@Override
 	public void validarCPF(Usuario usuario) throws RNException {
-		
-		if("".equals(usuario.getCpf().trim())){
+		if((usuario.getCpf() == null || usuario.getCpf().isEmpty()) || (!Util.validarCpf(usuario.getCpf()))){
 			throw new RNException(ErrorMessage.USUARIO_CPF_INVALIDO.getChave());	
 		}			
-		
-		if (!Util.validarCpf(usuario.getCpf())) {
-			throw new RNException(ErrorMessage.USUARIO_CPF_INVALIDO.getChave());
-		}
 	}
 
 	@Override
 	public void verificarExistenciaCPF(Usuario usuario) throws RNException {
 		try {
-			if (this.usuarioDAO.verificarExistencia("cpf", usuario.getCpf(), usuario.getId())) {
+			if (this.usuarioDAO.verificarExistencia("cpf", Util.removerCaracteresEspeciais(usuario.getCpf()), usuario.getId())) {
 				throw new RNException(ErrorMessage.USUARIO_CPF_EXISTENTE.getChave());
 			}
 		} catch (DAOException e) {
@@ -109,7 +104,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 			this.verificarExistenciaEmail(usuario);
 			usuario.setCpf(Util.removerCaracteresEspeciais(usuario.getCpf()));
 			usuario.setSenha(Util.gerarSenha(8));
-			EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha Eduobi", EmailUtil.mensagemEnvioSenha(usuario));
+			EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha EduMobi", EmailUtil.mensagemEnvioSenha(usuario));
 			usuario.setSenha(Util.criptografar(usuario.getSenha()));
 			this.usuarioDAO.save(usuario);
 		} catch (DataAccessException e) {
@@ -202,7 +197,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 		
 		usuario.setSenha(Util.gerarSenha(8));
-		EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Senha Eduobi", EmailUtil.mensagemEnvioSenha(usuario));
+		EmailUtil.enviarEmail("systemedumobi@gmail.com", usuario.getEmail(), "Nova senha EduMobi", EmailUtil.mensagemEnvioRecuperacaoSenha(usuario));
 		usuario.setSenha(Util.criptografar(usuario.getSenha()));
 		this.usuarioDAO.update(usuario);	
 		

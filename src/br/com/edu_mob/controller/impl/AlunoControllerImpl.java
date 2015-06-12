@@ -94,7 +94,7 @@ public class AlunoControllerImpl implements AlunoController, Serializable {
 			aluno.setCpf(Util.removerCaracteresEspeciais(aluno.getCpf()));
 			aluno.setMatricula(Util.gerarMatricula(this.alunoDAO.retornarUltimoID()));
 			aluno.setSenha(Util.gerarSenha(8));
-			EmailUtil.enviarEmail("systemedumobi@gmail.com", aluno.getEmail(), "Senha Eduobi", "Sua senha é: " + aluno.getSenha());
+			EmailUtil.enviarEmail("systemedumobi@gmail.com", aluno.getEmail(), "Senha EduMobi", EmailUtil.mensagemEnvioSenha(aluno));
 			aluno.setSenha(Util.criptografar(aluno.getSenha()));
 			aluno.setPerfil(new Perfil(ID_PERFIL_ALUNO));
 			this.alunoDAO.save(aluno);

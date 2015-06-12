@@ -57,15 +57,11 @@ public class CadastroPrevioAlunoBean extends GenericBean implements Serializable
 		}
 	}
 
-	public String cadastrarPreviamente() {
-		if ((this.aluno != null) && (this.aluno.getId() == null)) {
-			this.incluirPreviamente();
-		}
-		return AliasNavigation.PAGINA_CADASTRO_ALUNO;
-	}
-
-	public void incluirPreviamente() {
+	public String incluirPreviamente() {
 		try {
+			if(this.aluno == null) {
+				this.aluno = new Aluno();
+			}
 			this.aluno.setNome(this.aluno.getNome().trim());
 			this.aluno.setEmail(this.aluno.getEmail().trim());
 			List<Categoria> cursosGratuito = new ArrayList<Categoria>();
@@ -74,9 +70,12 @@ public class CadastroPrevioAlunoBean extends GenericBean implements Serializable
 			this.alunoController.incluirPreviamente(this.aluno);
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.CADASTRADO_SUCESSO.getValor(), Entidades.ALUNO.getValor());
+			this.aluno = new Aluno();
+			return AliasNavigation.LOGIN;
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
+			return AliasNavigation.PAGINA_CADASTRO_ALUNO;
 		}
 	}
 
