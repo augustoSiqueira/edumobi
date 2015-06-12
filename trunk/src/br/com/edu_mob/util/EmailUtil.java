@@ -51,17 +51,11 @@ public class EmailUtil {
 	}	
 	
 	public static String mensagemEnvioSenha(Usuario usuario){
-		@SuppressWarnings("unused")
-		String html="";
-	
-		html+="Olá "+usuario.getNome()+", ";
-		html+="<br/>";
-		html+="<p>Seja bem vindo ao EduMobi, aqui você podem estudar, aprender novas tecnologias e aprimorar seus conhecimentos. Tudo isto com total liberdade de horário e ritmo de estudo.</p>";
-		html+="<br/>";
-		html+="Sua senha de acesso: "+usuario.getSenha();
-		html+="<br/>";
-		html+="<h3><img src=\"http://oi57.tinypic.com/714lko.jpg\\>\"</h3>";
-		
 		return MensagemUtil.getMensagem("info_email_html_senha", usuario.getNome(),usuario.getSenha());
 	}
+	
+	public static String mensagemEnvioRecuperacaoSenha(Usuario usuario){
+		return MensagemUtil.getMensagem("info_email_html_recuperacao_senha", usuario.getNome(),usuario.getSenha());
+	}
+	
 }
