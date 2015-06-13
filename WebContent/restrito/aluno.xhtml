@@ -31,16 +31,16 @@
 									paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 									{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" selection="#{alunoBean.aluno}"
 									lazy="true" >
+									<p:column headerText="#{msg.aluno_label_cpf}" filterBy="#{aluno.cpf}" style="width: 15%;" styleClass="alinharCentro">
+										#{aluno.cpf}
+									</p:column>	
+									<p:column headerText="#{msg.aluno_label_matricula}" filterBy="#{aluno.matricula}" style="width: 15%;" styleClass="alinharCentro">
+										#{aluno.matricula}
+									</p:column>										
 									<p:column headerText="#{msg.aluno_label_nome}" filterBy="#{aluno.nome}">
 										#{aluno.nome}
 									</p:column>	
-									<p:column headerText="#{msg.aluno_label_cpf}" filterBy="#{aluno.cpf}" style="width: 15%;">
-										#{aluno.cpf}
-									</p:column>	
-									<p:column headerText="#{msg.aluno_label_matricula}" filterBy="#{aluno.matricula}" style="width: 15%;">
-										#{aluno.matricula}
-									</p:column>										
-									<p:column headerText="#{msg.aluno_label_ativo}" style="width: 10%;">
+									<p:column headerText="#{msg.aluno_label_ativo}" style="width: 10%;" styleClass="alinharCentro">
 										<h:outputText value="#{msg.app_label_sim}" rendered="#{aluno.ativo}" />
 										<h:outputText value="#{msg.app_label_nao}" rendered="#{!aluno.ativo}" />
 									</p:column>

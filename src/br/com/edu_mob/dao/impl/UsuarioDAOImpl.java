@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -62,6 +63,7 @@ public class UsuarioDAOImpl extends GenericDAOImpl implements UsuarioDAO {
 			if (ativo != null) {
 				detachedCriteria.add(Restrictions.eq("ativo", ativo));
 			}
+			detachedCriteria.addOrder(Order.asc("nome"));
 			listaUsuarios = this.findByCriteria(detachedCriteria);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -133,6 +135,7 @@ public class UsuarioDAOImpl extends GenericDAOImpl implements UsuarioDAO {
 			if (ativo != null) {
 				detachedCriteria.add(Restrictions.eq("ativo", ativo));
 			}
+			detachedCriteria.addOrder(Order.asc("nome"));
 			listaUsuarios = this.buscarPaginada(detachedCriteria, primeiroReg, paginaSize);
 		} catch (DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);

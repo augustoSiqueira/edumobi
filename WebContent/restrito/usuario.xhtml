@@ -30,7 +30,7 @@
 									paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} 
 									{NextPageLink} {LastPageLink}" rowsPerPageTemplate="5, 10, 15" selectionMode="single" selection="#{usuarioBean.usuario}"
 									lazy="true" >
-									<p:column headerText="#{msg.usuario_label_cpf}" filterBy="#{usuario.cpf}" style="width: 15%">
+									<p:column headerText="#{msg.usuario_label_cpf}" filterBy="#{usuario.cpf}" style="width: 15%;" styleClass="alinharCentro">
 										#{usuario.cpf}
 									</p:column>	
 									<p:column headerText="#{msg.usuario_label_nome}" filterBy="#{usuario.nome}">
@@ -40,11 +40,11 @@
 									<p:column headerText="#{msg.usuario_label_perfil}">
 										#{usuario.perfil.nome}
 									</p:column>	
-									<p:column headerText="#{msg.usuario_label_ativo}" style="width: 10%">
+									<p:column headerText="#{msg.usuario_label_ativo}" style="width: 10%" styleClass="alinharCentro">
 										<h:outputText value="#{msg.app_label_sim}" rendered="#{usuario.ativo}" />
 										<h:outputText value="#{msg.app_label_nao}" rendered="#{!usuario.ativo}" />
 									</p:column>
-									<p:column headerText="#{msg.app_label_acoes}" style="width: 10%;" >
+									<p:column headerText="#{msg.app_label_acoes}" style="width: 10%;">
 										<p:commandLink process="@this" update=":edicao" rendered="#{sec:areAnyGranted('ROLE_USUARIO_ALTERAR')}" styleClass="btnEdit">
 											<p:graphicImage library="imagens" name="edit_32x32.png" title="Editar" onclick="PF('dlg1').show();"/>
 											<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
