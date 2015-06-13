@@ -229,12 +229,14 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 		}
 		
 		List<Livro> listaLivros = new ArrayList<Livro>();
-		
+		pesquisa = pesquisa.substring(1);
 		pesquisa = pesquisa.replace(" ", "+");
 		StringBuffer url = new StringBuffer()
-        .append("https://www.googleapis.com/books/v1/volumes?q=")
+        .append("https://www.googleapis.com/books/v1/volumes?q=intitle:")
         .append(pesquisa)
         .append("&orderBy=newest&printType=books&maxResults=40");
+		
+       // .append("&orderBy=newest&printType=books&maxResults=40&filter=full&projection=full&langRestrict=pt-br");
 		
 		try {
 			String retorno = inputStreamToString(readJSON(url.toString()));
@@ -270,7 +272,7 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 						if(volumeInfo.has("description") == true){
 							String descricao = volumeInfo.getString("description");
 							if(descricao.length()>999){
-								livro.setDescricao(descricao.substring(0,996)+"...");
+								livro.setDescricao(descricao.substring(0,900)+"...");
 							}else{
 								livro.setDescricao(descricao);
 							}
@@ -279,7 +281,8 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 							livro.setEdicao(volumeInfo.getString("publisher"));
 						
 						if(volumeInfo.has("imageLinks")){
-							JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");							
+							JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");	
+							if(imageLinks.getString("thumbnail").length() < 300)
 							livro.setCapa(imageLinks.getString("thumbnail"));							
 						}
 													
@@ -305,7 +308,7 @@ public class LivroControllerImpl  implements LivroController, Serializable{
 						
 						listaLivros.add(livro);
 					}
-					listaLivros.removeAll(this.listar());
+					//listaLivros.removeAll(this.listar());
 					
 				} catch (JSONException e) {
 					logger.log(Level.SEVERE, e.getMessage(), e);

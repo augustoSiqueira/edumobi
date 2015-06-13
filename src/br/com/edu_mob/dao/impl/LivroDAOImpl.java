@@ -44,7 +44,8 @@ public class LivroDAOImpl extends GenericDAOImpl implements LivroDAO,
 		String isbn = filtro.getAsString("isbn");
 		String edicao = filtro.getAsString("edicao");
 		String categoria = filtro.getAsString("idCategoria");
-
+		String web = filtro.getAsString("web");
+		
 		List<Livro> listaLivros = null;
 		try {
 			DetachedCriteria detachedCriteria = DetachedCriteria
@@ -55,7 +56,7 @@ public class LivroDAOImpl extends GenericDAOImpl implements LivroDAO,
 			}
 
 			if (descricao != null) {
-				detachedCriteria.add(Restrictions.eq("descricao", descricao));
+				detachedCriteria.add(Restrictions.like("descricao", "%"+descricao+"%"));
 			}
 
 			if (capa != null) {
@@ -74,6 +75,10 @@ public class LivroDAOImpl extends GenericDAOImpl implements LivroDAO,
 				detachedCriteria.add(Restrictions.eq("categoria.id", Long.parseLong(categoria)));
 			}
 
+			if (web != null) {
+				detachedCriteria.add(Restrictions.or(Restrictions.like("descricao", "%"+web+"%"), Restrictions.like("nome", "%"+web+"%")));
+			}
+			
 			detachedCriteria.addOrder(Order.asc("nome"));
 			listaLivros = this.findByCriteria(detachedCriteria);
 		} catch (DataAccessException e) {
