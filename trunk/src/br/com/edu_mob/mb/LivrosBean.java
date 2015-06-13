@@ -1,5 +1,6 @@
 package br.com.edu_mob.mb;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
@@ -24,6 +26,7 @@ import br.com.edu_mob.exception.RNException;
 import br.com.edu_mob.message.Entidades;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.message.SucessMessage;
+import br.com.edu_mob.util.Filter;
 import br.com.edu_mob.util.MensagemUtil;
 import br.com.edu_mob.util.UtilSession;
 
@@ -51,6 +54,7 @@ public class LivrosBean extends GenericBean implements Serializable {
 	@ManagedProperty(value = "#{dataModelLivro}")
 	private DataModelLivro dataModelLivro;
 	
+	private boolean pesquisaWeb;
 	
 	@PostConstruct
 	public void init() {
@@ -76,19 +80,66 @@ public class LivrosBean extends GenericBean implements Serializable {
 	public void pesquisaWeb(){
 		
 		try {
-			listaLivrosWeb = livroController.pesquiasarLivrosWeb(getPesquisa());
-						
+			
+			Filter filtro = new Filter();
+			//filtro.put("web", getPesquisa()); //pesquisar por nome e descrição
+			filtro.put("nome", getPesquisa());
+			
+			if(isPesquisaWeb() == false)
+				listaLivrosWeb = livroController.pesquisarPorFiltro(filtro);
+			else
+				listaLivrosWeb = livroController.pesquiasarLivrosWeb(getPesquisa());
+			
+			Filter filtro2 = new Filter();
+			filtro2.put("idCategoria", getCategoria().getId().toString());
+			listaLivrosWeb.removeAll(livroController.pesquisarPorFiltro(filtro2));
+			
+			//filtro.put("web", getPesquisa()); //pesquisar por nome e descrição
+			filtro.put("nome", getPesquisa());
+			// baixar e salvar no banco
+			//listaLivrosWeb = livroController.pesquiasarLivrosWeb(getPesquisa());
+			/*for (Livro livro : listaLivrosWeb) {
+				if(livro.getCapa() != null && !livro.getCapa().equals("")){
+				livro.setCapa(livroController.salvarImagemWeb(livro.getCapa()));
+				livro.setCategoria(null);
+				try{
+				livroController.incluir(livro);
+				}catch (Exception e){
+					
+					ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+			                .getExternalContext().getContext();
+			        String servidor = ctx.getRealPath("/");
+					String nome = servidor+"/imagens/"+livro.getCapa(); 
+					File f = new File(nome); 
+					try{
+						f.delete();						
+					}catch (Exception ex){
+						System.out.println("Erro ao excluir: "+nome);
+					}
+					
+				}
+				}
+			}*/
 		} catch (RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			this.addMessage(MensagemUtil.getMensagem(ErrorMessage.ERRO.getChave()), e.getListaMensagens());
 		}
 	}
 	
+	public boolean isPesquisaWeb(){
+		if(getPesquisa() != null && getPesquisa().trim().length() > 1 && getPesquisa().trim().substring(0, 1).equals("#") ){
+			return true;
+		}
+		return false;
+	}
 	public void addLivroWeb(){
 		
 		try {
-			livro.setCapa(livroController.salvarImagemWeb(livro.getCapa()));
+			if(isPesquisaWeb() == true)
+				livro.setCapa(livroController.salvarImagemWeb(livro.getCapa()));
+			
 			livro.setCategoria(categoria);
+			livro.setId(null);
 			livroController.incluir(livro);
 			this.addMessage(MensagemUtil.getMensagem(SucessMessage.SUCESSO.getValor()),
 					SucessMessage.ATUALIZADO_SUCESSO.getValor(), Entidades.LIVRO.getValor());

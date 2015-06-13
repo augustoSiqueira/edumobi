@@ -15,26 +15,26 @@
 	<ui:define name="corpo">
 
 		<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">#{msg.categoria_lista}</div>
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-md-12">
-							<p:outputLabel value="Nome: " />
-							<p:outputLabel value="#{livrosBean.categoria.nome}"
-								style="margin-right: 20px;"></p:outputLabel>
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">#{msg.categoria_lista}</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">
+								<p:outputLabel value="Nome: " />
+								<p:outputLabel value="#{livrosBean.categoria.nome}"
+									style="margin-right: 20px;"></p:outputLabel>
 
-							<p:outputLabel value="Titulo: " />
-							<p:outputLabel value="#{livrosBean.categoria.titulo}"
-								style="margin-right: 20px;"></p:outputLabel>
+								<p:outputLabel value="Titulo: " />
+								<p:outputLabel value="#{livrosBean.categoria.titulo}"
+									style="margin-right: 20px;"></p:outputLabel>
 
-							<p:outputLabel value="Descrição: " />
-							<p:outputLabel value="#{livrosBean.categoria.descricao}"></p:outputLabel>
+								<p:outputLabel value="Descrição: " />
+								<p:outputLabel value="#{livrosBean.categoria.descricao}"></p:outputLabel>
 
+							</div>
 						</div>
 					</div>
-</div>
 					<div class="row">
 						<hr />
 
@@ -43,9 +43,10 @@
 							update=":listagemWeb">
 							<p:graphicImage library="imagens" name="add_32x32.png"
 								title="Adicionar" />
-							<p:outputLabel value="Adicionar Livro web" style="margin-left: 5px;" />
+							<p:outputLabel value="Adicionar Livro web"
+								style="margin-left: 5px;" />
 						</p:commandLink>
-						
+
 						<p:commandLink onclick="PF('dlg2').show();"
 							class="pull-right btnAdicionar" action="#{livrosBean.popUpAdd}"
 							update=":edicao">
@@ -153,7 +154,11 @@
 					rowsPerPageTemplate="5, 10, 15" style="overflow: auto;">
 					<p:column headerText="Titulo" width="120">
 						<p:graphicImage url="#{livrosWeb.capa}" width="95" height="120"
-							style="margin: 0 auto;" />
+							style="margin: 0 auto;" rendered="#{livrosBean.pesquisaWeb}" />
+
+						<p:graphicImage value="../imagens/#{livrosWeb.capa}" width="95"
+							height="120" style="margin: 0 auto;"
+							rendered="#{!livrosBean.pesquisaWeb}" />
 					</p:column>
 					<p:column>
 						<div class="col-md-12">
@@ -191,7 +196,6 @@
 							</p:commandLink>
 						</center>
 					</p:column>
-
 				</p:dataTable>
 
 			</h:form>
@@ -208,7 +212,8 @@
 							<h:outputLabel value="Titulo*: " />
 							<p:inputText id="nome" value="#{livrosBean.livro.nome}"
 								maxlength="255" styleClass="form-control"
-								validator="removeEmBranco" required="true" requiredMessage="#{msg.erro_campo_titulo_vazio}" />
+								validator="removeEmBranco" required="true"
+								requiredMessage="#{msg.erro_campo_titulo_vazio}" />
 						</div>
 						<div class="form-group">
 							<h:outputLabel value="Descrição*: " />
@@ -262,7 +267,7 @@
 							style="margin-left: 10px;" />
 
 						<p:commandLink value="Cancelar" action="#{livrosBean.cancelar}"
-							styleClass="btn btn-default pull-right" ajax="false"/>
+							styleClass="btn btn-default pull-right" ajax="false" />
 
 					</h:form>
 				</div>

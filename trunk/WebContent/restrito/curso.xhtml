@@ -15,14 +15,14 @@
 			<div class="panel-heading"></div>
 			<div class="panel-body">
 				<h:form>
-				<h3 style="float: left; margin-top: 2px;">
-				
-					<h:commandLink value="#{cursoBean.categoria.nome}" 
-						action="#{menuBean.pageCurso}">
-						<f:param name="id" value="#{cursoBean.categoria.id}" />
-					</h:commandLink>
-				</h3>
-			</h:form>
+					<h3 style="float: left; margin-top: 2px;">
+
+						<h:commandLink value="#{cursoBean.categoria.nome}"
+							action="#{menuBean.pageCurso}">
+							<f:param name="id" value="#{cursoBean.categoria.id}" />
+						</h:commandLink>
+					</h3>
+				</h:form>
 				<p style="float: right">
 
 					<p:commandLink value="Simulados" styleClass="menuLink"
@@ -300,12 +300,11 @@
 		</p:dialog>
 
 		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-
-			<p:commandButton value="No" type="button"
-				styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-				style="float:right" />
-			<p:commandButton value="Yes" type="button"
+			<p:commandButton value="Sim" type="button"
 				styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+				style="float:right" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 				style="float:right" />
 		</p:confirmDialog>
 
