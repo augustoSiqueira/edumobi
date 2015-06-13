@@ -82,10 +82,14 @@
 									</p:commandLink>
 								</p:column>
 								<p:column>
-									<p:commandButton value="Relatorio Ranking Alunos" onclick="PrimeFaces.monitorDownload(start, stop);" ajax="false" icon="ui-icon-arrowthick-1-s">
-										<f:setPropertyActionListener value="#{simulado}" target="#{simuladoDescricaoBean.simulado}" />
-										<p:fileDownload value="#{simuladoDescricaoBean.emitirRelatorio}" />
-									</p:commandButton>
+									<center>
+										<p:graphicImage library="imagens" name="icon_pdf.png" title="Relatorio Ranking Alunos" />
+										<p:commandLink value="Relatorio Ranking Alunos" onclick="PrimeFaces.monitorDownload(start, stop);" ajax="false">
+											<p:graphicImage library="imagens" name="icon_pdf.png" title="Relatório Ranking Alunos" />
+											<f:setPropertyActionListener value="#{simulado}" target="#{simuladoDescricaoBean.simulado}" />
+											<p:fileDownload value="#{simuladoDescricaoBean.emitirRelatorio}" />
+										</p:commandLink>
+									</center>
 								</p:column>
 							</p:dataTable>
 						</h:form>

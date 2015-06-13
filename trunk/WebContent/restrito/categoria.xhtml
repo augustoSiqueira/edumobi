@@ -34,11 +34,11 @@
 							<p:column headerText="#{msg.categoria_label_pai}">
 								#{categoria.pai.nome}
 							</p:column>	
-							<p:column headerText="#{msg.categoria_label_ativo}" style="width: 10%;">
+							<p:column headerText="#{msg.categoria_label_ativo}" style="width: 10%;" styleClass="alinharCentro">
 								<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.ativo}" />
 								<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.ativo}" />
 							</p:column>
-							<p:column headerText="#{msg.categoria_label_curso}" style="width: 10%;">
+							<p:column headerText="#{msg.categoria_label_curso}" style="width: 10%;" styleClass="alinharCentro">
 								<h:outputText value="#{msg.app_label_sim}" rendered="#{categoria.curso}" />
 								<h:outputText value="#{msg.app_label_nao}" rendered="#{!categoria.curso}" />
 							</p:column>
@@ -63,7 +63,7 @@
 							<p:column headerText="Livros" style="width: 10%;">
 							<center> 
 								<p:commandLink action="#{categoriaBean.pagelivros}" rendered="#{categoria.curso}">
-								  	<p:graphicImage library="imagens" name="books_32x32.png" title="Vincular Livros"/> 
+								  	<p:graphicImage library="imagens" name="icon_books.png" title="Vincular Livros"/> 
 								 		<f:setPropertyActionListener value="#{categoria}" target="#{categoriaBean.categoria}" />
 									
 									</p:commandLink>

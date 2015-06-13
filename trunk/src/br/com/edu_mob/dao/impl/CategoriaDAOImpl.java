@@ -22,9 +22,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.edu_mob.dao.CategoriaDAO;
-import br.com.edu_mob.entity.AreaConhecimento;
 import br.com.edu_mob.entity.Categoria;
-import br.com.edu_mob.entity.model.AreaConhecimentoModel;
 import br.com.edu_mob.exception.DAOException;
 import br.com.edu_mob.message.ErrorMessage;
 import br.com.edu_mob.services.CategoriaDTO;
