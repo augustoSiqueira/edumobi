@@ -116,10 +116,13 @@ public class Services  {
 		List<QuestaoDTO> listaQuestoesDTO = null;
 		Filter filtro = new Filter();
 		Simulado simulado = null;
+		
 		try {
 			simulado = this.simuladoDescricaoController.pesquisarPorId(idSimulado);
 			filtro.put("dataAtualizacao", Util.parseDate(data, Util.FORMATO_DATA_HORA_PT_BR));
 			filtro.put("listaAreasConhecimento", simulado.getAreasConhecimento());
+			filtro.put("qtdQuestoes", simulado.getQntQuestao()+"");
+			System.out.println(simulado.getQntQuestao());
 			listaQuestoesDTO = this.questaoController.pesquisarSimuladoDTO(filtro);
 		} catch(RNException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);

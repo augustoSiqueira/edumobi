@@ -177,6 +177,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 		List<QuestaoDTO> listaQuestoesDTO = null;
 		List<AreaConhecimento> listaAreasConhecimento = (List<AreaConhecimento>) filtro.get("listaAreasConhecimento");
 		List<Long> listaIdsAreas = new ArrayList<Long>();
+		String qtdQuestoes =  filtro.getAsString("qtdQuestoes");
 		StringBuilder sb = new StringBuilder();
 		try {
 			if((listaAreasConhecimento != null) && !listaAreasConhecimento.isEmpty()) {
@@ -191,6 +192,7 @@ public class QuestaoDAOImpl extends GenericDAOImpl implements QuestaoDAO {
 					public List<QuestaoDTO> doInHibernate(Session session) throws HibernateException {
 						Query query = session.createQuery(sb.toString());
 						query.setParameterList("idsAreasConhecimento", listaIdsAreas);
+						query.setMaxResults(Integer.parseInt(qtdQuestoes));
 						return query.list();
 					}
 				});
