@@ -247,6 +247,18 @@ public class QuestaoControllerImpl implements QuestaoController{
 		List<QuestaoDTO> listaQuestoesDTO = null;
 		try {
 			listaQuestoesDTO = this.questaoDAO.pesquisarSimuladoDTO(filtro);
+			
+			for (QuestaoDTO questaoDTO : listaQuestoesDTO) {
+				Filter filtroAlternativa = new Filter();
+				filtroAlternativa.put("idQuestao",questaoDTO.getId().toString());
+				List<Alternativa> alternativas =  alternativaDAO.pesquisarPorFiltro(filtroAlternativa);
+				for (Alternativa alternativa : alternativas) {
+					AlternativaDTO alternativaDTO = new AlternativaDTO(alternativa.getId(), alternativa.getResposta(), alternativa.getCorreta(), alternativa.getLetra());
+					questaoDTO.getListaAlternativasDTO().add(alternativaDTO);				
+				}
+				
+			}	
+			
 		} catch (DAOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new RNException(ErrorMessage.DAO.getChave());
